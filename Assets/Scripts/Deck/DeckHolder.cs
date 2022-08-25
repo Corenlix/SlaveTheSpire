@@ -20,6 +20,7 @@ namespace Deck
         public void RemoveCard(CardHolder cardHolder)
         {
             cardHolder.Used -= RemoveCard;
+            _deckView.RemoveCard(cardHolder.CardView);
         }
     }
 }
