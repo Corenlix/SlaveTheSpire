@@ -1,41 +1,43 @@
-using System;
 using System.Collections.Generic;
-using Card.Actions;
 using Card.TargetSelectors;
+using Deck;
+using DG.Tweening;
+using Infrastructure;
+using UnityEngine;
 
 namespace Card
 {
-    public class CardHolder
+    public class CardHolder : MonoBehaviour
     {
-        public event Action<CardHolder> Used;
-        private readonly int _cost;
-        private readonly List<ICardAction> _cardActions;
-        private readonly CardView _cardView;
-        private readonly CardFactory _cardFactory;
-        private readonly CardTargetSelector _cardTargetSelector;
+        [SerializeField] private CardView _cardView;
+        private CardStaticData _cardStaticData;
+        private CardTargetSelector _cardTargetSelector;
+        private DeckHolder _deck;
+        private IGameFactory _gameFactory;
 
-        public CardView CardView => _cardView;
-        public CardFactory CardFactory => _cardFactory;
+        public CardTargetSelector CardTargetSelector => _cardTargetSelector;
 
-        public CardHolder(int cost, List<ICardAction> cardActions, CardView cardView, CardFactory cardFactory, CardTargetSelector cardTargetSelector)
+        public void Init(CardStaticData cardStaticData, DeckHolder deck)
         {
-            _cost = cost;
-            _cardActions = cardActions;
-            _cardView = cardView;
-            _cardFactory = cardFactory;
-            _cardTargetSelector = cardTargetSelector;
+            _deck = deck;
+            _cardStaticData = cardStaticData;
+            _cardView.Init(cardStaticData.Cost, cardStaticData.Name, cardStaticData.Description, cardStaticData.Icon);
+            _cardTargetSelector = CardTargetSelectorFactory.InstantiateActivator(gameObject, cardStaticData.CardTargetSelectorType);
             _cardTargetSelector.Selected += Use;
+            _deck.AddCard(this);
         }
 
-        public void Use(List<Entity> targets)
+        private void Use(List<Entity> targets)
         {
-            _cardActions.ForEach(x=> x.Activate(targets));
-            Used?.Invoke(this);
+            _cardStaticData.CardActions.ForEach(x=> x.Activate(targets));
+            Destroy(gameObject);
         }
 
-        public void Dispose()
+        private void OnDestroy()
         {
+            transform.DOKill();
             _cardTargetSelector.Selected -= Use;
+            _deck.RemoveCard(this);
         }
     }
 }

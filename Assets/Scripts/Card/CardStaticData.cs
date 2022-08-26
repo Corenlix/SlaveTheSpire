@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Card.Actions;
 using Card.Actions.Data;
 using Card.TargetSelectors;
+using Infrastructure;
 using UnityEngine;
 
 
@@ -15,6 +17,7 @@ public class CardStaticData : ScriptableObject
     [SerializeField] private Sprite _icon;
     [SerializeField] private CardTargetSelectorType cardTargetSelectorType;
     [SerializeField] private List<ActionData> _actionsData;
+    [SerializeField] private CardId _id;
 
     public string Name => _name;
     public string Description => _description;
@@ -22,4 +25,5 @@ public class CardStaticData : ScriptableObject
     public Sprite Icon => _icon;
     public CardTargetSelectorType CardTargetSelectorType => cardTargetSelectorType;
     public List<ICardAction> CardActions => _actionsData.Select(x=>x.GetCardAction()).ToList();
+    public CardId Id => _id;
 }
