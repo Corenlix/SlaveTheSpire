@@ -1,4 +1,4 @@
-﻿using Card.Activators;
+﻿using Card.TargetSelectors;
 using UnityEngine;
 
 namespace Card
@@ -12,17 +12,17 @@ namespace Card
         {
             CardView cardView = Instantiate(_cardViewPrefab);
             cardView.Init(cardStaticData.Cost, cardStaticData.Name, cardStaticData.Description, cardStaticData.Icon);
-            CardHolder cardHolder = new CardHolder(cardStaticData.Cost, cardStaticData.CardActions, cardView, this);
+            CardTargetSelector cardTargetSelector = CardTargetSelectorFactory.InstantiateActivator(cardView.gameObject, cardStaticData.CardTargetSelectorType);
+            CardHolder cardHolder = new CardHolder(cardStaticData.Cost, cardStaticData.CardActions, cardView, this, cardTargetSelector);
             cardHolder.Used += DestroyCard;
-            CardTargetSelector cardTargetSelector = CardActivatorFactory.InstantiateActivator(cardView.gameObject, cardStaticData.CardActivatorType);
-            cardTargetSelector.Init(cardHolder);
             return cardHolder;
         }
 
         public void DestroyCard(CardHolder cardHolder)
         {
             cardHolder.Used -= DestroyCard;
-            Object.Destroy(cardHolder.CardView.gameObject);
+            cardHolder.Dispose();
+            Destroy(cardHolder.CardView.gameObject);
         }
     }
 }

@@ -18,5 +18,6 @@ namespace Card
             _descriptionText.text = description;
             _icon.sprite = icon;
         }
+        
     }
 }

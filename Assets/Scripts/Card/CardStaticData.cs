@@ -2,7 +2,7 @@
 using System.Linq;
 using Card.Actions;
 using Card.Actions.Data;
-using Card.Activators;
+using Card.TargetSelectors;
 using UnityEngine;
 
 
@@ -13,13 +13,13 @@ public class CardStaticData : ScriptableObject
     [SerializeField] private string _description;
     [SerializeField] private int _cost;
     [SerializeField] private Sprite _icon;
-    [SerializeField] private CardActivatorType _cardActivatorType;
+    [SerializeField] private CardTargetSelectorType cardTargetSelectorType;
     [SerializeField] private List<ActionData> _actionsData;
 
     public string Name => _name;
     public string Description => _description;
     public int Cost => _cost;
     public Sprite Icon => _icon;
-    public CardActivatorType CardActivatorType => _cardActivatorType;
+    public CardTargetSelectorType CardTargetSelectorType => cardTargetSelectorType;
     public List<ICardAction> CardActions => _actionsData.Select(x=>x.GetCardAction()).ToList();
 }
