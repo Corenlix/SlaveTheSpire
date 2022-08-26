@@ -2,6 +2,7 @@
 {
     public enum CardActivatorType
     {
-        OnClick,
+        Attack,
+        Defense,
     }
 }

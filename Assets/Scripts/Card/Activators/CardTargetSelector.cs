@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Card.Activators
 {
-    public abstract class CardActivator : MonoBehaviour
+    public abstract class CardTargetSelector : MonoBehaviour
     {
         private CardHolder _cardHolder;
 
@@ -12,7 +12,7 @@ namespace Card.Activators
             _cardHolder = cardHolder;
         }
     
-        protected void Activate(List<Entity> targets)
+        protected void Use(List<Entity> targets)
         {
             _cardHolder.Use(targets);
         }

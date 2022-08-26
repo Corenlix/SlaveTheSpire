@@ -31,6 +31,7 @@ namespace Deck
         public void RemoveCard(CardView card)
         {
             _cards.Remove(card);
+            MoveCards();
         }
     }
 }

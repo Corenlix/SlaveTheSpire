@@ -3,11 +3,11 @@ using UnityEngine.EventSystems;
 
 namespace Card.Activators
 {
-    public class OnClick : CardActivator, IPointerClickHandler
+    public class Attack : CardTargetSelector, IPointerClickHandler
     {
         public void OnPointerClick(PointerEventData eventData)
         {
-            Activate(FindObjectsOfType<Entity>().ToList());
+            Use(FindObjectsOfType<Entity>().ToList());
         }
     }
 }

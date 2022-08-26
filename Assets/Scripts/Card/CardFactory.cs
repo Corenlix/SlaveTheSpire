@@ -14,8 +14,8 @@ namespace Card
             cardView.Init(cardStaticData.Cost, cardStaticData.Name, cardStaticData.Description, cardStaticData.Icon);
             CardHolder cardHolder = new CardHolder(cardStaticData.Cost, cardStaticData.CardActions, cardView, this);
             cardHolder.Used += DestroyCard;
-            CardActivator cardActivator = CardActivatorFactory.InstantiateActivator(cardView.gameObject, cardStaticData.CardActivatorType);
-            cardActivator.Init(cardHolder);
+            CardTargetSelector cardTargetSelector = CardActivatorFactory.InstantiateActivator(cardView.gameObject, cardStaticData.CardActivatorType);
+            cardTargetSelector.Init(cardHolder);
             return cardHolder;
         }
 
