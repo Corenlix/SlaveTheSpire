@@ -1,23 +1,54 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UIElements;
 
 namespace Card.TargetSelectors
 {
     public abstract class CardTargetSelector : MonoBehaviour
     {
-        public event Action<List<Entity>> Selected;
- 
-        public abstract void StartSelecting();
+        public event Action Selected;
+        [SerializeField] private CardTargetSelectorType _selectorType;
+        protected CardHolder SelectedCard { get; private set; }
+        private bool _isSelecting;
 
-        public abstract void FinishSelecting();
+        public CardTargetSelectorType SelectorType => _selectorType;
         
+        public void StartSelecting(CardHolder card)
+        {
+            if (_isSelecting)
+                return;
+            
+            _isSelecting = true;
+            SelectedCard = card;
+            OnStartSelecting();
+        }
+
         protected void SelectTargets(List<Entity> targets)
         {
             FinishSelecting();
-            Selected?.Invoke(targets);
+            SelectedCard.Use(targets);
+            Selected?.Invoke();
         }
+
+        public void FinishSelecting()
+        {
+            if (!_isSelecting)
+                return;
+            
+            _isSelecting = false;
+            OnFinishSelecting();
+        }
+
+        protected abstract void OnStartSelecting();
+
+        private void Update()
+        {
+            if(_isSelecting)
+                OnSelectingUpdate();
+        }
+
+        protected abstract void OnSelectingUpdate();
+
+        protected abstract void OnFinishSelecting();
     }
 }

@@ -2,8 +2,9 @@
 {
     public static class AssetPath
     {
-        public static string DeckPath = "Deck";
-        public static string CardPath = "Card";
-        public static string CardMoverPath = "CardMover";
+        public const string DeckPath = "Deck";
+        public const string CardPath = "Card";
+        public const string CardMoverPath = "CardMover";
+        public const string UIContainerPath = "UIContainer";
     }
 }

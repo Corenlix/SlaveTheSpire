@@ -8,6 +8,8 @@ namespace Infrastructure
     {
         DeckHolder SpawnDeck(Vector3 position);
         CardHolder SpawnCard(DeckHolder deck, CardId cardStaticData);
+        CardTargetSelectorsPool SpawnCardTargetSelectorsPool();
         CardMover SpawnCardMover(DeckHolder deck);
+        UIContainer SpawnUIContainer();
     }
 }

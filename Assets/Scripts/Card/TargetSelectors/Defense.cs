@@ -5,19 +5,13 @@ namespace Card.TargetSelectors
 {
     public class Defense : CardTargetSelector
     {
-        private bool _isActive;
-        
-        public override void StartSelecting()
+        protected override void OnStartSelecting()
         {
-            SetActive(true);
         }
-
-        private void Update()
+        
+        protected override void OnSelectingUpdate()
         {
-            if (!_isActive)
-                return;
-            
-            transform.DOMove(Input.mousePosition, Time.deltaTime * 5f);
+            SelectedCard.transform.DOMove(Input.mousePosition, Time.deltaTime * 5f);
             if (Input.GetMouseButtonDown(0))
             {
                 var hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
@@ -28,14 +22,8 @@ namespace Card.TargetSelectors
             }
         }
 
-        public override void FinishSelecting()
+        protected override void OnFinishSelecting()
         {
-            SetActive(false);
-        }
-
-        private void SetActive(bool active)
-        {
-            _isActive = active;
         }
     }
 }

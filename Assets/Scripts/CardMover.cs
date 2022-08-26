@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Card;
+using Card.TargetSelectors;
 using Deck;
+using Infrastructure;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -9,17 +11,16 @@ using Zenject;
 
 public class CardMover : MonoBehaviour
 {
-    private GraphicRaycaster _raycaster;
     private EventSystem _eventSystem;
     private DeckHolder _deckHolder;
     private CardMovingState _cardMovingState = CardMovingState.None;
     private CardHolder _selectedCard;
-
-    [Inject]
-    private void Init(GraphicRaycaster raycaster, EventSystem eventSystem)
+    private CardTargetSelectorsPool _cardTargetSelectors;
+    
+    public void Init(CardTargetSelectorsPool cardTargetSelectors)
     {
-        _raycaster = raycaster;
-        _eventSystem = eventSystem;
+        _cardTargetSelectors = cardTargetSelectors;
+        _eventSystem = EventSystem.current;
     }
 
     public void UseDeck(DeckHolder deckHolder)
@@ -44,73 +45,79 @@ public class CardMover : MonoBehaviour
                 throw new ArgumentOutOfRangeException();
         }
     }
-    
+
     private void NoneStateUpdate()
     {
-        var pointerEventData = new PointerEventData(_eventSystem);
-        pointerEventData.position = Input.mousePosition;
-        List<RaycastResult> results = new List<RaycastResult>();
-        _raycaster.Raycast(pointerEventData, results);
-        foreach (var result in results)
-        {
-            if (result.gameObject.TryGetComponent<CardHolder>(out var cardHolder))
-            {
-                _deckHolder.SelectCard(cardHolder);
-                _selectedCard = cardHolder;
-                _cardMovingState = CardMovingState.HoldCard;
-                return;
-            }
-        }
+        CardHolder cardUnderCursor = FindCardUnderCursor();
+        if(cardUnderCursor != null)
+            NoneToHoldStateTransition(cardUnderCursor);
     }
     
     private void HoldStateUpdate()
     {
-        var pointerEventData = new PointerEventData(_eventSystem);
-        pointerEventData.position = Input.mousePosition;
-        List<RaycastResult> results = new List<RaycastResult>();
-        _raycaster.Raycast(pointerEventData, results);
-        foreach (var result in results)
+        CardHolder cardUnderCursor = FindCardUnderCursor();
+        if (_selectedCard != cardUnderCursor)
         {
-            if (result.gameObject.TryGetComponent<CardHolder>(out var cardHolder))
-            {
-                if (_selectedCard == cardHolder)
-                {
-                    if (Input.GetMouseButtonDown(0))
-                    {
-                        _cardMovingState = CardMovingState.SelectingTarget;
-                        _selectedCard.CardTargetSelector.StartSelecting();
-                        _selectedCard.CardTargetSelector.Selected += OnSelect;
-                    }
-                    return;
-                }
-
-                _deckHolder.SelectCard(cardHolder);
-                _selectedCard = cardHolder;
-            }
+            HoldToNoneStateTransition();
+        } 
+        else if(Input.GetMouseButtonDown(0))
+        {
+            HoldToSelectingStateTransition();
         }
-        _deckHolder.DeselectCard();
-        _cardMovingState = CardMovingState.None;
     }
-
+    
     private void SelectingStateUpdate()
     {
         if (Input.GetMouseButtonDown(1))
         {
-            _selectedCard.CardTargetSelector.FinishSelecting();
-            _cardMovingState = CardMovingState.None;
-            _deckHolder.DeselectCard();
-            _selectedCard.CardTargetSelector.Selected -= OnSelect;
+            _cardTargetSelectors.Get(_selectedCard.CardStaticData.CardTargetSelectorType).FinishSelecting();
+            SelectingToNoneStateTransition();
         }
     }
 
-    private void OnSelect(List<Entity> targets)
+    private CardHolder FindCardUnderCursor()
     {
-        _selectedCard.CardTargetSelector.Selected -= OnSelect;
-        _cardMovingState = CardMovingState.None;
-        _deckHolder.DeselectCard();
+        var eventData = new PointerEventData(_eventSystem);
+        eventData.position = Input.mousePosition;
+        var results = new List<RaycastResult>();
+        _eventSystem.RaycastAll(eventData, results);
+        foreach (var result in results)
+        {
+            if (result.gameObject.TryGetComponent(out CardHolder cardHolder))
+                return cardHolder;
+        }
+        
+        return null;
+    }
+    
+    private void NoneToHoldStateTransition(CardHolder holdCard)
+    {
+        _deckHolder.SelectCard(holdCard);
+        _selectedCard = holdCard;
+        _cardMovingState = CardMovingState.HoldCard;
     }
 
-    enum CardMovingState
+    private void HoldToSelectingStateTransition()
+    {
+        _cardMovingState = CardMovingState.SelectingTarget;
+        _cardTargetSelectors.Get(_selectedCard.CardStaticData.CardTargetSelectorType).StartSelecting(_selectedCard);
+        _cardTargetSelectors.Get(_selectedCard.CardStaticData.CardTargetSelectorType).Selected += SelectingToNoneStateTransition;
+    }
+
+    private void HoldToNoneStateTransition()
+    {
+        _deckHolder.DeselectCard();
+        _cardMovingState = CardMovingState.None;
+    }
+    
+    private void SelectingToNoneStateTransition()
+    {
+        _cardMovingState = CardMovingState.None;
+        _deckHolder.DeselectCard();
+        _cardTargetSelectors.Get(_selectedCard.CardStaticData.CardTargetSelectorType).Selected -= SelectingToNoneStateTransition;
+    }
+    
+    private enum CardMovingState
     {
         None,
         HoldCard,

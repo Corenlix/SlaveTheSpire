@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Card;
 using Deck;
+using Zenject;
 
 namespace Infrastructure
 {
@@ -8,11 +9,13 @@ namespace Infrastructure
     {
         private readonly IAssetProvider _assetProvider;
         private readonly IStaticDataService _staticDataService;
+        private readonly ICardTargetSelectorFactory _cardTargetSelectorFactory;
 
-        public GameFactory(IAssetProvider assetProvider, IStaticDataService staticDataService)
+        public GameFactory(IAssetProvider assetProvider, IStaticDataService staticDataService, ICardTargetSelectorFactory cardTargetSelectorFactory)
         {
             _assetProvider = assetProvider;
             _staticDataService = staticDataService;
+            _cardTargetSelectorFactory = cardTargetSelectorFactory;
         }
         
         public DeckHolder SpawnDeck(Vector3 position)
@@ -29,11 +32,24 @@ namespace Infrastructure
             return cardHolder;
         }
 
+        public CardTargetSelectorsPool SpawnCardTargetSelectorsPool()
+        {
+            var poolGameObject = new GameObject("CardTargetsSelectorsPool");
+            var pool = poolGameObject.AddComponent<CardTargetSelectorsPool>();
+            pool.Init(_cardTargetSelectorFactory);
+            return pool;
+        }
+
         public CardMover SpawnCardMover(DeckHolder deck)
         {
             CardMover cardMover = _assetProvider.Instantiate<CardMover>(AssetPath.CardMoverPath);
             cardMover.UseDeck(deck);
             return cardMover;
+        }
+
+        public UIContainer SpawnUIContainer()
+        {
+            return _assetProvider.Instantiate<UIContainer>(AssetPath.UIContainerPath);
         }
     }
 }
