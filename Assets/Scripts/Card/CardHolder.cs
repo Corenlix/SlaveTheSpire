@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Card.TargetSelectors;
 using Deck;
 using DG.Tweening;
+using Entities;
 using Infrastructure;
 using UnityEngine;
 
