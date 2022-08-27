@@ -6,7 +6,7 @@ namespace Infrastructure
 {
     public class EnemiesHolder : IEnemiesHolder
     {
-        public event Action AllEnemySteped;
+        public event Action AllEnemiesStepped;
 
         private readonly GameContainer _gameContainer;
         private readonly List<Enemy> _enemies = new();
@@ -44,7 +44,7 @@ namespace Infrastructure
             }
             else
             {
-                AllEnemySteped?.Invoke();
+                AllEnemiesStepped?.Invoke();
             }
         }
 
