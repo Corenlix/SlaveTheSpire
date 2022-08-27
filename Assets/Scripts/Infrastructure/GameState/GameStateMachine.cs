@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Infrastructure.Factories;
+using Utilities;
 
 namespace Infrastructure.GameState
 {
@@ -9,11 +10,11 @@ namespace Infrastructure.GameState
         private readonly Dictionary<Type, IState> _states;
         private IState _activeState;
 
-        public GameStateMachine(IGameFactory gameFactory, GameContainer gameContainer, IEnemiesHolder enemiesHolder)
+        public GameStateMachine(IGameFactory gameFactory, GameContainer gameContainer, IEnemiesHolder enemiesHolder, IPlayerHolder playerHolder, FinderUnderCursor finderUnderCursor)
         {
             _states = new Dictionary<Type, IState>
             {
-                {typeof(LoadLevelState), new LoadLevelState(this, gameFactory, enemiesHolder, gameContainer)},
+                {typeof(LoadLevelState), new LoadLevelState(this, gameFactory, enemiesHolder, playerHolder, finderUnderCursor, gameContainer)},
                 {typeof(PlayerTurnState), new PlayerTurnState(this, gameFactory, gameContainer)},
                 {typeof(EnemyTurnState), new EnemyTurnState(this, enemiesHolder)}
             };

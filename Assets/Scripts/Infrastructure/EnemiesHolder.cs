@@ -13,11 +13,11 @@ namespace Infrastructure
             _gameContainer = gameContainer;
         }
 
-        public void AddEnemy(Enemy enemy)
+        public void Add(Enemy enemy)
         {
             _enemies.Add(enemy);
             _gameContainer.Location.EnemiesContainer.Add(enemy);
-            enemy.Destroyed += RemoveEnemy;
+            enemy.Destroyed += Remove;
         }
 
         public void Step()
@@ -41,11 +41,11 @@ namespace Infrastructure
             }
         }
 
-        public void RemoveEnemy(Enemy enemy)
+        public void Remove(Enemy enemy)
         {
             _gameContainer.Location.EnemiesContainer.Remove(enemy);
             _enemies.Remove(enemy);
-            enemy.Destroyed -= RemoveEnemy;
+            enemy.Destroyed -= Remove;
         }
     }
 }

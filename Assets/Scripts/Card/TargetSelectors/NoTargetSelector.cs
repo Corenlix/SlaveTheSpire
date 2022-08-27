@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Card.TargetSelectors
 {
-    public class Defense : CardTargetSelector
+    public class NoTargetSelector : CardTargetSelector
     {
         protected override void OnStartSelecting()
         {

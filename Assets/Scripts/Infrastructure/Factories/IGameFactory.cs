@@ -3,7 +3,6 @@ using Card.TargetSelectors;
 using Deck;
 using Entities;
 using Infrastructure.StaticData;
-using UnityEngine;
 
 namespace Infrastructure.Factories
 {
@@ -11,7 +10,7 @@ namespace Infrastructure.Factories
     {
         CardHolder SpawnCard(DeckView deck, CardId cardStaticData);
         CardTargetSelectorsPool SpawnCardTargetSelectorsPool();
-        CardMover SpawnCardMover(DeckView deck);
+        CardSelectStateMachine SpawnCardMover();
         UIContainer SpawnUIContainer();
         Enemy SpawnEnemy(EnemyId id);
         Location SpawnLocation();

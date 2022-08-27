@@ -2,7 +2,7 @@
 {
     public enum CardTargetSelectorType
     {
-        Attack,
-        Defense,
+        OneTarget,
+        NoTarget,
     }
 }

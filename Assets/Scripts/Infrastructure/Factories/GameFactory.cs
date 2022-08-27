@@ -42,11 +42,10 @@ namespace Infrastructure
             return pool;
         }
 
-        public CardMover SpawnCardMover(DeckView deck)
+        public CardSelectStateMachine SpawnCardMover()
         {
-            CardMover cardMover = _assetProvider.Instantiate<CardMover>(AssetPath.CardMoverPath);
-            cardMover.UseDeck(deck);
-            return cardMover;
+            CardSelectStateMachine cardSelectStateMachine = _assetProvider.Instantiate<CardSelectStateMachine>(AssetPath.CardMoverPath);
+            return cardSelectStateMachine;
         }
 
         public UIContainer SpawnUIContainer()
