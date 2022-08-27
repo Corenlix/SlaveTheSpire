@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace UIElements
 {
-    public class ValueView : ViewObserver
+    public class TextValueView : ViewObserver
     {
         [SerializeField] private TextMeshProUGUI _text;
    

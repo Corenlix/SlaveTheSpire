@@ -8,11 +8,12 @@ namespace Infrastructure.Factories
 {
     public interface IGameFactory
     {
-        DeckView SpawnDeck(Vector3 position);
-        Card.CardHolder SpawnCard(DeckView deck, CardId cardStaticData);
+        CardHolder SpawnCard(DeckView deck, CardId cardStaticData);
         CardTargetSelectorsPool SpawnCardTargetSelectorsPool();
         CardMover SpawnCardMover(DeckView deck);
         UIContainer SpawnUIContainer();
         Enemy SpawnEnemy(EnemyId id);
+        Location SpawnLocation();
+        Player SpawnPlayer();
     }
 }

@@ -13,7 +13,7 @@ namespace Card.TargetSelectors
         [SerializeField] private Color _toColor;
         private Color _defaultColor;
         private Camera _camera;
-        private Entity _selectedEntity;
+        private Enemy _selectedEnemy;
 
         private void Awake()
         {
@@ -32,36 +32,42 @@ namespace Card.TargetSelectors
             _cursor.transform.position =
                 Vector3.Slerp(_cursor.transform.position, Input.mousePosition, Time.deltaTime * _smoothless);
             var hit = Physics2D.Raycast(_camera.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-            if (hit.collider != null  && hit.transform.TryGetComponent<Entity>(out var entity))
+            if (hit.collider != null  && hit.transform.TryGetComponent<Enemy>(out var enemy))
             {
-                if (_selectedEntity != entity)
+                if (_selectedEnemy != enemy)
                 {
-                    _selectedEntity = entity;
-                    entity.transform.DOScale(1.15f, 0.1f);
+                    _selectedEnemy = enemy;
+                    enemy.transform.DOKill();
+                    enemy.transform.DOScale(1.15f, 0.1f);
+                    
+                    _cursor.DOKill();
                     _cursor.DOColor(_toColor, 0.25f);
                 }
                 if (Input.GetMouseButtonDown(0))
                 {
-                    List<Entity> targets = new List<Entity> {entity};
+                    List<Entity> targets = new List<Entity> {enemy};
                     SelectTargets(targets);
                 }
             }
-            else if (_selectedEntity != null)
+            else if (_selectedEnemy != null)
             {
+                _cursor.DOKill();
                 _cursor.DOColor(_defaultColor, 0.1f);
-                _selectedEntity.transform.DOScale(1, 0.25f);
-                _selectedEntity = null;
+                _selectedEnemy.transform.DOScale(1, 0.25f);
+                _selectedEnemy = null;
             }
         }
 
         protected override void OnFinishSelecting()
         {
             _cursor.gameObject.SetActive(false);
-            if (_selectedEntity != null)
+            if (_selectedEnemy != null)
             {
-                _cursor.material.color = _defaultColor;
-                _selectedEntity.transform.DOScale(1, 0.5f);
-                _selectedEntity = null;
+                _cursor.DOKill();
+                _cursor.color = _defaultColor;
+                _selectedEnemy.transform.DOKill();
+                _selectedEnemy.transform.DOScale(1, 0.5f);
+                _selectedEnemy = null;
             }
         }
     }

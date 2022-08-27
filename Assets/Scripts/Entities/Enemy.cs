@@ -7,8 +7,14 @@ namespace Entities
     {
         public event Action<Enemy> Destroyed;
 
-        public abstract void Init(EnemyStaticData staticData);
+        public void Init(EnemyStaticData staticData)
+        {
+            InitHealth(staticData.MaxHealth);
+            OnInit(staticData);
+        }
         
+        protected abstract void OnInit(EnemyStaticData staticData);
+
         public abstract void Step();
 
         private void OnDestroy()

@@ -14,11 +14,13 @@ namespace UIElements
         
             _observableValue = watchingValue;
             _observableValue.ValueChanged += OnValueUpdate;
+            UpdateView(_observableValue.CurrentValue, _observableValue.MaxValue);
         }
 
         private void OnDestroy()
         {
-            _observableValue.ValueChanged -= OnValueUpdate;
+            if(_observableValue != null)
+                _observableValue.ValueChanged -= OnValueUpdate;
         }
 
         private void OnValueUpdate()

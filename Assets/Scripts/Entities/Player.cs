@@ -7,6 +7,7 @@ namespace Entities
 
         private void Start()
         {
+            InitHealth(3);
             _energy = new BoundedValue(3, 3);
         }
     }

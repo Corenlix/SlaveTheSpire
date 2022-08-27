@@ -7,7 +7,7 @@ namespace Entities
     {
         private string _name;
         
-        public override void Init(EnemyStaticData staticData)
+        protected override void OnInit(EnemyStaticData staticData)
         {
             var testEnemyStaticData = (TestEnemyStaticData) staticData;
             _name = testEnemyStaticData.Name;

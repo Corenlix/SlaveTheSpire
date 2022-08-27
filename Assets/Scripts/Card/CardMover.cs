@@ -68,7 +68,6 @@ namespace Card
         {
             if (Input.GetMouseButtonDown(1))
             {
-                _cardTargetSelectors.Get(_selectedCardHolder.CardStaticData.CardTargetSelectorType).FinishSelecting();
                 SelectingToNoneStateTransition();
             }
         }
@@ -112,7 +111,9 @@ namespace Card
         {
             _cardMovingState = CardMovingState.None;
             _deckView.DeselectCard();
-            _cardTargetSelectors.Get(_selectedCardHolder.CardStaticData.CardTargetSelectorType).Selected -= SelectingToNoneStateTransition;
+            var selector = _cardTargetSelectors.Get(_selectedCardHolder.CardStaticData.CardTargetSelectorType);
+            selector.Selected -= SelectingToNoneStateTransition;
+            selector.FinishSelecting();
         }
     
         private enum CardMovingState

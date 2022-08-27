@@ -1,10 +1,8 @@
-﻿using Entities;
-
-namespace Infrastructure
+﻿namespace Infrastructure
 {
     public class GameContainer
     {
         public UIContainer UIContainer;
-        public Player Player;
+        public Location Location;
     }
 }

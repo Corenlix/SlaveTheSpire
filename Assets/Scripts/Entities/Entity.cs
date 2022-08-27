@@ -1,15 +1,19 @@
-﻿using UnityEngine;
+﻿using UIElements;
+using UnityEngine;
 
 namespace Entities
 {
     public class Entity : MonoBehaviour
     {
-        [SerializeField] private int _maxHealth;
+        [SerializeField] private BarValueView _healthBar;
+        [SerializeField] private TextValueView _healthText;
         private BoundedValue _health;
 
-        private void Start()
+        protected void InitHealth(int maxHealth)
         {
-            _health = new BoundedValue(_maxHealth);
+            _health = new BoundedValue(maxHealth);
+            _healthBar.Init(_health);
+            _healthText.Init(_health);
         }
 
         public void TakeDamage(int value)

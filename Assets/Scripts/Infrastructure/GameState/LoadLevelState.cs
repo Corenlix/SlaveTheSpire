@@ -21,6 +21,7 @@ namespace Infrastructure.GameState
         public void Enter()
         {
             var uiContainer = _gameFactory.SpawnUIContainer();
+            _gameContainer.UIContainer = uiContainer;
             var playerDeck = uiContainer.PlayerDeck;
             var canvasTransform = uiContainer.Canvas.transform;
             playerDeck.transform.SetParent(canvasTransform);
@@ -28,9 +29,13 @@ namespace Infrastructure.GameState
             targetSelectorsPool.transform.SetParent(canvasTransform);
             var cardMover = _gameFactory.SpawnCardMover(playerDeck);
             cardMover.Init(targetSelectorsPool);
-            _gameContainer.UIContainer = uiContainer;
-            _enemiesHolder.AddEnemy(_gameFactory.SpawnEnemy(EnemyId.Test));
             
+            _gameContainer.Location = _gameFactory.SpawnLocation();
+            var player = _gameFactory.SpawnPlayer();
+            player.transform.SetParent(_gameContainer.Location.PlayerSpawnPoint);
+            player.transform.position = _gameContainer.Location.PlayerSpawnPoint.position;
+            _enemiesHolder.AddEnemy(_gameFactory.SpawnEnemy(EnemyId.Test));
+
             _gameStateMachine.Enter<PlayerTurnState>();
         }
 

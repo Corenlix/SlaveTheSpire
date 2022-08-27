@@ -2,6 +2,7 @@
 using Card;
 using Deck;
 using Entities;
+using Infrastructure.Assets;
 using Infrastructure.Factories;
 using Infrastructure.StaticData;
 using Zenject;
@@ -23,15 +24,9 @@ namespace Infrastructure
             _cardTargetSelectorFactory = cardTargetSelectorFactory;
         }
         
-        public DeckView SpawnDeck(Vector3 position)
-        {
-            var deck = _assetProvider.Instantiate<DeckView>(AssetPath.DeckPath, position);
-            return deck;
-        }
-
         public CardHolder SpawnCard(DeckView deck, CardId cardId)
         {
-            CardHolder cardHolder = _assetProvider.Instantiate<Card.CardHolder>(AssetPath.CardPath);
+            CardHolder cardHolder = _assetProvider.Instantiate<CardHolder>(AssetPath.CardPath);
             CardStaticData cardStaticData = _staticDataService.ForCard(cardId);
             cardHolder.Init(cardStaticData);
             deck.AddCard(cardHolder);
@@ -64,6 +59,16 @@ namespace Infrastructure
             var enemy = _diContainer.InstantiatePrefabForComponent<Enemy>(staticData.EnemyPrefab);
             enemy.Init(staticData);
             return enemy;
+        }
+        
+        public Player SpawnPlayer()
+        {
+            return _assetProvider.Instantiate<Player>(AssetPath.PlayerPath);
+        }
+
+        public Location SpawnLocation()
+        {
+            return _assetProvider.Instantiate<Location>(AssetPath.LocationPath);
         }
     }
 }
