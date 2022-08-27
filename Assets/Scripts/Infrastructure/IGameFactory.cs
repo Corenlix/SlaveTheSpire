@@ -6,10 +6,10 @@ namespace Infrastructure
 {
     public interface IGameFactory
     {
-        DeckHolder SpawnDeck(Vector3 position);
-        CardHolder SpawnCard(DeckHolder deck, CardId cardStaticData);
+        DeckView SpawnDeck(Vector3 position);
+        CardHolder SpawnCard(DeckView deck, CardId cardStaticData);
         CardTargetSelectorsPool SpawnCardTargetSelectorsPool();
-        CardMover SpawnCardMover(DeckHolder deck);
+        CardMover SpawnCardMover(DeckView deck);
         UIContainer SpawnUIContainer();
     }
 }

@@ -11,12 +11,12 @@ namespace Card
     {
         [SerializeField] private CardView _cardView;
         private CardStaticData _cardStaticData;
-        private DeckHolder _deck;
+        private DeckView _deck;
         private IGameFactory _gameFactory;
 
         public CardStaticData CardStaticData => _cardStaticData;
         
-        public void Init(CardStaticData cardStaticData, DeckHolder deck)
+        public void Init(CardStaticData cardStaticData, DeckView deck)
         {
             _deck = deck;
             _cardStaticData = cardStaticData;

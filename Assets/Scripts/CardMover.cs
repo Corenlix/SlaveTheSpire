@@ -12,7 +12,7 @@ using Zenject;
 public class CardMover : MonoBehaviour
 {
     private EventSystem _eventSystem;
-    private DeckHolder _deckHolder;
+    private DeckView _deckView;
     private CardMovingState _cardMovingState = CardMovingState.None;
     private CardHolder _selectedCard;
     private CardTargetSelectorsPool _cardTargetSelectors;
@@ -23,9 +23,9 @@ public class CardMover : MonoBehaviour
         _eventSystem = EventSystem.current;
     }
 
-    public void UseDeck(DeckHolder deckHolder)
+    public void UseDeck(DeckView deckView)
     {
-        _deckHolder = deckHolder;
+        _deckView = deckView;
     }
 
     void Update()
@@ -92,7 +92,7 @@ public class CardMover : MonoBehaviour
     
     private void NoneToHoldStateTransition(CardHolder holdCard)
     {
-        _deckHolder.SelectCard(holdCard);
+        _deckView.SelectCard(holdCard);
         _selectedCard = holdCard;
         _cardMovingState = CardMovingState.HoldCard;
     }
@@ -106,14 +106,14 @@ public class CardMover : MonoBehaviour
 
     private void HoldToNoneStateTransition()
     {
-        _deckHolder.DeselectCard();
+        _deckView.DeselectCard();
         _cardMovingState = CardMovingState.None;
     }
     
     private void SelectingToNoneStateTransition()
     {
         _cardMovingState = CardMovingState.None;
-        _deckHolder.DeselectCard();
+        _deckView.DeselectCard();
         _cardTargetSelectors.Get(_selectedCard.CardStaticData.CardTargetSelectorType).Selected -= SelectingToNoneStateTransition;
     }
     
