@@ -15,7 +15,12 @@ namespace Entities
         
         protected abstract void OnInit(EnemyStaticData staticData);
 
-        public abstract void Step();
+        public void Step()
+        {
+            OnStep();
+        }
+        
+        protected abstract void OnStep();
 
         private void OnDestroy()
         {

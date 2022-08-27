@@ -14,6 +14,7 @@
         public void Enter()
         {
             _enemiesHolder.Step();
+            //подписываешься на enemiesHolder.Когда все подходили => переходишь в состояние PlayerTurnState
             _gameStateMachine.Enter<PlayerTurnState>();
         }
 

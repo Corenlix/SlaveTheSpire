@@ -413,7 +413,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _canvas: {fileID: 7225636032697036107}
   _playerDeck: {fileID: 8150726734228597111}
-  _nextStepButton: {fileID: 4832933941388125818}
+  _EndTurnButton: {fileID: 4832933941388125818}
 --- !u!1 &7243384863534251046
 GameObject:
   m_ObjectHideFlags: 0
@@ -542,7 +542,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _drawPile: {fileID: 4716015192989917117}
-  _discardPile: {fileID: 2505139823816280458}
   _cardsContainer: {fileID: 8150726734271086482}
 --- !u!1 &8150726734271086485
 GameObject:

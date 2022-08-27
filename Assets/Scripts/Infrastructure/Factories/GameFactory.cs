@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Card;
+using Card.TargetSelectors;
 using Deck;
 using Entities;
 using Infrastructure.Assets;

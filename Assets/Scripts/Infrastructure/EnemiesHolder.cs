@@ -22,7 +22,23 @@ namespace Infrastructure
 
         public void Step()
         {
-            _enemies.ForEach(x=>x.Step());
+            Step(_enemies.GetEnumerator());
+        }
+
+        private void Step(IEnumerator<Enemy> byEnemies)
+        {
+            byEnemies.MoveNext();
+            
+            if (byEnemies.Current)
+            {
+                byEnemies.Current.Step();
+                //подписываешься на событие врага тип когда он подходит => когда походит вызываешь Step(byEnemies)
+                Step(byEnemies);
+            }
+            else
+            {
+                //вызываешь событие что все походили
+            }
         }
 
         public void RemoveEnemy(Enemy enemy)

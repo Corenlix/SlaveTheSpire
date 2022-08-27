@@ -17,7 +17,7 @@ namespace Infrastructure.GameState
         
         public void Enter()
         {
-            _gameContainer.UIContainer.NextStepButton.onClick.AddListener(FinishStep);
+            _gameContainer.UIContainer.EndTurnButton.onClick.AddListener(FinishStep);
             
             var playerDeck = _gameContainer.UIContainer.PlayerDeck;
             for (int i = 0; i < 6; i++)
@@ -28,12 +28,12 @@ namespace Infrastructure.GameState
 
         private void FinishStep()
         {
-            _gameContainer.UIContainer.NextStepButton.onClick.RemoveListener(FinishStep);
             _gameStateMachine.Enter<EnemyTurnState>();
         }
 
         public void Exit()
         {
+            _gameContainer.UIContainer.EndTurnButton.onClick.RemoveListener(FinishStep);
             _gameContainer.UIContainer.PlayerDeck.DiscardCards();
         }
     }

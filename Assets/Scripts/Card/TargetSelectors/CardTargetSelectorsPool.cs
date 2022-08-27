@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using Card.TargetSelectors;
+using Infrastructure;
 using UnityEngine;
 
-namespace Infrastructure
+namespace Card.TargetSelectors
 {
     public class CardTargetSelectorsPool : MonoBehaviour
     {

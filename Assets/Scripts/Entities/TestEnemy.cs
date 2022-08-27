@@ -13,7 +13,7 @@ namespace Entities
             _name = testEnemyStaticData.Name;
         }
 
-        public override void Step()
+        protected override void OnStep()
         {
             Debug.Log($"{_name}'s step is over");
         }

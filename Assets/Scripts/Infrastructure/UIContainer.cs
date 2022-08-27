@@ -8,10 +8,10 @@ namespace Infrastructure
     {
         [SerializeField] private Canvas _canvas;
         [SerializeField] private DeckView _playerDeck;
-        [SerializeField] private Button _nextStepButton;
+        [SerializeField] private Button _EndTurnButton;
 
         public Canvas Canvas => _canvas;
         public DeckView PlayerDeck => _playerDeck;
-        public Button NextStepButton => _nextStepButton;
+        public Button EndTurnButton => _EndTurnButton;
     }
 }
