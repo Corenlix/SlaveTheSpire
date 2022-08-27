@@ -1,15 +1,25 @@
 ﻿namespace Infrastructure.GameState
 {
-    public class EnemyTurnState : IState
+    internal class EnemyTurnState : IState
     {
+        private readonly GameStateMachine _gameStateMachine;
+        private readonly IEnemiesHolder _enemiesHolder;
+
+        public EnemyTurnState(GameStateMachine gameStateMachine, IEnemiesHolder enemiesHolder)
+        {
+            _gameStateMachine = gameStateMachine;
+            _enemiesHolder = enemiesHolder;
+        }
+        
         public void Enter()
         {
-            throw new System.NotImplementedException();
+            _enemiesHolder.Step();
+            _gameStateMachine.Enter<PlayerTurnState>();
         }
 
         public void Exit()
         {
-            throw new System.NotImplementedException();
+            
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Card;
 using DG.Tweening;
 using UnityEngine;
@@ -8,28 +9,29 @@ namespace Deck
     public class DeckView : MonoBehaviour
     {
         [SerializeField] private Transform _drawPile;
-        [SerializeField] private Transform _discardPile;
         [SerializeField] private Transform _cardsContainer;
         private readonly List<CardHolder> _cards = new();
         
-        public void AddCard(CardHolder card)
+        public void AddCard(CardHolder cardHolder)
         {
-            card.transform.SetParent(_cardsContainer);
-            card.transform.position = _drawPile.position;
-            card.transform.localScale = Vector3.one * 0.1f;
-            card.transform.rotation = Quaternion.Euler(0, 0, -90f);
-            _cards.Add(card);
+            cardHolder.transform.SetParent(_cardsContainer);
+            cardHolder.transform.position = _drawPile.position;
+            cardHolder.transform.localScale = Vector3.one * 0.1f;
+            cardHolder.transform.rotation = Quaternion.Euler(0, 0, -90f);
+            _cards.Add(cardHolder);
+            cardHolder.Destroyed += RemoveCard;
+            
             MoveCards();
         }
 
-        public void SelectCard(CardHolder card)
+        public void SelectCard(CardHolder cardHolder)
         {
             DeselectCard();
-            card.transform.DOKill();
+            cardHolder.transform.DOKill();
             float scale = 1.3f;
-            card.transform.localScale = scale * Vector2.one;
-            card.transform.position = new Vector2(card.transform.position.x, card.GetComponent<RectTransform>().rect.height * scale/2f);
-            card.transform.SetAsLastSibling();
+            cardHolder.transform.localScale = scale * Vector2.one;
+            cardHolder.transform.position = new Vector2(cardHolder.transform.position.x, cardHolder.GetComponent<RectTransform>().rect.height * scale/2f);
+            cardHolder.transform.SetAsLastSibling();
         }
 
         public void DeselectCard()
@@ -52,19 +54,18 @@ namespace Deck
             }
         }
 
-        public void RemoveCard(CardHolder card)
+        private void RemoveCard(CardHolder cardHolder)
         {
-            _cards.Remove(card);
+            _cards.Remove(cardHolder);
             MoveCards();
+            cardHolder.Destroyed -= RemoveCard;
         }
 
         public void DiscardCards()
         {
-            for (int i = 0; i < _cards.Count; i++)
+            foreach (var card in _cards.ToList())
             {
-                _cards[i].transform.DOMove(_discardPile.position, 0.2f);
-                _cards[i].transform.DOScale(0.1f, 0.2f).OnComplete(() => Destroy(_cards[i].gameObject));
-                _cards[i].transform.DORotate(Vector3.zero, 0.2f);
+                Destroy(card.gameObject);
             }
         }
     }

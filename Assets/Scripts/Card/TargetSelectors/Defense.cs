@@ -11,7 +11,7 @@ namespace Card.TargetSelectors
         
         protected override void OnSelectingUpdate()
         {
-            SelectedCard.transform.DOMove(Input.mousePosition, Time.deltaTime * 5f);
+            SelectedCardHolder.transform.DOMove(Input.mousePosition, Time.deltaTime * 5f);
             if (Input.GetMouseButtonDown(0))
             {
                 var hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);

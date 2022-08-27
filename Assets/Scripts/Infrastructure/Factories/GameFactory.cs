@@ -1,18 +1,23 @@
 ﻿using UnityEngine;
 using Card;
 using Deck;
+using Entities;
+using Infrastructure.Factories;
+using Infrastructure.StaticData;
 using Zenject;
 
 namespace Infrastructure
 {
     public class GameFactory : IGameFactory
     {
+        private readonly DiContainer _diContainer;
         private readonly IAssetProvider _assetProvider;
         private readonly IStaticDataService _staticDataService;
         private readonly ICardTargetSelectorFactory _cardTargetSelectorFactory;
 
-        public GameFactory(IAssetProvider assetProvider, IStaticDataService staticDataService, ICardTargetSelectorFactory cardTargetSelectorFactory)
+        public GameFactory(DiContainer diContainer, IAssetProvider assetProvider, IStaticDataService staticDataService, ICardTargetSelectorFactory cardTargetSelectorFactory)
         {
+            _diContainer = diContainer;
             _assetProvider = assetProvider;
             _staticDataService = staticDataService;
             _cardTargetSelectorFactory = cardTargetSelectorFactory;
@@ -26,9 +31,10 @@ namespace Infrastructure
 
         public CardHolder SpawnCard(DeckView deck, CardId cardId)
         {
-            CardHolder cardHolder = _assetProvider.Instantiate<CardHolder>(AssetPath.CardPath);
+            CardHolder cardHolder = _assetProvider.Instantiate<Card.CardHolder>(AssetPath.CardPath);
             CardStaticData cardStaticData = _staticDataService.ForCard(cardId);
-            cardHolder.Init(cardStaticData, deck);
+            cardHolder.Init(cardStaticData);
+            deck.AddCard(cardHolder);
             return cardHolder;
         }
 
@@ -50,6 +56,14 @@ namespace Infrastructure
         public UIContainer SpawnUIContainer()
         {
             return _assetProvider.Instantiate<UIContainer>(AssetPath.UIContainerPath);
+        }
+
+        public Enemy SpawnEnemy(EnemyId id)
+        {
+            EnemyStaticData staticData = _staticDataService.ForEnemy(id);
+            var enemy = _diContainer.InstantiatePrefabForComponent<Enemy>(staticData.EnemyPrefab);
+            enemy.Init(staticData);
+            return enemy;
         }
     }
 }

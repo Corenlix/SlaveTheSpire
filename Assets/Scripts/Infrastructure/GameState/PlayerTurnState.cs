@@ -1,6 +1,8 @@
+using Infrastructure.Factories;
+
 namespace Infrastructure.GameState
 {
-    public class PlayerTurnState : IState
+    internal class PlayerTurnState : IState
     {
         private readonly GameStateMachine _gameStateMachine;
         private readonly IGameFactory _gameFactory;
@@ -15,11 +17,19 @@ namespace Infrastructure.GameState
         
         public void Enter()
         {
+            _gameContainer.UIContainer.NextStepButton.onClick.AddListener(FinishStep);
+            
             var playerDeck = _gameContainer.UIContainer.PlayerDeck;
             for (int i = 0; i < 6; i++)
             {
                 _gameFactory.SpawnCard(playerDeck, CardId.Damage);
             }
+        }
+
+        private void FinishStep()
+        {
+            _gameContainer.UIContainer.NextStepButton.onClick.RemoveListener(FinishStep);
+            _gameStateMachine.Enter<EnemyTurnState>();
         }
 
         public void Exit()

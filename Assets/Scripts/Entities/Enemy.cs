@@ -1,14 +1,19 @@
-using UnityEngine;
+using System;
+using Infrastructure.StaticData;
 
 namespace Entities
 {
-    public class Enemy : Entity
+    public abstract class Enemy : Entity
     {
-        [SerializeField] private int _damage;
-    
-        private void Attack(Entity entity)
+        public event Action<Enemy> Destroyed;
+
+        public abstract void Init(EnemyStaticData staticData);
+        
+        public abstract void Step();
+
+        private void OnDestroy()
         {
-            entity.TakeDamage(_damage);   
+            Destroyed?.Invoke(this);
         }
     }
 }

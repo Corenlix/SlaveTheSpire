@@ -1,28 +1,25 @@
+using System;
 using System.Collections.Generic;
-using Card.TargetSelectors;
 using Deck;
 using DG.Tweening;
 using Entities;
-using Infrastructure;
+using Infrastructure.Factories;
 using UnityEngine;
 
 namespace Card
 {
     public class CardHolder : MonoBehaviour
     {
+        public event Action<CardHolder> Destroyed;
         [SerializeField] private CardView _cardView;
         private CardStaticData _cardStaticData;
-        private DeckView _deck;
-        private IGameFactory _gameFactory;
 
         public CardStaticData CardStaticData => _cardStaticData;
         
-        public void Init(CardStaticData cardStaticData, DeckView deck)
+        public void Init(CardStaticData cardStaticData)
         {
-            _deck = deck;
             _cardStaticData = cardStaticData;
             _cardView.Init(cardStaticData.Cost, cardStaticData.Name, cardStaticData.Description, cardStaticData.Icon);
-            _deck.AddCard(this);
         }
 
         public void Use(List<Entity> targets)
@@ -34,7 +31,7 @@ namespace Card
         private void OnDestroy()
         {
             transform.DOKill();
-            _deck.RemoveCard(this);
+            Destroyed?.Invoke(this);
         }
     }
 }

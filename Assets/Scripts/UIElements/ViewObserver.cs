@@ -18,7 +18,7 @@ namespace UIElements
 
         private void OnDestroy()
         {
-            _observableValue.ValueChanged += OnValueUpdate;
+            _observableValue.ValueChanged -= OnValueUpdate;
         }
 
         private void OnValueUpdate()
