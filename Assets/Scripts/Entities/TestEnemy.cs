@@ -1,10 +1,13 @@
-﻿using Infrastructure.StaticData;
+﻿using System;
+using Infrastructure.StaticData;
 using UnityEngine;
 
 namespace Entities
 {
     public class TestEnemy : Enemy
     {
+        public override event Action EnemySteped;
+        
         private string _name;
         
         protected override void OnInit(EnemyStaticData staticData)
@@ -16,6 +19,7 @@ namespace Entities
         protected override void OnStep()
         {
             Debug.Log($"{_name}'s step is over");
+            EnemySteped?.Invoke();
         }
     }
 }

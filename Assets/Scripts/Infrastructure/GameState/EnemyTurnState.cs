@@ -13,14 +13,18 @@
         
         public void Enter()
         {
+            _enemiesHolder.AllEnemySteped += EndStep; 
             _enemiesHolder.Step();
-            //подписываешься на enemiesHolder.Когда все подходили => переходишь в состояние PlayerTurnState
+        }
+
+        private void EndStep()
+        {
             _gameStateMachine.Enter<PlayerTurnState>();
         }
 
         public void Exit()
         {
-            
+            _enemiesHolder.AllEnemySteped -= EndStep;
         }
     }
 }
