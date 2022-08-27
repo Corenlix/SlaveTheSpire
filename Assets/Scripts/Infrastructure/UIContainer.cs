@@ -6,9 +6,9 @@ namespace Infrastructure
     public class UIContainer : MonoBehaviour
     {
         [SerializeField] private Canvas _canvas;
-        [SerializeField] private DeckHolder _playerDeck;
+        [SerializeField] private DeckView _playerDeck;
 
         public Canvas Canvas => _canvas;
-        public DeckHolder PlayerDeck => _playerDeck;
+        public DeckView PlayerDeck => _playerDeck;
     }
 }

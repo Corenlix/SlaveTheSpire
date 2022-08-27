@@ -18,13 +18,13 @@ namespace Infrastructure
             _cardTargetSelectorFactory = cardTargetSelectorFactory;
         }
         
-        public DeckHolder SpawnDeck(Vector3 position)
+        public DeckView SpawnDeck(Vector3 position)
         {
-            var deck = _assetProvider.Instantiate<DeckHolder>(AssetPath.DeckPath, position);
+            var deck = _assetProvider.Instantiate<DeckView>(AssetPath.DeckPath, position);
             return deck;
         }
 
-        public CardHolder SpawnCard(DeckHolder deck, CardId cardId)
+        public CardHolder SpawnCard(DeckView deck, CardId cardId)
         {
             CardHolder cardHolder = _assetProvider.Instantiate<CardHolder>(AssetPath.CardPath);
             CardStaticData cardStaticData = _staticDataService.ForCard(cardId);
@@ -40,7 +40,7 @@ namespace Infrastructure
             return pool;
         }
 
-        public CardMover SpawnCardMover(DeckHolder deck)
+        public CardMover SpawnCardMover(DeckView deck)
         {
             CardMover cardMover = _assetProvider.Instantiate<CardMover>(AssetPath.CardMoverPath);
             cardMover.UseDeck(deck);

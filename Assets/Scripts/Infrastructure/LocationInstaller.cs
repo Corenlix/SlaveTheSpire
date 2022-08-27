@@ -1,4 +1,5 @@
-﻿using Zenject;
+﻿using Infrastructure.GameState;
+using Zenject;
 
 namespace Infrastructure
 {
@@ -10,7 +11,8 @@ namespace Infrastructure
             Container.Bind<IStaticDataService>().To<StaticDataService>().AsSingle();
             Container.Bind<ICardTargetSelectorFactory>().To<CardTargetSelectorFactory>().AsSingle();
             Container.Bind<IGameFactory>().To<GameFactory>().AsSingle();
-            Container.Bind<Game>().AsSingle().NonLazy();
+            Container.Bind<GameContainer>().AsSingle();
+            Container.Bind<GameStateMachine>().AsSingle().NonLazy();
         }
     }
 }
