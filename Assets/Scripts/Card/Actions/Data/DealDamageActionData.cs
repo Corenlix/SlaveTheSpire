@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Zenject;
 
 namespace Card.Actions.Data
 {
@@ -7,7 +8,7 @@ namespace Card.Actions.Data
     {
         [SerializeField] private int _damage;
         
-        public override ICardAction GetCardAction()
+        public override ICardAction GetCardAction(DiContainer diContainer)
         {
             return new DealDamageAction(_damage);
         }

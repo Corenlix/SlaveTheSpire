@@ -2,13 +2,9 @@ namespace Entities
 {
     public class Player : Entity
     {
-        public BoundedValue Energy => _energy;
-        private BoundedValue _energy;
-
-        private void Start()
+        public void Init(BoundedValue health)
         {
-            InitHealth(3);
-            _energy = new BoundedValue(3, 3);
+            InitHealth(health);
         }
     }
 }

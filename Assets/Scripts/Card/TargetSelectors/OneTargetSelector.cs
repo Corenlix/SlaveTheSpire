@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace Card.TargetSelectors
 {
-    public class Attack : CardTargetSelector
+    public class OneTargetSelector : CardTargetSelector
     {
         [SerializeField] private Image _cursor;
         [SerializeField] private float _smoothless;

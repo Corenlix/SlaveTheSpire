@@ -6,17 +6,20 @@ namespace Infrastructure.GameState
     {
         private readonly GameStateMachine _gameStateMachine;
         private readonly IGameFactory _gameFactory;
+        private readonly IPlayerHolder _playerHolder;
         private readonly GameContainer _gameContainer;
 
-        public PlayerTurnState(GameStateMachine gameStateMachine, IGameFactory gameFactory, GameContainer gameContainer)
+        public PlayerTurnState(GameStateMachine gameStateMachine, IGameFactory gameFactory, IPlayerHolder playerHolder, GameContainer gameContainer)
         {
             _gameStateMachine = gameStateMachine;
             _gameFactory = gameFactory;
+            _playerHolder = playerHolder;
             _gameContainer = gameContainer;
         }
         
         public void Enter()
         {
+            _playerHolder.Energy.Refresh();
             _gameContainer.UIContainer.EndTurnButton.onClick.AddListener(FinishStep);
             
             var playerDeck = _gameContainer.UIContainer.PlayerDeck;

@@ -5,9 +5,9 @@ namespace Infrastructure
 {
     public interface IEnemiesHolder
     {
-        void AddEnemy(Enemy enemy);
+        event Action AllEnemiesStepped;
+        void Add(Enemy enemy);
         void Step();
-        void RemoveEnemy(Enemy enemy);
-        event Action AllEnemySteped;
+        void Remove(Enemy enemy);
     }
 }

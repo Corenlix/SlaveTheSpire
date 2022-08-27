@@ -9,8 +9,8 @@ namespace Card.TargetSelectors
         {
             return targetSelectorType switch
             {
-                CardTargetSelectorType.Attack => parent.AddComponent<Attack>(),
-                CardTargetSelectorType.Defense => parent.AddComponent<Defense>(),
+                CardTargetSelectorType.OneTarget => parent.AddComponent<OneTargetSelector>(),
+                CardTargetSelectorType.NoTarget => parent.AddComponent<NoTargetSelector>(),
                 _ => throw new InvalidEnumArgumentException(targetSelectorType.ToString())
             };
         }

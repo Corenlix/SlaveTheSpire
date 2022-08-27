@@ -1,11 +1,17 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
+using UnityEngine;
 using Card;
+using Card.Actions;
+using Card.Actions.Data;
 using Card.TargetSelectors;
 using Deck;
 using Entities;
 using Infrastructure.Assets;
 using Infrastructure.Factories;
 using Infrastructure.StaticData;
+using Mono.Collections.Generic;
 using Zenject;
 
 namespace Infrastructure
@@ -16,20 +22,22 @@ namespace Infrastructure
         private readonly IAssetProvider _assetProvider;
         private readonly IStaticDataService _staticDataService;
         private readonly ICardTargetSelectorFactory _cardTargetSelectorFactory;
+        private CardActivator _cardActivator;
 
-        public GameFactory(DiContainer diContainer, IAssetProvider assetProvider, IStaticDataService staticDataService, ICardTargetSelectorFactory cardTargetSelectorFactory)
+        public GameFactory(DiContainer diContainer, IAssetProvider assetProvider, IStaticDataService staticDataService, ICardTargetSelectorFactory cardTargetSelectorFactory, CardActivator cardActivator)
         {
             _diContainer = diContainer;
             _assetProvider = assetProvider;
             _staticDataService = staticDataService;
             _cardTargetSelectorFactory = cardTargetSelectorFactory;
+            _cardActivator = cardActivator;
         }
         
         public CardHolder SpawnCard(DeckView deck, CardId cardId)
         {
             CardHolder cardHolder = _assetProvider.Instantiate<CardHolder>(AssetPath.CardPath);
             CardStaticData cardStaticData = _staticDataService.ForCard(cardId);
-            cardHolder.Init(cardStaticData);
+            cardHolder.Init(cardStaticData, _cardActivator);
             deck.AddCard(cardHolder);
             return cardHolder;
         }
@@ -42,11 +50,10 @@ namespace Infrastructure
             return pool;
         }
 
-        public CardMover SpawnCardMover(DeckView deck)
+        public CardSelectStateMachine SpawnCardMover()
         {
-            CardMover cardMover = _assetProvider.Instantiate<CardMover>(AssetPath.CardMoverPath);
-            cardMover.UseDeck(deck);
-            return cardMover;
+            CardSelectStateMachine cardSelectStateMachine = _assetProvider.Instantiate<CardSelectStateMachine>(AssetPath.CardMoverPath);
+            return cardSelectStateMachine;
         }
 
         public UIContainer SpawnUIContainer()

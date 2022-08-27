@@ -2,7 +2,9 @@ using System;
 
 public class BoundedValue
 {
-    public event Action ValueChanged; 
+    public event Action ValueChanged;
+    public event Action ValueRefreshed;
+    
     public int CurrentValue { get; private set; }
     public int MaxValue { get; private set; }
 
@@ -22,6 +24,12 @@ public class BoundedValue
             
         CurrentValue = Math.Clamp(CurrentValue + value, 0, MaxValue);
         ValueChanged?.Invoke();
+    }
+
+    public void Refresh()
+    {
+        CurrentValue = MaxValue;
+        ValueRefreshed?.Invoke();
     }
 
     public BoundedValue(int maxValue) : this(maxValue, maxValue)

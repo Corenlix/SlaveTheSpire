@@ -6,7 +6,7 @@ namespace Infrastructure
 {
     public class EnemiesHolder : IEnemiesHolder
     {
-        public event Action AllEnemySteped;
+        public event Action AllEnemiesStepped;
 
         private readonly GameContainer _gameContainer;
         private readonly List<Enemy> _enemies = new();
@@ -17,11 +17,11 @@ namespace Infrastructure
             _gameContainer = gameContainer;
         }
 
-        public void AddEnemy(Enemy enemy)
+        public void Add(Enemy enemy)
         {
             _enemies.Add(enemy);
             _gameContainer.Location.EnemiesContainer.Add(enemy);
-            enemy.Destroyed += RemoveEnemy;
+            enemy.Destroyed += Remove;
         }
 
         public void Step()
@@ -44,15 +44,15 @@ namespace Infrastructure
             }
             else
             {
-                AllEnemySteped?.Invoke();
+                AllEnemiesStepped?.Invoke();
             }
         }
 
-        public void RemoveEnemy(Enemy enemy)
+        public void Remove(Enemy enemy)
         {
             _gameContainer.Location.EnemiesContainer.Remove(enemy);
             _enemies.Remove(enemy);
-            enemy.Destroyed -= RemoveEnemy;
+            enemy.Destroyed -= Remove;
         }
     }
 }

@@ -10,9 +10,9 @@ namespace Entities
         [SerializeField] private TextValueView _healthText;
         private BoundedValue _health;
 
-        protected void InitHealth(int maxHealth)
+        protected void InitHealth(BoundedValue health)
         {
-            _health = new BoundedValue(maxHealth);
+            _health = health;
             _healthBar.Init(_health);
             _healthText.Init(_health);
         }

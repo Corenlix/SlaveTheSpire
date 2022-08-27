@@ -13,7 +13,7 @@
         
         public void Enter()
         {
-            _enemiesHolder.AllEnemySteped += EndStep; 
+            _enemiesHolder.AllEnemiesStepped += EndStep; 
             _enemiesHolder.Step();
         }
 
@@ -24,7 +24,7 @@
 
         public void Exit()
         {
-            _enemiesHolder.AllEnemySteped -= EndStep;
+            _enemiesHolder.AllEnemiesStepped -= EndStep;
         }
     }
 }
