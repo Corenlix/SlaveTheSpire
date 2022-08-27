@@ -1,12 +1,16 @@
 using System;
+using Infrastructure;
 using Infrastructure.StaticData;
 
 namespace Entities
 {
     public abstract class Enemy : Entity
     {
+        public abstract event Action EnemySteped;
+
         public event Action<Enemy> Destroyed;
 
+        private EnemiesHolder _enemiesHolder;
         public void Init(EnemyStaticData staticData)
         {
             InitHealth(staticData.MaxHealth);
@@ -14,7 +18,7 @@ namespace Entities
         }
         
         protected abstract void OnInit(EnemyStaticData staticData);
-
+        
         public void Step()
         {
             OnStep();

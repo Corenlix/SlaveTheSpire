@@ -1,4 +1,5 @@
-﻿using Entities;
+﻿using System;
+using Entities;
 
 namespace Infrastructure
 {
@@ -7,5 +8,6 @@ namespace Infrastructure
         void AddEnemy(Enemy enemy);
         void Step();
         void RemoveEnemy(Enemy enemy);
+        event Action AllEnemySteped;
     }
 }

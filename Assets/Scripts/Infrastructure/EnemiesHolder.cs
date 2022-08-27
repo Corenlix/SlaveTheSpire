@@ -1,12 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Entities;
 
 namespace Infrastructure
 {
     public class EnemiesHolder : IEnemiesHolder
     {
+        public event Action AllEnemySteped;
+
         private readonly GameContainer _gameContainer;
         private readonly List<Enemy> _enemies = new();
+        private IEnumerator<Enemy> _enemiesStepEnumerator;
 
         public EnemiesHolder(GameContainer gameContainer)
         {
@@ -22,22 +26,25 @@ namespace Infrastructure
 
         public void Step()
         {
-            Step(_enemies.GetEnumerator());
+            _enemiesStepEnumerator = _enemies.GetEnumerator();
+            StepByEnemy();
         }
 
-        private void Step(IEnumerator<Enemy> byEnemies)
+        private void StepByEnemy()
         {
-            byEnemies.MoveNext();
+            if(_enemiesStepEnumerator.Current != null)
+                _enemiesStepEnumerator.Current.EnemySteped -= StepByEnemy;
             
-            if (byEnemies.Current)
+            _enemiesStepEnumerator.MoveNext();
+            
+            if (_enemiesStepEnumerator.Current)
             {
-                byEnemies.Current.Step();
-                //подписываешься на событие врага тип когда он подходит => когда походит вызываешь Step(byEnemies)
-                Step(byEnemies);
+                _enemiesStepEnumerator.Current.EnemySteped += StepByEnemy;
+                _enemiesStepEnumerator.Current.Step();
             }
             else
             {
-                //вызываешь событие что все походили
+                AllEnemySteped?.Invoke();
             }
         }
 

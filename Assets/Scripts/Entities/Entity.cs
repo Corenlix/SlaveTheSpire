@@ -1,4 +1,5 @@
-﻿using UIElements;
+﻿using System;
+using UIElements;
 using UnityEngine;
 
 namespace Entities
