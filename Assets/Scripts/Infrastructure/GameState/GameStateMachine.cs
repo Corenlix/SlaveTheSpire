@@ -15,7 +15,7 @@ namespace Infrastructure.GameState
             _states = new Dictionary<Type, IState>
             {
                 {typeof(LoadLevelState), new LoadLevelState(this, gameFactory, enemiesHolder, playerHolder, finderUnderCursor, gameContainer)},
-                {typeof(PlayerTurnState), new PlayerTurnState(this, gameFactory, gameContainer)},
+                {typeof(PlayerTurnState), new PlayerTurnState(this, gameFactory, playerHolder, gameContainer)},
                 {typeof(EnemyTurnState), new EnemyTurnState(this, enemiesHolder)}
             };
 

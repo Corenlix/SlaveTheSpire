@@ -6,6 +6,7 @@ using Card.Actions.Data;
 using Card.TargetSelectors;
 using Infrastructure;
 using UnityEngine;
+using Zenject;
 
 
 [CreateAssetMenu(menuName = "Card/Card", order = 0)]
@@ -24,6 +25,6 @@ public class CardStaticData : ScriptableObject
     public int Cost => _cost;
     public Sprite Icon => _icon;
     public CardTargetSelectorType CardTargetSelectorType => cardTargetSelectorType;
-    public List<ICardAction> CardActions => _actionsData.Select(x=>x.GetCardAction()).ToList();
+    public List<ICardAction> GetCardActions(DiContainer diContainer) => _actionsData.Select(x=>x.GetCardAction(diContainer)).ToList();
     public CardId Id => _id;
 }
