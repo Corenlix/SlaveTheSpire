@@ -9,7 +9,7 @@ namespace UIElements
         
         protected override void UpdateView(int currentValue, int maxValue)
         {
-            _fill.fillAmount = currentValue/maxValue;
+            _fill.fillAmount = (float)currentValue/maxValue;
         }
     }
 }
