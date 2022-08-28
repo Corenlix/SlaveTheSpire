@@ -7,10 +7,10 @@ namespace Entities
     public abstract class Enemy : Entity
     {
         public abstract event Action EnemyStepped;
-
         public event Action<Enemy> Destroyed;
 
         private EnemiesHolder _enemiesHolder;
+        
         public void Init(EnemyStaticData staticData)
         {
             InitHealth(new BoundedValue(staticData.MaxHealth));
@@ -28,6 +28,7 @@ namespace Entities
 
         private void OnDestroy()
         {
+            
             Destroyed?.Invoke(this);
         }
     }
