@@ -1,5 +1,6 @@
 ﻿using System;
 using Infrastructure;
+using Infrastructure.Factories;
 using Infrastructure.StaticData;
 using UnityEngine;
 using Zenject;
@@ -11,12 +12,14 @@ namespace Entities
         public override event Action EnemyStepped;
 
         private IPlayerHolder _playerHolder;
+        private IGameFactory _gameFactory;
         private int _damage;
 
         [Inject]
-        private void Inject(IPlayerHolder playerHolder)
+        private void Inject(IPlayerHolder playerHolder, IGameFactory gameFactory)
         {
             _playerHolder = playerHolder;
+            _gameFactory = gameFactory;
         }
         
         protected override void OnInit(EnemyStaticData staticData)
@@ -42,6 +45,7 @@ namespace Entities
         private void OnAttack()
         {
             _playerHolder.Health.Subtract(_damage);
+            _gameFactory.SpawnDamageEffect(_damage, _playerHolder.Position);
         }
 
         private void OnEndAttack()

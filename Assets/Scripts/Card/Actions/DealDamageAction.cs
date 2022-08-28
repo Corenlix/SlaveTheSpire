@@ -1,20 +1,27 @@
 ﻿using System.Collections.Generic;
 using Entities;
+using Infrastructure.Factories;
 
 namespace Card.Actions
 {
     public class DealDamageAction : ICardAction
     {
         private readonly int _damage;
+        private readonly IGameFactory _gameFactory;
 
-        public DealDamageAction(int damage)
+        public DealDamageAction(int damage, IGameFactory gameFactory)
         {
             _damage = damage;
+            _gameFactory = gameFactory;
         }
         
         public void Activate(List<Entity> targets)
         {
-            targets.ForEach(x=>x.TakeDamage(_damage));
+            foreach (var target in targets)
+            {
+                target.Health.Subtract(_damage);
+                _gameFactory.SpawnDamageEffect(_damage, target.transform.position);
+            }
         }
     }
 }

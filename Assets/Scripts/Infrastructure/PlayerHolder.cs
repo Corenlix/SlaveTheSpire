@@ -1,11 +1,14 @@
 ﻿using Entities;
+using UnityEngine;
 
 namespace Infrastructure
 {
     public class PlayerHolder : IPlayerHolder
     {
-        public BoundedValue Energy { get; private set; }
-        public BoundedValue Health { get; private set; }
+        public BoundedValue Energy { get; }
+        public BoundedValue Health { get; }
+
+        public Vector3 Position => _player.transform.position;
 
         private Player _player;
 
