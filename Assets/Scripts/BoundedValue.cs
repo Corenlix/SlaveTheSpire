@@ -30,6 +30,7 @@ public class BoundedValue
     {
         CurrentValue = MaxValue;
         ValueRefreshed?.Invoke();
+        ValueChanged?.Invoke();
     }
 
     public BoundedValue(int maxValue) : this(maxValue, maxValue)
