@@ -1,6 +1,5 @@
 ﻿using Card.TargetSelectors;
 using Deck;
-using Infrastructure;
 using Utilities;
 
 namespace Card.SelectStateMachine
@@ -9,24 +8,22 @@ namespace Card.SelectStateMachine
     {
         private readonly CardSelectStateMachine _stateMachine;
         private readonly FinderUnderCursor _finderUnderCursor;
-        private DeckView _deckView;
+        private readonly DeckView _deckView;
         private readonly CardTargetSelectorsPool _cardTargetSelectorsPool;
-        private readonly IPlayerHolder _playerHolder;
 
-        public NoneCardState(CardSelectStateMachine stateMachine, FinderUnderCursor finderUnderCursor, DeckView deckView, CardTargetSelectorsPool cardTargetSelectorsPool, IPlayerHolder playerHolder)
+        public NoneCardState(CardSelectStateMachine stateMachine, FinderUnderCursor finderUnderCursor, DeckView deckView, CardTargetSelectorsPool cardTargetSelectorsPool)
         {
             _stateMachine = stateMachine;
             _finderUnderCursor = finderUnderCursor;
             _deckView = deckView;
             _cardTargetSelectorsPool = cardTargetSelectorsPool;
-            _playerHolder = playerHolder;
         }
         
         public override void Update()
         {
             CardHolder cardUnderCursor = _finderUnderCursor.FindObjectUnderCursor<CardHolder>();
             if(cardUnderCursor != null)
-                _stateMachine.Transit(new HoldCardState(_stateMachine, _finderUnderCursor, _deckView, cardUnderCursor, _cardTargetSelectorsPool, _playerHolder));
+                _stateMachine.Transit(new HoldCardState(_stateMachine, _finderUnderCursor, _deckView, cardUnderCursor, _cardTargetSelectorsPool));
         }
     }
 }

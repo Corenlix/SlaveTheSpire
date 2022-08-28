@@ -13,27 +13,19 @@ namespace Card.SelectStateMachine
         private readonly DeckView _deckView;
         private readonly CardTargetSelectorsPool _cardTargetSelectors;
         private readonly CardHolder _selectedCard;
-        private readonly IPlayerHolder _playerHolder;
 
-        public SelectingCardState(CardSelectStateMachine stateMachine, FinderUnderCursor finderUnderCursor, DeckView deckView, CardTargetSelectorsPool cardTargetSelectors, CardHolder selectedCard, IPlayerHolder playerHolder)
+        public SelectingCardState(CardSelectStateMachine stateMachine, FinderUnderCursor finderUnderCursor, DeckView deckView, CardTargetSelectorsPool cardTargetSelectors, CardHolder selectedCard)
         {
             _stateMachine = stateMachine;
             _finderUnderCursor = finderUnderCursor;
             _deckView = deckView;
             _cardTargetSelectors = cardTargetSelectors;
             _selectedCard = selectedCard;
-            _playerHolder = playerHolder;
 
             var selector = cardTargetSelectors.Get(selectedCard.CardStaticData.CardTargetSelectorType);
             selector.StartSelecting(selectedCard);
-            selector.Selected += OnCardUsed;
+            selector.Selected += TransitionToNone;
             selectedCard.Destroyed += OnCardDestroyed;
-        }
-
-        private void OnCardUsed()
-        {
-            _playerHolder.Energy.Subtract(_selectedCard.CardStaticData.Cost);
-            TransitionToNone();
         }
 
         private void OnCardDestroyed(CardHolder cardHolder)
@@ -45,10 +37,10 @@ namespace Card.SelectStateMachine
         {
             _deckView.DeselectCard();
             var selector = _cardTargetSelectors.Get(_selectedCard.CardStaticData.CardTargetSelectorType);
-            selector.Selected -= OnCardUsed;
+            selector.Selected -= TransitionToNone;
             _selectedCard.Destroyed -= OnCardDestroyed;
             selector.FinishSelecting();
-            _stateMachine.Transit(new NoneCardState(_stateMachine, _finderUnderCursor, _deckView, _cardTargetSelectors, _playerHolder));
+            _stateMachine.Transit(new NoneCardState(_stateMachine, _finderUnderCursor, _deckView, _cardTargetSelectors));
         }
 
         public override void Update()

@@ -12,16 +12,14 @@ namespace Card.SelectStateMachine
         private readonly DeckView _deckView;
         private readonly CardHolder _selectedCard;
         private readonly CardTargetSelectorsPool _cardTargetSelectorsPool;
-        private readonly IPlayerHolder _playerHolder;
 
-        public HoldCardState(CardSelectStateMachine cardSelectStateMachine, FinderUnderCursor finderUnderCursor, DeckView deckView, CardHolder selectedCard, CardTargetSelectorsPool cardTargetSelectorsPool, IPlayerHolder playerHolder)
+        public HoldCardState(CardSelectStateMachine cardSelectStateMachine, FinderUnderCursor finderUnderCursor, DeckView deckView, CardHolder selectedCard, CardTargetSelectorsPool cardTargetSelectorsPool)
         {
             _cardSelectStateMachine = cardSelectStateMachine;
             _finderUnderCursor = finderUnderCursor;
             _deckView = deckView;
             _selectedCard = selectedCard;
             _cardTargetSelectorsPool = cardTargetSelectorsPool;
-            _playerHolder = playerHolder;
             deckView.SelectCard(selectedCard);
         }
         
@@ -31,7 +29,7 @@ namespace Card.SelectStateMachine
             if (_selectedCard != cardHolderUnderCursor)
             {
                 _deckView.DeselectCard();
-                _cardSelectStateMachine.Transit(new NoneCardState(_cardSelectStateMachine, _finderUnderCursor, _deckView, _cardTargetSelectorsPool, _playerHolder));
+                _cardSelectStateMachine.Transit(new NoneCardState(_cardSelectStateMachine, _finderUnderCursor, _deckView, _cardTargetSelectorsPool));
                 return;
             } 
             
@@ -39,7 +37,7 @@ namespace Card.SelectStateMachine
             {
                 if (_selectedCard.IsAvailableToUse())
                     _cardSelectStateMachine.Transit(new SelectingCardState(_cardSelectStateMachine, _finderUnderCursor,
-                        _deckView, _cardTargetSelectorsPool, _selectedCard, _playerHolder));
+                        _deckView, _cardTargetSelectorsPool, _selectedCard));
                 else Debug.Log("Can't use");
             }
         }

@@ -10,9 +10,9 @@ namespace Card.SelectStateMachine
     {
         private CardState _currentState;
         
-        public void Init(CardTargetSelectorsPool cardTargetSelectors, DeckView deckView, FinderUnderCursor finderUnderCursor, IPlayerHolder playerHolder)
+        public void Init(CardTargetSelectorsPool cardTargetSelectors, DeckView deckView, FinderUnderCursor finderUnderCursor)
         {
-            _currentState = new NoneCardState(this, finderUnderCursor, deckView, cardTargetSelectors, playerHolder);
+            _currentState = new NoneCardState(this, finderUnderCursor, deckView, cardTargetSelectors);
         }
 
         internal void Transit(CardState cardState)

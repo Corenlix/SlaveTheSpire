@@ -33,7 +33,7 @@ namespace Infrastructure.GameState
             var targetSelectorsPool = _gameFactory.SpawnCardTargetSelectorsPool();
             targetSelectorsPool.transform.SetParent(canvasTransform);
             var cardMover = _gameFactory.SpawnCardMover();
-            cardMover.Init(targetSelectorsPool, playerDeck, _finderUnderCursor, _playerHolder);
+            cardMover.Init(targetSelectorsPool, playerDeck, _finderUnderCursor);
             _gameContainer.UIContainer.EnergyView.Init(_playerHolder.Energy);
 
             _gameContainer.Location = _gameFactory.SpawnLocation();
