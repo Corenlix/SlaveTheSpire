@@ -1,4 +1,5 @@
 using Infrastructure.Factories;
+using Infrastructure.StaticData;
 
 namespace Infrastructure.GameState
 {
@@ -7,25 +8,24 @@ namespace Infrastructure.GameState
         private readonly GameStateMachine _gameStateMachine;
         private readonly IGameFactory _gameFactory;
         private readonly IPlayerHolder _playerHolder;
-        private readonly GameContainer _gameContainer;
+        private readonly SceneContainer _sceneContainer;
 
-        public PlayerTurnState(GameStateMachine gameStateMachine, IGameFactory gameFactory, IPlayerHolder playerHolder, GameContainer gameContainer)
+        public PlayerTurnState(GameStateMachine gameStateMachine, IGameFactory gameFactory, IPlayerHolder playerHolder, SceneContainer sceneContainer)
         {
             _gameStateMachine = gameStateMachine;
             _gameFactory = gameFactory;
             _playerHolder = playerHolder;
-            _gameContainer = gameContainer;
+            _sceneContainer = sceneContainer;
         }
         
         public void Enter()
         {
             _playerHolder.Energy.Refresh();
-            _gameContainer.UIContainer.EndTurnButton.onClick.AddListener(FinishStep);
+            _sceneContainer.UIContainer.EndTurnButton.onClick.AddListener(FinishStep);
             
-            var playerDeck = _gameContainer.UIContainer.PlayerDeck;
             for (int i = 0; i < 6; i++)
             {
-                _gameFactory.SpawnCard(playerDeck, CardId.Damage);
+                _gameFactory.SpawnCard(CardId.TestBuff);
             }
         }
 
@@ -36,8 +36,8 @@ namespace Infrastructure.GameState
 
         public void Exit()
         {
-            _gameContainer.UIContainer.EndTurnButton.onClick.RemoveListener(FinishStep);
-            _gameContainer.UIContainer.PlayerDeck.DiscardCards();
+            _sceneContainer.UIContainer.EndTurnButton.onClick.RemoveListener(FinishStep);
+            _sceneContainer.UIContainer.PlayerDeck.DiscardCards();
         }
     }
 }

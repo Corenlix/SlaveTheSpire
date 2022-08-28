@@ -13,19 +13,12 @@ namespace Entities
         
         public void Init(EnemyStaticData staticData)
         {
-            InitHealth(new BoundedValue(staticData.MaxHealth));
+            InitView(new BoundedValue(staticData.MaxHealth), staticData.Name);
             OnInit(staticData);
         }
         
         protected abstract void OnInit(EnemyStaticData staticData);
         
-        public void Step()
-        {
-            OnStep();
-        }
-        
-        protected abstract void OnStep();
-
         private void OnDestroy()
         {
             

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Zenject;
 
-namespace Infrastructure
+namespace Infrastructure.Assets
 {
     public class AssetProvider : IAssetProvider
     {

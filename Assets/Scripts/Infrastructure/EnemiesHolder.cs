@@ -8,19 +8,19 @@ namespace Infrastructure
     {
         public event Action AllEnemiesStepped;
 
-        private readonly GameContainer _gameContainer;
+        private readonly SceneContainer _sceneContainer;
         private readonly List<Enemy> _enemies = new();
         private IEnumerator<Enemy> _enemiesStepEnumerator;
 
-        public EnemiesHolder(GameContainer gameContainer)
+        public EnemiesHolder(SceneContainer sceneContainer)
         {
-            _gameContainer = gameContainer;
+            _sceneContainer = sceneContainer;
         }
 
         public void Add(Enemy enemy)
         {
             _enemies.Add(enemy);
-            _gameContainer.Location.EnemiesContainer.Add(enemy);
+            _sceneContainer.Location.EnemiesContainer.Add(enemy);
             enemy.Destroyed += Remove;
         }
 
@@ -50,7 +50,7 @@ namespace Infrastructure
 
         public void Remove(Enemy enemy)
         {
-            _gameContainer.Location.EnemiesContainer.Remove(enemy);
+            _sceneContainer.Location.EnemiesContainer.Remove(enemy);
             _enemies.Remove(enemy);
             enemy.Destroyed -= Remove;
         }

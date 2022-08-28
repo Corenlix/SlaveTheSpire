@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Damage
   _description: Deals 1 damage
-  _cost: 2
+  _cost: 1
   _icon: {fileID: 0}
   cardTargetSelectorType: 0
   _actionsData:

@@ -36,9 +36,11 @@ namespace Card.TargetSelectors
             {
                 if (_selectedEnemy != enemy)
                 {
+                    if(_selectedEnemy)
+                        _selectedEnemy.Deselect();
+                    
                     _selectedEnemy = enemy;
-                    enemy.transform.DOKill();
-                    enemy.transform.DOScale(1.15f, 0.1f);
+                    enemy.Select();
                     
                     _cursor.DOKill();
                     _cursor.DOColor(_toColor, 0.25f);
@@ -53,7 +55,7 @@ namespace Card.TargetSelectors
             {
                 _cursor.DOKill();
                 _cursor.DOColor(_defaultColor, 0.1f);
-                _selectedEnemy.transform.DOScale(1, 0.25f);
+                _selectedEnemy.Deselect();
                 _selectedEnemy = null;
             }
         }
@@ -65,8 +67,7 @@ namespace Card.TargetSelectors
             {
                 _cursor.DOKill();
                 _cursor.color = _defaultColor;
-                _selectedEnemy.transform.DOKill();
-                _selectedEnemy.transform.DOScale(1, 0.5f);
+                _selectedEnemy.Deselect();
                 _selectedEnemy = null;
             }
         }
