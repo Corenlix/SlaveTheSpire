@@ -21,7 +21,7 @@ namespace Entities
         
         protected override void OnInit(EnemyStaticData staticData)
         {
-            var testEnemyStaticData = (TestEnemyStaticData) staticData;
+            var testEnemyStaticData = (DefaultEnemyStaticData) staticData;
             _damage = testEnemyStaticData.Damage;
         }
 

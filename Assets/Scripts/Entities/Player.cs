@@ -4,7 +4,7 @@ namespace Entities
     {
         public void Init(BoundedValue health)
         {
-            InitHealth(health);
+            InitView(health, "Player");
         }
     }
 }

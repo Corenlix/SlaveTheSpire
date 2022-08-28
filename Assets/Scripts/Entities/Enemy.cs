@@ -13,7 +13,7 @@ namespace Entities
         private EnemiesHolder _enemiesHolder;
         public void Init(EnemyStaticData staticData)
         {
-            InitHealth(new BoundedValue(staticData.MaxHealth));
+            InitView(new BoundedValue(staticData.MaxHealth), staticData.Name);
             OnInit(staticData);
         }
         

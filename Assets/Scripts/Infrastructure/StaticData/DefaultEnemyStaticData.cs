@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace Infrastructure.StaticData
 {
-    [CreateAssetMenu(menuName = "Enemy/Test Enemy")]
-    public class TestEnemyStaticData : EnemyStaticData
+    [CreateAssetMenu(menuName = "Enemy/Default Enemy")]
+    public class DefaultEnemyStaticData : EnemyStaticData
     {
         [SerializeField] private Enemy _enemyPrefab;
         [SerializeField] private int _damage;

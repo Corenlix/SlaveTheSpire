@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 0
   _maxHealth: 5
+  _name: Lox
   _enemyPrefab: {fileID: 1390791767848761237, guid: 66127a55f97400d4cb2a5b3e0666ed74, type: 3}
   _damage: 1
