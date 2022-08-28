@@ -7,9 +7,9 @@ namespace Infrastructure.StaticData
     public class TestEnemyStaticData : EnemyStaticData
     {
         [SerializeField] private Enemy _enemyPrefab;
-        [SerializeField] private string _name;
+        [SerializeField] private int _damage;
         
         public override Enemy EnemyPrefab => _enemyPrefab;
-        public string Name => _name;
+        public int Damage => _damage;
     }
 }

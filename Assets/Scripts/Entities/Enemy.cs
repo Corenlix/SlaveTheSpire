@@ -6,7 +6,7 @@ namespace Entities
 {
     public abstract class Enemy : Entity
     {
-        public abstract event Action EnemySteped;
+        public abstract event Action EnemyStepped;
 
         public event Action<Enemy> Destroyed;
 

@@ -33,13 +33,13 @@ namespace Infrastructure
         private void StepByEnemy()
         {
             if(_enemiesStepEnumerator.Current != null)
-                _enemiesStepEnumerator.Current.EnemySteped -= StepByEnemy;
+                _enemiesStepEnumerator.Current.EnemyStepped -= StepByEnemy;
             
             _enemiesStepEnumerator.MoveNext();
             
             if (_enemiesStepEnumerator.Current)
             {
-                _enemiesStepEnumerator.Current.EnemySteped += StepByEnemy;
+                _enemiesStepEnumerator.Current.EnemyStepped += StepByEnemy;
                 _enemiesStepEnumerator.Current.Step();
             }
             else

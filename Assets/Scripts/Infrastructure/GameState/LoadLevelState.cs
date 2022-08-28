@@ -42,6 +42,7 @@ namespace Infrastructure.GameState
             player.transform.position = _gameContainer.Location.PlayerSpawnPoint.position;
             _playerHolder.SetPlayer(player);
             _enemiesHolder.Add(_gameFactory.SpawnEnemy(EnemyId.Test));
+            _enemiesHolder.Add(_gameFactory.SpawnEnemy(EnemyId.Test));
 
             _gameStateMachine.Enter<PlayerTurnState>();
         }

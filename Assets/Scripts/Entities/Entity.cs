@@ -4,8 +4,12 @@ using UnityEngine;
 
 namespace Entities
 {
-    public class Entity : MonoBehaviour
+    public class Entity : MonoBehaviour, IAnimatorStateListener
     {
+        public event Action<AnimatorStateInfo> StateEntered;
+        public event Action<AnimatorStateInfo> StateExited;
+
+        [SerializeField] protected Animator Animator;
         [SerializeField] private BarValueView _healthBar;
         [SerializeField] private TextValueView _healthText;
         private BoundedValue _health;
@@ -21,5 +25,11 @@ namespace Entities
         {
             _health.Subtract(value);
         }
+
+        public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) => 
+            StateEntered?.Invoke(stateInfo);
+
+        public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) =>
+            StateExited?.Invoke(stateInfo);
     }
 }
