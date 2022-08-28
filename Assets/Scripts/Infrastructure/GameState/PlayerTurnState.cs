@@ -23,9 +23,10 @@ namespace Infrastructure.GameState
             _playerHolder.Energy.Refresh();
             _sceneContainer.UIContainer.EndTurnButton.onClick.AddListener(FinishStep);
             
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 3; i++)
             {
                 _gameFactory.SpawnCard(CardId.TestBuff);
+                _gameFactory.SpawnCard(CardId.Damage);
             }
         }
 

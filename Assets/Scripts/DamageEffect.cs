@@ -2,7 +2,7 @@ using Entities;
 using TMPro;
 using UnityEngine;
 
-public class EffectView : MonoBehaviour, IAnimatorStateListener
+public class DamageEffect : MonoBehaviour, IAnimatorStateListener
 {
     [SerializeField] private TextMeshProUGUI _text;
 
@@ -10,6 +10,7 @@ public class EffectView : MonoBehaviour, IAnimatorStateListener
     {
         _text.text = value.ToString();
     }
+    
     public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         
