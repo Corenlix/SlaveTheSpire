@@ -1,9 +1,8 @@
 ﻿namespace Infrastructure.StaticData
 {
-    public enum CardId
+    public enum BuffId
     {
+        None,
         Test,
-        Damage,
-        TestBuff,
     }
 }

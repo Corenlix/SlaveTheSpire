@@ -21,7 +21,7 @@ namespace Infrastructure
             Container.Bind<IPlayerHolder>().To<PlayerHolder>().AsSingle();
             Container.Bind<FinderUnderCursor>().AsSingle();
             Container.Bind<LocationInstaller>().AsSingle();
-            Container.Bind<GameContainer>().AsSingle();
+            Container.Bind<SceneContainer>().AsSingle();
             Container.Bind<GameStateMachine>().AsSingle().NonLazy();
         }
     }

@@ -11,7 +11,7 @@ namespace Infrastructure
 
         public PlayerHolder()
         {
-            Health = new BoundedValue(5);
+            Health = new BoundedValue(15);
             Energy = new BoundedValue(3);
         }
 

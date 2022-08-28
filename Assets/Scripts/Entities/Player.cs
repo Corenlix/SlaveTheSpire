@@ -6,5 +6,10 @@ namespace Entities
         {
             InitView(health, "Player");
         }
+
+        protected override void OnStep()
+        {
+            
+        }
     }
 }

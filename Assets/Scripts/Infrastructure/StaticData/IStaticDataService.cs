@@ -4,5 +4,6 @@
     {
         CardStaticData ForCard(CardId cardId);
         EnemyStaticData ForEnemy(EnemyId id);
+        BuffIconStaticData BuffIconData { get; }
     }
 }

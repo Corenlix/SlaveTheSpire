@@ -19,13 +19,6 @@ namespace Entities
         
         protected abstract void OnInit(EnemyStaticData staticData);
         
-        public void Step()
-        {
-            OnStep();
-        }
-        
-        protected abstract void OnStep();
-
         private void OnDestroy()
         {
             Destroyed?.Invoke(this);

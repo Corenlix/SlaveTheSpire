@@ -1,11 +1,12 @@
 ﻿using System;
+using Entities.Buffs;
 using TMPro;
 using UIElements;
 using UnityEngine;
 
 namespace Entities
 {
-    public class Entity : MonoBehaviour, IAnimatorStateListener
+    public abstract class Entity : MonoBehaviour, IAnimatorStateListener
     {
         public event Action<AnimatorStateInfo> StateEntered;
         public event Action<AnimatorStateInfo> StateExited;
@@ -14,7 +15,10 @@ namespace Entities
         [SerializeField] private BarValueView _healthBar;
         [SerializeField] private TextValueView _healthText;
         [SerializeField] private TextMeshProUGUI _nameText;
+        [SerializeField] private BuffsHolder _buffsHolder;
         private BoundedValue _health;
+        
+        public BuffsHolder BuffsHolder => _buffsHolder;
 
         protected void InitView(BoundedValue health, string name)
         {
@@ -24,6 +28,14 @@ namespace Entities
             _nameText.text = name;
         }
 
+        public void Step()
+        {
+            OnStep();
+            _buffsHolder.Step();
+        }
+
+        protected abstract void OnStep();
+        
         public void TakeDamage(int value)
         {
             _health.Subtract(value);

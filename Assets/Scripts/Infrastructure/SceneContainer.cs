@@ -1,6 +1,6 @@
 ﻿namespace Infrastructure
 {
-    public class GameContainer
+    public class SceneContainer
     {
         public UIContainer UIContainer;
         public Location Location;
