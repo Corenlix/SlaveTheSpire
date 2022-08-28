@@ -6,13 +6,12 @@ using Zenject;
 
 namespace Entities
 {
-    public class TestEnemy : Enemy
+    public class DefaultEnemy : Enemy
     {
         public override event Action EnemyStepped;
 
-        private static readonly int Attack = Animator.StringToHash("Attack");
-        private int _damage;
         private IPlayerHolder _playerHolder;
+        private int _damage;
 
         [Inject]
         private void Inject(IPlayerHolder playerHolder)
@@ -28,19 +27,25 @@ namespace Entities
 
         protected override void OnStep()
         {
-            Animator.SetTrigger(Attack);
+            Animator.SetTrigger(AnimationNames.AttackTrigger);
             StateExited += OnStateExited;
         }
 
         private void OnStateExited(AnimatorStateInfo animatorStateInfo)
         {
-            if(animatorStateInfo.shortNameHash == Attack)
+            if (animatorStateInfo.shortNameHash == AnimationNames.FirstPhaseAttack)
                 OnAttack();
+            else if (animatorStateInfo.shortNameHash == AnimationNames.SecondPhaseAttack)
+                OnEndAttack();
         }
 
         private void OnAttack()
         {
             _playerHolder.Health.Subtract(_damage);
+        }
+
+        private void OnEndAttack()
+        {
             StateExited -= OnStateExited;
             EnemyStepped?.Invoke();
         }
