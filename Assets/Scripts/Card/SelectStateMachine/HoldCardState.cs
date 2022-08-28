@@ -4,9 +4,9 @@ using Infrastructure;
 using UnityEngine;
 using Utilities;
 
-namespace Card
+namespace Card.SelectStateMachine
 {
-    public class HoldCardState : CardState {
+    internal class HoldCardState : CardState {
         private readonly CardSelectStateMachine _cardSelectStateMachine;
         private readonly FinderUnderCursor _finderUnderCursor;
         private readonly DeckView _deckView;
@@ -31,13 +31,13 @@ namespace Card
             if (_selectedCard != cardHolderUnderCursor)
             {
                 _deckView.DeselectCard();
-                _cardSelectStateMachine.Transition(new NoneCardState(_cardSelectStateMachine, _finderUnderCursor, _deckView, _cardTargetSelectorsPool, _playerHolder));
+                _cardSelectStateMachine.Transit(new NoneCardState(_cardSelectStateMachine, _finderUnderCursor, _deckView, _cardTargetSelectorsPool, _playerHolder));
             } 
             else if(Input.GetMouseButtonDown(0))
             {
                 if(_playerHolder.Energy.CurrentValue < _selectedCard.CardStaticData.Cost)
                     Debug.Log("Not enough energy");
-                else _cardSelectStateMachine.Transition(new SelectingState(_cardSelectStateMachine, _finderUnderCursor, _deckView, _cardTargetSelectorsPool, _selectedCard, _playerHolder));
+                else _cardSelectStateMachine.Transit(new SelectingState(_cardSelectStateMachine, _finderUnderCursor, _deckView, _cardTargetSelectorsPool, _selectedCard, _playerHolder));
             }
         }
     }

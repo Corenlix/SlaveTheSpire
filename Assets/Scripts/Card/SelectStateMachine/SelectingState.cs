@@ -4,9 +4,9 @@ using Infrastructure;
 using UnityEngine;
 using Utilities;
 
-namespace Card
+namespace Card.SelectStateMachine
 {
-    public class SelectingState : CardState
+    internal class SelectingState : CardState
     {
         private readonly CardSelectStateMachine _stateMachine;
         private readonly FinderUnderCursor _finderUnderCursor;
@@ -27,6 +27,7 @@ namespace Card
             var selector = cardTargetSelectors.Get(selectedCard.CardStaticData.CardTargetSelectorType);
             selector.StartSelecting(selectedCard);
             selector.Selected += OnCardUsed;
+            selectedCard.Destroyed += OnCardDestroyed;
         }
 
         private void OnCardUsed()
@@ -35,13 +36,19 @@ namespace Card
             TransitionToNone();
         }
 
+        private void OnCardDestroyed(CardHolder cardHolder)
+        {
+            TransitionToNone();
+        }
+
         private void TransitionToNone()
         {
             _deckView.DeselectCard();
             var selector = _cardTargetSelectors.Get(_selectedCard.CardStaticData.CardTargetSelectorType);
             selector.Selected -= OnCardUsed;
+            _selectedCard.Destroyed -= OnCardDestroyed;
             selector.FinishSelecting();
-            _stateMachine.Transition(new NoneCardState(_stateMachine, _finderUnderCursor, _deckView, _cardTargetSelectors, _playerHolder));
+            _stateMachine.Transit(new NoneCardState(_stateMachine, _finderUnderCursor, _deckView, _cardTargetSelectors, _playerHolder));
         }
 
         public override void Update()

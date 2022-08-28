@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using Entities;
 using Infrastructure;
+using Infrastructure.StaticData;
 using UnityEngine;
 
 namespace Card

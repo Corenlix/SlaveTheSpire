@@ -4,7 +4,7 @@ using Infrastructure;
 using UnityEngine;
 using Utilities;
 
-namespace Card
+namespace Card.SelectStateMachine
 {
     public class CardSelectStateMachine : MonoBehaviour
     {
@@ -15,7 +15,7 @@ namespace Card
             _currentState = new NoneCardState(this, finderUnderCursor, deckView, cardTargetSelectors, playerHolder);
         }
 
-        public void Transition(CardState cardState)
+        internal void Transit(CardState cardState)
         {
             _currentState = cardState;
         }

@@ -1,4 +1,5 @@
 using Infrastructure.Factories;
+using Infrastructure.StaticData;
 
 namespace Infrastructure.GameState
 {

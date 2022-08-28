@@ -1,6 +1,6 @@
 ﻿using Card.TargetSelectors;
 
-namespace Infrastructure
+namespace Infrastructure.Factories
 {
     public interface ICardTargetSelectorFactory
     {

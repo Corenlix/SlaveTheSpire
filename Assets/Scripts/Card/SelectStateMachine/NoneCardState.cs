@@ -3,9 +3,9 @@ using Deck;
 using Infrastructure;
 using Utilities;
 
-namespace Card
+namespace Card.SelectStateMachine
 {
-    public class NoneCardState : CardState
+    internal class NoneCardState : CardState
     {
         private readonly CardSelectStateMachine _stateMachine;
         private readonly FinderUnderCursor _finderUnderCursor;
@@ -26,7 +26,7 @@ namespace Card
         {
             CardHolder cardUnderCursor = _finderUnderCursor.FindObjectUnderCursor<CardHolder>();
             if(cardUnderCursor != null)
-                _stateMachine.Transition(new HoldCardState(_stateMachine, _finderUnderCursor, _deckView, cardUnderCursor, _cardTargetSelectorsPool, _playerHolder));
+                _stateMachine.Transit(new HoldCardState(_stateMachine, _finderUnderCursor, _deckView, cardUnderCursor, _cardTargetSelectorsPool, _playerHolder));
         }
     }
 }

@@ -1,20 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using UnityEngine;
-using Card;
-using Card.Actions;
-using Card.Actions.Data;
+﻿using Card;
+using Card.SelectStateMachine;
 using Card.TargetSelectors;
 using Deck;
 using Entities;
 using Infrastructure.Assets;
-using Infrastructure.Factories;
 using Infrastructure.StaticData;
-using Mono.Collections.Generic;
+using UnityEngine;
 using Zenject;
 
-namespace Infrastructure
+namespace Infrastructure.Factories
 {
     public class GameFactory : IGameFactory
     {

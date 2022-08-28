@@ -3,7 +3,7 @@ using System.Linq;
 using Card.TargetSelectors;
 using UnityEngine;
 
-namespace Infrastructure
+namespace Infrastructure.Factories
 {
     public class CardTargetSelectorFactory : ICardTargetSelectorFactory
     {

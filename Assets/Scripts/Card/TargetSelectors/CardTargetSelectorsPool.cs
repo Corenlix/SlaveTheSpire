@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Infrastructure;
+using Infrastructure.Factories;
 using UnityEngine;
 
 namespace Card.TargetSelectors
