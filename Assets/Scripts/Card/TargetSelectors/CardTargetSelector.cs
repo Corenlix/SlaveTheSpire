@@ -8,6 +8,7 @@ namespace Card.TargetSelectors
     public abstract class CardTargetSelector : MonoBehaviour
     {
         public event Action Selected;
+        
         [SerializeField] private CardTargetSelectorType _selectorType;
         protected CardHolder SelectedCardHolder { get; private set; }
         private bool _isSelecting;

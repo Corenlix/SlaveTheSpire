@@ -6,7 +6,7 @@ using Utilities;
 
 namespace Card.SelectStateMachine
 {
-    internal class SelectingState : CardState
+    internal class SelectingCardState : CardState
     {
         private readonly CardSelectStateMachine _stateMachine;
         private readonly FinderUnderCursor _finderUnderCursor;
@@ -15,7 +15,7 @@ namespace Card.SelectStateMachine
         private readonly CardHolder _selectedCard;
         private readonly IPlayerHolder _playerHolder;
 
-        public SelectingState(CardSelectStateMachine stateMachine, FinderUnderCursor finderUnderCursor, DeckView deckView, CardTargetSelectorsPool cardTargetSelectors, CardHolder selectedCard, IPlayerHolder playerHolder)
+        public SelectingCardState(CardSelectStateMachine stateMachine, FinderUnderCursor finderUnderCursor, DeckView deckView, CardTargetSelectorsPool cardTargetSelectors, CardHolder selectedCard, IPlayerHolder playerHolder)
         {
             _stateMachine = stateMachine;
             _finderUnderCursor = finderUnderCursor;

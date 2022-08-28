@@ -16,9 +16,9 @@ namespace Infrastructure.Factories
         private readonly IAssetProvider _assetProvider;
         private readonly IStaticDataService _staticDataService;
         private readonly ICardTargetSelectorFactory _cardTargetSelectorFactory;
-        private CardActivator _cardActivator;
+        private ICardActivator _cardActivator;
 
-        public GameFactory(DiContainer diContainer, IAssetProvider assetProvider, IStaticDataService staticDataService, ICardTargetSelectorFactory cardTargetSelectorFactory, CardActivator cardActivator)
+        public GameFactory(DiContainer diContainer, IAssetProvider assetProvider, IStaticDataService staticDataService, ICardTargetSelectorFactory cardTargetSelectorFactory, ICardActivator cardActivator)
         {
             _diContainer = diContainer;
             _assetProvider = assetProvider;

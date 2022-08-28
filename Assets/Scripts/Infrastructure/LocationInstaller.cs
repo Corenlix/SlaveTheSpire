@@ -1,4 +1,5 @@
-﻿using Infrastructure.Assets;
+﻿using Card;
+using Infrastructure.Assets;
 using Infrastructure.Factories;
 using Infrastructure.GameState;
 using Infrastructure.StaticData;
@@ -14,7 +15,7 @@ namespace Infrastructure
             Container.Bind<IAssetProvider>().To<AssetProvider>().AsSingle();
             Container.Bind<IStaticDataService>().To<StaticDataService>().AsSingle();
             Container.Bind<ICardTargetSelectorFactory>().To<CardTargetSelectorFactory>().AsSingle();
-            Container.Bind<CardActivator>().AsSingle();
+            Container.Bind<ICardActivator>().To<CardActivator>().AsSingle();
             Container.Bind<IGameFactory>().To<GameFactory>().AsSingle();
             Container.Bind<IEnemiesHolder>().To<EnemiesHolder>().AsSingle();
             Container.Bind<IPlayerHolder>().To<PlayerHolder>().AsSingle();

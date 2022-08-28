@@ -32,12 +32,15 @@ namespace Card.SelectStateMachine
             {
                 _deckView.DeselectCard();
                 _cardSelectStateMachine.Transit(new NoneCardState(_cardSelectStateMachine, _finderUnderCursor, _deckView, _cardTargetSelectorsPool, _playerHolder));
+                return;
             } 
-            else if(Input.GetMouseButtonDown(0))
+            
+            if(Input.GetMouseButtonDown(0))
             {
-                if(_playerHolder.Energy.CurrentValue < _selectedCard.CardStaticData.Cost)
-                    Debug.Log("Not enough energy");
-                else _cardSelectStateMachine.Transit(new SelectingState(_cardSelectStateMachine, _finderUnderCursor, _deckView, _cardTargetSelectorsPool, _selectedCard, _playerHolder));
+                if (_selectedCard.IsAvailableToUse())
+                    _cardSelectStateMachine.Transit(new SelectingCardState(_cardSelectStateMachine, _finderUnderCursor,
+                        _deckView, _cardTargetSelectorsPool, _selectedCard, _playerHolder));
+                else Debug.Log("Can't use");
             }
         }
     }
