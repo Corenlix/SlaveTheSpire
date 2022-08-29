@@ -19,5 +19,6 @@ namespace Infrastructure.Factories
         Location SpawnLocation();
         Player SpawnPlayer();
         BuffHolder SpawnBuffHolder(Buff buff, Transform parent);
+        DamageEffect SpawnDamageEffect(int damage, Vector3 position);
     }
 }

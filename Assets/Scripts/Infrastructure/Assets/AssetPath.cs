@@ -8,5 +8,6 @@
         public const string LocationPath = "Location";
         public const string PlayerPath = "Player";
         public const string BuffHolderPath = "BuffHolder";
+        public static string DamageEffectPath = "DamageEffect";
     }
 }

@@ -99,5 +99,12 @@ namespace Infrastructure.Factories
             buffHolder.Init(buff, _staticDataService.BuffIconData.IconFor(buff.GetBuffId()));
             return buffHolder;
         }
+
+        public DamageEffect SpawnDamageEffect(int damage, Vector3 position)
+        {
+            var damageEffect = _assetProvider.Instantiate<DamageEffect>(AssetPath.DamageEffectPath, position);
+            damageEffect.Init(damage);
+            return damageEffect;
+        }
     }
 }

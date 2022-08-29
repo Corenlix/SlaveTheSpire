@@ -1,9 +1,11 @@
 ﻿using System;
 using Entities.Buffs;
+using Infrastructure.Factories;
 using TMPro;
 using UIElements;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Zenject;
 
 namespace Entities
 {
@@ -17,12 +19,11 @@ namespace Entities
         [SerializeField] private TextValueView _healthText;
         [SerializeField] private TextMeshProUGUI _nameText;
         [SerializeField] private BuffsHolder _buffsHolder;
-        [SerializeField] private DamageEffect damageEffectPrefab;
-        [SerializeField] private Transform _damageEffectPosition;
         private BoundedValue _health;
         
         public BuffsHolder BuffsHolder => _buffsHolder;
-
+        public BoundedValue Health => _health;
+        
         protected void InitView(BoundedValue health, string name)
         {
             _health = health;
@@ -38,13 +39,6 @@ namespace Entities
         }
 
         protected abstract void OnStep();
-        
-        public void TakeDamage(int value)
-        {
-            _health.Subtract(value);
-            var effectView = Instantiate(damageEffectPrefab, _damageEffectPosition.position, Quaternion.identity);
-            effectView.Init(value);
-        }
 
         public void Select()
         {

@@ -7,7 +7,7 @@ public class BoundedValue
     
     public int CurrentValue { get; private set; }
     public int MaxValue { get; private set; }
-
+    
     public void Subtract(int value)
     {
         if (CurrentValue < value)
@@ -36,7 +36,7 @@ public class BoundedValue
     public BoundedValue(int maxValue) : this(maxValue, maxValue)
     {
     }
-    
+
     public BoundedValue(int currentValue, int maxValue)
     {
         if(currentValue > maxValue || currentValue < 0)

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Infrastructure.Factories;
+using UnityEngine;
 using Zenject;
 
 namespace Card.Actions.Data
@@ -10,7 +11,7 @@ namespace Card.Actions.Data
         
         public override ICardAction GetCardAction(DiContainer diContainer)
         {
-            return new DealDamageAction(_damage);
+            return new DealDamageAction(_damage, diContainer.Resolve<IGameFactory>());
         }
     }
 }

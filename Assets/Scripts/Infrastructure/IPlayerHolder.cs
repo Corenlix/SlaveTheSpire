@@ -1,4 +1,5 @@
 ﻿using Entities;
+using UnityEngine;
 
 namespace Infrastructure
 {
@@ -6,6 +7,8 @@ namespace Infrastructure
     {
         BoundedValue Energy { get; }
         BoundedValue Health { get; }
+        Vector3 Position { get; }
+        
         void SetPlayer(Player player);
     }
 }
