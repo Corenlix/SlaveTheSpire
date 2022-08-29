@@ -6,29 +6,26 @@ namespace Entities.Buffs
 {
     public abstract class Buff
     {
-        public event Action<Buff> Ended; 
+        public event Action<Buff> Ended;
 
         public int StepsRemain { get; set; }
-
-        public abstract BuffId GetBuffId();
+        public BuffId Id { get; private set; }
         private bool StepsOver => StepsRemain <= 0;
-        protected DiContainer DiContainer;
 
-
-        public Buff(DiContainer diContainer, int steps)
+        public Buff(BuffId buffId, int steps)
         {
+            Id = buffId;
             StepsRemain = steps;
-            DiContainer = diContainer;
         }
 
         public void Step()
         {
             if (StepsOver)
                 throw new InvalidOperationException();
-            
+
             OnStep();
             StepsRemain -= 1;
-            if(StepsOver)
+            if (StepsOver)
                 Ended?.Invoke(this);
         }
 

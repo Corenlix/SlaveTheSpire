@@ -18,18 +18,18 @@ namespace Entities.Buffs
             _gameFactory = gameFactory;
         }
         
-        public void Add(Buff buff)
+        public void Add(BuffId id, int steps)
         {
-            var buffHolder = GetBuffForType(buff.GetBuffId());
+            var buffHolder = GetExistBuff(id);
             if (buffHolder == null)
             {
-                buffHolder = _gameFactory.SpawnBuffHolder(buff, transform);
+                buffHolder = _gameFactory.SpawnBuffHolder(id, steps, transform);
                 _buffs.Add(buffHolder);
                 buffHolder.Ended += OnBuffEnd;
             }
             else
             {
-                buffHolder.AddSteps(buff.StepsRemain);
+                buffHolder.AddSteps(steps);
             }
         }
         
@@ -44,6 +44,6 @@ namespace Entities.Buffs
             Destroy(buff.gameObject);
         }
 
-        private BuffHolder GetBuffForType(BuffId buffId) => _buffs.FirstOrDefault(x => x.Buff.GetBuffId() == buffId);
+        private BuffHolder GetExistBuff(BuffId buffId) => _buffs.FirstOrDefault(x => x.Buff.Id == buffId);
     }
 }

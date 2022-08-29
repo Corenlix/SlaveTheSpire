@@ -8,11 +8,12 @@ namespace Infrastructure.StaticData
     {
         private const string CardsDataPath = "Static Data/Cards";
         private const string EnemiesDataPath = "Static Data/Enemies";
-        private const string BuffIconDataPath = "Static Data";
+        private const string BuffsDataPath = "Static Data/Buffs";
         private Dictionary<CardId, CardStaticData> _cards;
         private Dictionary<EnemyId, EnemyStaticData> _enemies;
-        private BuffIconStaticData _buffIcon;
-        
+        private Dictionary<BuffId, BuffStaticData> _buffs;
+
+
         public StaticDataService()
         {
             Load();
@@ -28,11 +29,13 @@ namespace Infrastructure.StaticData
                 .LoadAll<EnemyStaticData>(EnemiesDataPath)
                 .ToDictionary(x => x.Id, x => x);
 
-            _buffIcon = Resources.LoadAll<BuffIconStaticData>(BuffIconDataPath).First();
+            _buffs = Resources
+                .LoadAll<BuffStaticData>(BuffsDataPath)
+                .ToDictionary(x => x.Id, x => x);
         }
 
         public CardStaticData ForCard(CardId id) => _cards[id];
         public EnemyStaticData ForEnemy(EnemyId id) => _enemies[id];
-        public BuffIconStaticData BuffIconData => _buffIcon;
+        public BuffStaticData ForBuff(BuffId id) => _buffs[id];
     }
 }

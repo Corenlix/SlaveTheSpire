@@ -99,12 +99,14 @@ namespace Infrastructure.Factories
             return location;
         }
 
-        public BuffHolder SpawnBuffHolder(Buff buff, Transform parent)
+        public BuffHolder SpawnBuffHolder(BuffId id, int steps, Transform parent)
         {
+            var buffData = _staticDataService.ForBuff(id);
+            var buff = buffData.GetBuff(id, steps, _diContainer);
             var buffHolder = _assetProvider.Instantiate<BuffHolder>(AssetPath.BuffHolderPath);
             buffHolder.transform.SetParent(parent);
             buffHolder.transform.localScale = Vector3.one;
-            buffHolder.Init(buff, _staticDataService.BuffIconData.IconFor(buff.GetBuffId()));
+            buffHolder.Init(buff, buffData.Icon);
             return buffHolder;
         }
 

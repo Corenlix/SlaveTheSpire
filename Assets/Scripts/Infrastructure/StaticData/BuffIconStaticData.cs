@@ -1,22 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Entities.Buffs;
 using UnityEngine;
+using Zenject;
 
 namespace Infrastructure.StaticData
 {
-    [CreateAssetMenu(menuName = "Buff Icons")]
-    public class BuffIconStaticData : ScriptableObject
+    public abstract class BuffStaticData : ScriptableObject
     {
-        [SerializeField] private List<BuffIconData> _buffIcons;
-
-        public Sprite IconFor(BuffId id) => _buffIcons.First(x => x.Id == id).Icon;
-    }
-
-    [Serializable]
-    public class BuffIconData
-    {
-        public BuffId Id;
-        public Sprite Icon;
+        [SerializeField] private Sprite _icon;
+        [SerializeField] private BuffId _id;
+        
+        public Sprite Icon => _icon;
+        public BuffId Id => _id;
+        public abstract Buff GetBuff(BuffId id, int steps, DiContainer diContainer);
     }
 }

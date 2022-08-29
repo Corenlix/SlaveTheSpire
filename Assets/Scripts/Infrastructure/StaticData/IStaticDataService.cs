@@ -1,9 +1,11 @@
-﻿namespace Infrastructure.StaticData
+﻿using Entities.Buffs;
+
+namespace Infrastructure.StaticData
 {
     public interface IStaticDataService
     {
         CardStaticData ForCard(CardId cardId);
         EnemyStaticData ForEnemy(EnemyId id);
-        BuffIconStaticData BuffIconData { get; }
+        BuffStaticData ForBuff(BuffId id);
     }
 }

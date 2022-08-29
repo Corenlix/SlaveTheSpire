@@ -6,11 +6,9 @@ namespace Entities.Buffs
 {
     public class TestBuff : Buff
     {
-        public TestBuff(DiContainer diContainer, int steps) : base(diContainer, steps)
+        public TestBuff(BuffId id, int steps) : base(id, steps)
         {
         }
-
-        public override BuffId GetBuffId() => BuffId.Test;
 
         protected override void OnStep()
         {
