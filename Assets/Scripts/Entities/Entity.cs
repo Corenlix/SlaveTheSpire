@@ -14,7 +14,7 @@ namespace Entities
         public event Action<AnimatorStateInfo> StateEntered;
         public event Action<AnimatorStateInfo> StateExited;
 
-        [SerializeField] protected Animator Animator;
+        [FormerlySerializedAs("Animator")] [SerializeField] private Animator _animator;
         [SerializeField] private BarValueView _healthBar;
         [SerializeField] private TextValueView _healthText;
         [SerializeField] private TextMeshProUGUI _nameText;
@@ -22,6 +22,7 @@ namespace Entities
         private BoundedValue _health;
         
         public BuffsHolder BuffsHolder => _buffsHolder;
+        public Animator Animator => _animator;
         public BoundedValue Health => _health;
         
         protected void InitView(BoundedValue health, string name)

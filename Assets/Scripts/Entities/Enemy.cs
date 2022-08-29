@@ -1,15 +1,15 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using Infrastructure;
 using Infrastructure.StaticData;
 using Zenject;
+using Random = UnityEngine.Random;
 
 namespace Entities
 {
-    public abstract class Enemy : Entity
+    public class Enemy : Entity
     {
-        public abstract event Action EnemyStepped;
+        public event Action EnemyStepped;
         public event Action<Enemy> Destroyed;
 
         private EnemiesHolder _enemiesHolder;
@@ -25,21 +25,25 @@ namespace Entities
         public void Init(EnemyStaticData staticData)
         {
             InitView(new BoundedValue(staticData.MaxHealth), staticData.Name);
-            OnInit(staticData);
-            _enemyActions = staticData.GetEnemyActions(_diContainer);
+            _enemyActions = staticData.GetEnemyActions(_diContainer, this);
         }
-        
-        protected abstract void OnInit(EnemyStaticData staticData);
-        
+
         private void OnDestroy()
         {
-            
             Destroyed?.Invoke(this);
         }
 
         protected override void OnStep()
         {
-            _enemyActions.ForEach(x=> x.Use());
+            var action = _enemyActions[Random.Range(0, _enemyActions.Count)];
+            action.ActionEnded += OnActionEnd;
+            action.Use();
+        }
+
+        private void OnActionEnd(IEnemyAction enemyAction)
+        {
+            enemyAction.ActionEnded -= OnActionEnd;
+            EnemyStepped?.Invoke();
         }
     }
 }

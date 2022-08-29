@@ -15,6 +15,6 @@ MonoBehaviour:
   _id: 0
   _maxHealth: 5
   _name: Lox
-  _enemyActionData: {fileID: 11400000, guid: 60da6138ba837784fb24b40752dd3504, type: 2}
-  _enemyPrefab: {fileID: 1390791767848761237, guid: 66127a55f97400d4cb2a5b3e0666ed74, type: 3}
-  _damage: 1
+  _enemyActionData:
+  - {fileID: 11400000, guid: 02b8c06c5c9d4c5428c7e5283311fedd, type: 2}
+  _enemyPrefab: {fileID: 8385086587247349483, guid: 66127a55f97400d4cb2a5b3e0666ed74, type: 3}

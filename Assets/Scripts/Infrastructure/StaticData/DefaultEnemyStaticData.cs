@@ -9,9 +9,7 @@ namespace Infrastructure.StaticData
     public class DefaultEnemyStaticData : EnemyStaticData
     {
         [SerializeField] private Enemy _enemyPrefab;
-        [SerializeField] private int _damage;
-        
+
         public override Enemy EnemyPrefab => _enemyPrefab;
-        public int Damage => _damage;
     }
 }
