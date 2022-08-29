@@ -19,7 +19,7 @@ namespace Infrastructure
 
         public bool IsAvailableToUse(CardHolder cardHolder)
         {
-            return _playerHolder.Energy.CurrentValue >= cardHolder.CardStaticData.Cost;
+            return _playerHolder.Player.Energy.CurrentValue >= cardHolder.CardStaticData.Cost;
         }
 
         public void Use(CardHolder cardHolder, List<Entity> targets)
@@ -27,7 +27,7 @@ namespace Infrastructure
             if (!IsAvailableToUse(cardHolder))
                 throw new InvalidOperationException();
             
-            _playerHolder.Energy.Subtract(cardHolder.CardStaticData.Cost);
+            _playerHolder.Player.Energy.Subtract(cardHolder.CardStaticData.Cost);
             cardHolder.CardStaticData.GetCardActions(_diContainer).ForEach(x=>x.Activate(targets));
         }
     }

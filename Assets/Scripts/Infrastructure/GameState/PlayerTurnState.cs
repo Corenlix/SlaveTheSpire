@@ -20,7 +20,7 @@ namespace Infrastructure.GameState
         
         public void Enter()
         {
-            _playerHolder.Energy.Refresh();
+            _playerHolder.Player.Energy.Refresh();
             _sceneContainer.UIContainer.EndTurnButton.onClick.AddListener(FinishStep);
             
             for (int i = 0; i < 3; i++)

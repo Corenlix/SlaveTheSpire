@@ -19,7 +19,7 @@ namespace Card.Actions
         {
             foreach (var target in targets)
             {
-                target.Health.Subtract(_damage);
+                target.TakeDamage(_damage);
                 _gameFactory.SpawnDamageEffect(_damage, target.transform.position);
             }
         }

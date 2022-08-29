@@ -24,7 +24,7 @@ namespace Entities
         
         public void Init(EnemyStaticData staticData)
         {
-            InitView(new BoundedValue(staticData.MaxHealth), staticData.Name);
+            Init(staticData.MaxHealth, staticData.MaxHealth, staticData.Name);
             _enemyActions = staticData.GetEnemyActions(_diContainer, this);
         }
 

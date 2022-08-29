@@ -38,8 +38,8 @@ public class EnemyDamageAction : IEnemyAction
 
     private void OnAttack()
     {
-        _playerHolder.Health.Subtract(_damage);
-        _gameFactory.SpawnDamageEffect(_damage, _playerHolder.Position);
+        _playerHolder.Player.TakeDamage(_damage);
+        _gameFactory.SpawnDamageEffect(_damage, _playerHolder.Player.transform.position);
     }
 
     private void OnEndAttack()

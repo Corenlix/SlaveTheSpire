@@ -3,7 +3,6 @@ using System;
 public class BoundedValue
 {
     public event Action ValueChanged;
-    public event Action ValueRefreshed;
     
     public int CurrentValue { get; private set; }
     public int MaxValue { get; private set; }
@@ -29,7 +28,6 @@ public class BoundedValue
     public void Refresh()
     {
         CurrentValue = MaxValue;
-        ValueRefreshed?.Invoke();
         ValueChanged?.Invoke();
     }
 

@@ -5,9 +5,7 @@ namespace Infrastructure
 {
     public interface IPlayerHolder
     {
-        BoundedValue Energy { get; }
-        BoundedValue Health { get; }
-        Vector3 Position { get; }
+        Player Player { get; }
         
         void SetPlayer(Player player);
     }

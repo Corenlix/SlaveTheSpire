@@ -2,9 +2,12 @@ namespace Entities
 {
     public class Player : Entity
     {
-        public void Init(BoundedValue health)
+        public BoundedValue Energy { get; private set; }
+        
+        public void Init(int energy, int health, string name)
         {
-            InitView(health, "Player");
+            Energy = new BoundedValue(energy);
+            base.Init(health, health, name);
         }
 
         protected override void OnStep()

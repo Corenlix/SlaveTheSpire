@@ -64,7 +64,7 @@ namespace Infrastructure.Factories
         public UIContainer SpawnUIContainer()
         {
             var container = _assetProvider.Instantiate<UIContainer>(AssetPath.UIContainerPath);
-            container.EnergyView.Init(_playerHolder.Energy);
+            container.EnergyView.Init(_playerHolder.Player.Energy);
             return container;
         }
 
@@ -82,6 +82,7 @@ namespace Infrastructure.Factories
             var player = _assetProvider.Instantiate<Player>(AssetPath.PlayerPath);
             player.transform.SetParent(_sceneContainer.Location.PlayerSpawnPoint);
             player.transform.position = _sceneContainer.Location.PlayerSpawnPoint.position;
+            player.Init(3, 50, "Player");
             _playerHolder.SetPlayer(player);
             return player;
         }
