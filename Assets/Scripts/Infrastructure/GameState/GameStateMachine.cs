@@ -10,12 +10,12 @@ namespace Infrastructure.GameState
         private readonly Dictionary<Type, IState> _states;
         private IState _activeState;
 
-        public GameStateMachine(IGameFactory gameFactory, SceneContainer sceneContainer, IEnemiesHolder enemiesHolder, IPlayerHolder playerHolder)
+        public GameStateMachine(IGameFactory gameFactory, UIHolder uiHolder, IEnemiesHolder enemiesHolder, IPlayerHolder playerHolder)
         {
             _states = new Dictionary<Type, IState>
             {
-                {typeof(LoadLevelState), new LoadLevelState(this, gameFactory, sceneContainer)},
-                {typeof(PlayerTurnState), new PlayerTurnState(this, gameFactory, playerHolder, sceneContainer)},
+                {typeof(LoadLevelState), new LoadLevelState(this, gameFactory)},
+                {typeof(PlayerTurnState), new PlayerTurnState(this, gameFactory, playerHolder, uiHolder)},
                 {typeof(EnemyTurnState), new EnemyTurnState(this, enemiesHolder)}
             };
 

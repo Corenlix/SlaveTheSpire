@@ -14,7 +14,7 @@ namespace Infrastructure.Factories
         CardHolder SpawnCard(CardId cardStaticData);
         CardTargetSelectorsPool SpawnCardTargetSelectorsPool();
         CardSelectStateMachine SpawnCardMover();
-        UIContainer SpawnUIContainer();
+        UI SpawnUIContainer();
         Enemy SpawnEnemy(EnemyId id);
         Location SpawnLocation();
         Player SpawnPlayer();

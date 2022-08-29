@@ -8,20 +8,20 @@ namespace Infrastructure.GameState
         private readonly GameStateMachine _gameStateMachine;
         private readonly IGameFactory _gameFactory;
         private readonly IPlayerHolder _playerHolder;
-        private readonly SceneContainer _sceneContainer;
+        private readonly UIHolder _uiHolder;
 
-        public PlayerTurnState(GameStateMachine gameStateMachine, IGameFactory gameFactory, IPlayerHolder playerHolder, SceneContainer sceneContainer)
+        public PlayerTurnState(GameStateMachine gameStateMachine, IGameFactory gameFactory, IPlayerHolder playerHolder, UIHolder uiHolder)
         {
             _gameStateMachine = gameStateMachine;
             _gameFactory = gameFactory;
             _playerHolder = playerHolder;
-            _sceneContainer = sceneContainer;
+            _uiHolder = uiHolder;
         }
         
         public void Enter()
         {
             _playerHolder.Player.Energy.Refresh();
-            _sceneContainer.UIContainer.EndTurnButton.onClick.AddListener(FinishStep);
+            _uiHolder.UI.EndTurnButton.onClick.AddListener(FinishStep);
             
             for (int i = 0; i < 3; i++)
             {
@@ -37,8 +37,8 @@ namespace Infrastructure.GameState
 
         public void Exit()
         {
-            _sceneContainer.UIContainer.EndTurnButton.onClick.RemoveListener(FinishStep);
-            _sceneContainer.UIContainer.PlayerDeck.DiscardCards();
+            _uiHolder.UI.EndTurnButton.onClick.RemoveListener(FinishStep);
+            _uiHolder.UI.PlayerDeck.DiscardCards();
         }
     }
 }

@@ -1,12 +1,11 @@
 ﻿using Deck;
-using TMPro;
 using UIElements;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Infrastructure
 {
-    public class UIContainer : MonoBehaviour
+    public class UI : MonoBehaviour
     {
         [SerializeField] private Canvas _canvas;
         [SerializeField] private DeckView _playerDeck;

@@ -17,13 +17,16 @@ namespace Infrastructure.Factories
         private readonly IAssetProvider _assetProvider;
         private readonly IStaticDataService _staticDataService;
         private readonly ICardTargetSelectorFactory _cardTargetSelectorFactory;
-        private ICardActivator _cardActivator;
+        private readonly ICardActivator _cardActivator;
         private readonly IPlayerHolder _playerHolder;
         private readonly IEnemiesHolder _enemiesHolder;
         private readonly FinderUnderCursor _finderUnderCursor;
-        private readonly SceneContainer _sceneContainer;
+        private readonly LocationHolder _locationHolder;
+        private readonly UIHolder _uiHolder;
 
-        public GameFactory(DiContainer diContainer, IAssetProvider assetProvider, IStaticDataService staticDataService, ICardTargetSelectorFactory cardTargetSelectorFactory, ICardActivator cardActivator, IPlayerHolder playerHolder, IEnemiesHolder enemiesHolder, FinderUnderCursor finderUnderCursor, SceneContainer sceneContainer)
+        public GameFactory(DiContainer diContainer, IAssetProvider assetProvider, IStaticDataService staticDataService,
+            ICardTargetSelectorFactory cardTargetSelectorFactory, ICardActivator cardActivator, IPlayerHolder playerHolder,
+            IEnemiesHolder enemiesHolder, FinderUnderCursor finderUnderCursor, LocationHolder locationHolder, UIHolder uiHolder)
         {
             _diContainer = diContainer;
             _assetProvider = assetProvider;
@@ -33,7 +36,8 @@ namespace Infrastructure.Factories
             _playerHolder = playerHolder;
             _enemiesHolder = enemiesHolder;
             _finderUnderCursor = finderUnderCursor;
-            _sceneContainer = sceneContainer;
+            _locationHolder = locationHolder;
+            _uiHolder = uiHolder;
         }
         
         public CardHolder SpawnCard(CardId cardId)
@@ -41,14 +45,14 @@ namespace Infrastructure.Factories
             CardHolder cardHolder = _assetProvider.Instantiate<CardHolder>(AssetPath.CardPath);
             CardStaticData cardStaticData = _staticDataService.ForCard(cardId);
             cardHolder.Init(cardStaticData, _cardActivator);
-            _sceneContainer.UIContainer.PlayerDeck.AddCard(cardHolder);
+            _uiHolder.UI.PlayerDeck.AddCard(cardHolder);
             return cardHolder;
         }
 
         public CardTargetSelectorsPool SpawnCardTargetSelectorsPool()
         {
             var poolGameObject = new GameObject("CardTargetsSelectorsPool");
-            poolGameObject.transform.SetParent(_sceneContainer.UIContainer.Canvas.transform);
+            poolGameObject.transform.SetParent(_uiHolder.UI.Canvas.transform);
             var pool = poolGameObject.AddComponent<CardTargetSelectorsPool>();
             pool.Init(_cardTargetSelectorFactory);
             return pool;
@@ -57,15 +61,16 @@ namespace Infrastructure.Factories
         public CardSelectStateMachine SpawnCardMover()
         {
             CardSelectStateMachine cardSelectStateMachine = _assetProvider.Instantiate<CardSelectStateMachine>(AssetPath.CardMoverPath);
-            cardSelectStateMachine.Init(SpawnCardTargetSelectorsPool(), _sceneContainer.UIContainer.PlayerDeck, _finderUnderCursor);
+            cardSelectStateMachine.Init(SpawnCardTargetSelectorsPool(), _uiHolder.UI.PlayerDeck, _finderUnderCursor);
             return cardSelectStateMachine;
         }
 
-        public UIContainer SpawnUIContainer()
+        public UI SpawnUIContainer()
         {
-            var container = _assetProvider.Instantiate<UIContainer>(AssetPath.UIContainerPath);
-            container.EnergyView.Init(_playerHolder.Player.Energy);
-            return container;
+            var ui = _assetProvider.Instantiate<UI>(AssetPath.UIContainerPath);
+            _uiHolder.SetUI(ui);
+            ui.EnergyView.Init(_playerHolder.Player.Energy);
+            return ui;
         }
 
         public Enemy SpawnEnemy(EnemyId id)
@@ -80,8 +85,8 @@ namespace Infrastructure.Factories
         public Player SpawnPlayer()
         {
             var player = _assetProvider.Instantiate<Player>(AssetPath.PlayerPath);
-            player.transform.SetParent(_sceneContainer.Location.PlayerSpawnPoint);
-            player.transform.position = _sceneContainer.Location.PlayerSpawnPoint.position;
+            player.transform.SetParent(_locationHolder.Location.PlayerSpawnPoint);
+            player.transform.position = _locationHolder.Location.PlayerSpawnPoint.position;
             player.Init(3, 50, "Player");
             _playerHolder.SetPlayer(player);
             return player;
@@ -89,7 +94,9 @@ namespace Infrastructure.Factories
 
         public Location SpawnLocation()
         {
-            return _assetProvider.Instantiate<Location>(AssetPath.LocationPath);
+            var location = _assetProvider.Instantiate<Location>(AssetPath.LocationPath);
+            _locationHolder.SetLocation(location);
+            return location;
         }
 
         public BuffHolder SpawnBuffHolder(Buff buff, Transform parent)
