@@ -11,7 +11,6 @@ namespace Infrastructure
         private readonly SceneContainer _sceneContainer;
         private readonly List<Enemy> _enemies = new();
         private IEnumerator<Enemy> _enemiesStepEnumerator;
-
         public EnemiesHolder(SceneContainer sceneContainer)
         {
             _sceneContainer = sceneContainer;

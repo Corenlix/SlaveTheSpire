@@ -1,5 +1,8 @@
-﻿using Entities;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Entities;
 using UnityEngine;
+using Zenject;
 
 namespace Infrastructure.StaticData
 {
@@ -8,10 +11,13 @@ namespace Infrastructure.StaticData
         [SerializeField] private EnemyId _id;
         [SerializeField] private int _maxHealth;
         [SerializeField] private string _name;
+        [SerializeField] private List<EnemyActionData> _enemyActionData;
         
+        public List<IEnemyAction> GetEnemyActions(DiContainer diContainer) => _enemyActionData.Select(x=>x.GetEnemyAction(diContainer)).ToList();
         public EnemyId Id => _id;
         public abstract Enemy EnemyPrefab { get; }
         public int MaxHealth => _maxHealth;
         public string Name => _name;
+
     }
 }
