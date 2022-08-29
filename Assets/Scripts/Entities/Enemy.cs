@@ -14,18 +14,18 @@ namespace Entities
 
         private EnemiesHolder _enemiesHolder;
         private List<IEnemyAction> _enemyActions;
-        private DiContainer _diContainer;
-        
+        private IEnemyActionsFactory _enemyActionsFactory;
+
         [Inject]
-        private void Inject(DiContainer diContainer)
+        private void Inject(IEnemyActionsFactory enemyActionsFactory)
         {
-            _diContainer = diContainer;
+            _enemyActionsFactory = enemyActionsFactory;
         }
-        
+
         public void Init(EnemyStaticData staticData)
         {
             Init(staticData.MaxHealth, staticData.MaxHealth, staticData.Name);
-            _enemyActions = staticData.GetEnemyActions(_diContainer, this);
+            _enemyActions = _enemyActionsFactory.GetActions(staticData, this);
         }
 
         private void OnDestroy()
