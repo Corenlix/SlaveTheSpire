@@ -25,7 +25,7 @@ namespace Entities.Enemies
 
         public void Init(EnemyStaticData staticData)
         {
-            Init(staticData.MaxHealth, staticData.MaxHealth, staticData.Name);
+            Init(staticData.MaxHealth, staticData.MaxHealth, staticData.Name, staticData.Shield);
             _enemyActions = _enemyActionsFactory.GetActions(staticData, this);
         }
 
