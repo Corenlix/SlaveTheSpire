@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Entities;
 using Infrastructure;
 using Zenject;
+using Object = UnityEngine.Object;
 
 namespace Card
 {
@@ -29,6 +30,7 @@ namespace Card
             
             _playerHolder.Player.Energy.Subtract(cardHolder.CardStaticData.Cost);
             cardHolder.CardStaticData.GetCardActions(_diContainer).ForEach(x=>x.Activate(targets));
+            Object.Destroy(cardHolder.gameObject);
         }
     }
 }

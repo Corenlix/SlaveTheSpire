@@ -26,16 +26,7 @@ namespace Infrastructure.StaticData.Enemies.EnemiesActions
 
         public void Use()
         {
-            _enemy.Animator.SetTrigger(AnimationNames.AttackTrigger);
-            _enemy.StateExited += OnEnemyAnimationEnded;
-        }
-
-        private void OnEnemyAnimationEnded(AnimatorStateInfo state)
-        {
-            if (state.shortNameHash == AnimationNames.FirstPhaseAttack)
-                OnAttack();
-            else if (state.shortNameHash == AnimationNames.SecondPhaseAttack)
-                OnEndAttack();
+            _enemy.Animator.PlayAnimation(AnimationNames.AttackAnimation, OnAttack, OnEndAttack);
         }
 
         private void OnAttack()
@@ -46,7 +37,6 @@ namespace Infrastructure.StaticData.Enemies.EnemiesActions
 
         private void OnEndAttack()
         {
-            _enemy.StateExited -= OnEnemyAnimationEnded;
             ActionEnded?.Invoke(this);
         }
     }

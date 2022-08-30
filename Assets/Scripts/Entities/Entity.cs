@@ -1,18 +1,13 @@
-﻿using System;
-using Entities.Animations;
+﻿using Entities.Animations;
 using Entities.Buffs;
-using Infrastructure.Factories;
 using TMPro;
 using UIElements;
 using UnityEngine;
 namespace Entities
 {
-    public abstract class Entity : MonoBehaviour, IAnimatorStateListener
+    public abstract class Entity : MonoBehaviour
     {
-        public event Action<AnimatorStateInfo> StateEntered;
-        public event Action<AnimatorStateInfo> StateExited;
-
-        [SerializeField] private Animator _animator;
+        [SerializeField] private EntityAnimator _animator;
         [SerializeField] private BarValueView _healthBar;
         [SerializeField] private TextValueView _healthText;
         [SerializeField] private TextMeshProUGUI _nameText;
@@ -20,7 +15,7 @@ namespace Entities
         private BoundedValue _health;
         
         public BuffsHolder BuffsHolder => _buffsHolder;
-        public Animator Animator => _animator;
+        public EntityAnimator Animator => _animator;
         
         protected void Init(int health, int maxHealth, string name)
         {
@@ -52,11 +47,5 @@ namespace Entities
         {
             Animator.SetBool(AnimationNames.SelectBool, false);
         }
-
-        public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) => 
-            StateEntered?.Invoke(stateInfo);
-
-        public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) =>
-            StateExited?.Invoke(stateInfo);
     }
 }
