@@ -26,7 +26,7 @@ namespace Infrastructure.StaticData.Enemies.EnemiesActions
 
         public void Use()
         {
-            _enemy.Animator.PlayAnimation(AnimationNames.AttackAnimation, OnAttack, OnEndAttack);
+            _enemy.Animator.PlayPhaseAnimation(AnimationNames.AttackAnimation, OnAttack, OnEndAttack);
         }
 
         private void OnAttack()

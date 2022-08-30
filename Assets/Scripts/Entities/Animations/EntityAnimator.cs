@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Entities.Animations
@@ -10,10 +12,8 @@ namespace Entities.Animations
         public event Action<AnimatorStateInfo> StateExited;
 
         private Animator _animator;
-        private PhaseAnimation? _playingPhaseAnimation;
-        private Action _firstPhaseAction;
-        private Action _secondPhaseAction;
-
+        private List<AnimationAction?> _animationActions;
+        
         private void Awake()
         {
             _animator = GetComponent<Animator>();
@@ -24,26 +24,33 @@ namespace Entities.Animations
             _animator.SetBool(boolHashName, value);
         }
 
-        public void PlayAnimation(PhaseAnimation phaseAnimation, Action firstPhaseAction, Action secondPhaseAction)
+        public void PlayPhaseAnimation(PhaseAnimation phaseAnimation, Action firstPhaseAction, Action secondPhaseAction)
         {
             _animator.SetTrigger(phaseAnimation.Trigger);
-            _firstPhaseAction = firstPhaseAction;
-            _secondPhaseAction = secondPhaseAction;
-            _playingPhaseAnimation = phaseAnimation;
+            _animationActions = new List<AnimationAction?>
+            {
+                new AnimationAction(phaseAnimation.FirstPhaseAnimation, firstPhaseAction),
+                new AnimationAction(phaseAnimation.SecondPhaseAnimation, secondPhaseAction),
+            };
+        }
+
+        public void PlayAnimation(int triggerHashName, Action animationAction)
+        {
+            _animator.SetTrigger(triggerHashName);
+            _animationActions = new List<AnimationAction?>
+            {
+                new AnimationAction(triggerHashName, animationAction),
+            };
         }
 
         private void OnStateEnd(AnimatorStateInfo animatorStateInfo)
         {
-            if (animatorStateInfo.shortNameHash == _playingPhaseAnimation?.FirstPhaseAnimation)
+            var action = _animationActions?.FirstOrDefault(animationAction =>
+                animationAction?.StateNameHash == animatorStateInfo.shortNameHash);
+            if(action != null)
             {
-                _firstPhaseAction?.Invoke();
-                _firstPhaseAction = null;
-            }
-            else if (animatorStateInfo.shortNameHash == _playingPhaseAnimation?.SecondPhaseAnimation)
-            {
-                _secondPhaseAction?.Invoke();
-                _secondPhaseAction = null;
-                _playingPhaseAnimation = null;
+                action.Value.StateAction?.Invoke();
+                _animationActions.Remove(action);
             }
         }
 
@@ -54,6 +61,18 @@ namespace Entities.Animations
         {
             StateExited?.Invoke(stateInfo);
             OnStateEnd(stateInfo);
+        }
+    }
+
+    struct AnimationAction
+    {
+        public readonly int StateNameHash;
+        public readonly Action StateAction;
+
+        public AnimationAction(int stateNameHash, Action stateAction)
+        {
+            StateNameHash = stateNameHash;
+            StateAction = stateAction;
         }
     }
 }

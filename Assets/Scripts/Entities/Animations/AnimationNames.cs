@@ -5,6 +5,7 @@ namespace Entities.Animations
     public static class AnimationNames
     {
         public static readonly int SelectBool = Animator.StringToHash("Selected");
+        public static readonly int DeathAnimation = Animator.StringToHash("Death");
         public static readonly PhaseAnimation AttackAnimation = new PhaseAnimation("Attack");
     }
 

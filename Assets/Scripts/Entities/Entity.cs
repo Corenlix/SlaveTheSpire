@@ -27,7 +27,14 @@ namespace Entities
 
         public void TakeDamage(int damage)
         {
-            _health.Subtract(damage);
+            if(_health.CurrentValue <= damage) {
+                _animator.PlayAnimation(AnimationNames.DeathAnimation, OnDie);
+                _health.Subtract(_health.CurrentValue);
+            }
+            else
+            {
+                _health.Subtract(damage);
+            }
         }
 
         public void Step()
@@ -46,6 +53,11 @@ namespace Entities
         public void Deselect()
         {
             Animator.SetBool(AnimationNames.SelectBool, false);
+        }
+
+        private void OnDie()
+        {
+            Destroy(gameObject);
         }
     }
 }
