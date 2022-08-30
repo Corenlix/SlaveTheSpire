@@ -12,9 +12,9 @@ namespace Card.SelectStateMachine
         private readonly FinderUnderCursor _finderUnderCursor;
         private readonly DeckView _deckView;
         private readonly CardTargetSelectorsPool _cardTargetSelectors;
-        private readonly CardGameObject _selectedCard;
+        private readonly CardHolder _selectedCard;
 
-        public SelectingCardState(CardSelectStateMachine stateMachine, FinderUnderCursor finderUnderCursor, DeckView deckView, CardTargetSelectorsPool cardTargetSelectors, CardGameObject selectedCard)
+        public SelectingCardState(CardSelectStateMachine stateMachine, FinderUnderCursor finderUnderCursor, DeckView deckView, CardTargetSelectorsPool cardTargetSelectors, CardHolder selectedCard)
         {
             _stateMachine = stateMachine;
             _finderUnderCursor = finderUnderCursor;
@@ -22,18 +22,13 @@ namespace Card.SelectStateMachine
             _cardTargetSelectors = cardTargetSelectors;
             _selectedCard = selectedCard;
 
-            Enter();
-        }
-
-        private void Enter()
-        {
-            var selector = _cardTargetSelectors.Get(_selectedCard.CardTargetSelectorType);
-            selector.StartSelecting(_selectedCard);
+            var selector = cardTargetSelectors.Get(selectedCard.CardStaticData.CardTargetSelectorType);
+            selector.StartSelecting(selectedCard);
             selector.Selected += TransitionToNone;
-            _selectedCard.Destroyed += OnCardDestroyed;
+            selectedCard.Destroyed += OnCardDestroyed;
         }
 
-        private void OnCardDestroyed(CardGameObject cardGameObject)
+        private void OnCardDestroyed(CardHolder cardHolder)
         {
             TransitionToNone();
         }
@@ -41,7 +36,7 @@ namespace Card.SelectStateMachine
         private void TransitionToNone()
         {
             _deckView.DeselectCard();
-            var selector = _cardTargetSelectors.Get(_selectedCard.CardTargetSelectorType);
+            var selector = _cardTargetSelectors.Get(_selectedCard.CardStaticData.CardTargetSelectorType);
             selector.Selected -= TransitionToNone;
             _selectedCard.Destroyed -= OnCardDestroyed;
             selector.FinishSelecting();

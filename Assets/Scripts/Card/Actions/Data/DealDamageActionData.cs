@@ -5,7 +5,7 @@ using Zenject;
 namespace Card.Actions.Data
 {
     [CreateAssetMenu(menuName = "Card/Card Actions/Deal damage")]
-    public class DealDamageCardActionStaticData : CardActionStaticData
+    public class DealDamageActionData : ActionData
     {
         [SerializeField] private int _damage;
         

@@ -11,6 +11,6 @@ namespace Infrastructure.StaticData
         
         public Sprite Icon => _icon;
         public BuffId Id => _id;
-        public abstract IBuffAction GetBuffAction(DiContainer diContainer);
+        public abstract Buff GetBuff(BuffId id, int steps, DiContainer diContainer);
     }
 }

@@ -21,7 +21,7 @@ namespace Card.SelectStateMachine
         
         public override void Update()
         {
-            CardGameObject cardUnderCursor = _finderUnderCursor.FindObjectUnderCursor<CardGameObject>();
+            CardHolder cardUnderCursor = _finderUnderCursor.FindObjectUnderCursor<CardHolder>();
             if(cardUnderCursor != null)
                 _stateMachine.Transit(new HoldCardState(_stateMachine, _finderUnderCursor, _deckView, cardUnderCursor, _cardTargetSelectorsPool));
         }

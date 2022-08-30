@@ -8,7 +8,6 @@ namespace Entities.Buffs
     {
         [SerializeField] private Image _icon;
         [SerializeField] private TextMeshProUGUI _stepsText;
-        
         public void Init(Sprite icon, int steps)
         {
             _icon.sprite = icon;

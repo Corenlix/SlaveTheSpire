@@ -44,6 +44,6 @@ namespace Entities.Buffs
             Destroy(buff.gameObject);
         }
 
-        private BuffHolder GetExistBuff(BuffId buffId) => _buffs.FirstOrDefault(x => x.Id == buffId);
+        private BuffHolder GetExistBuff(BuffId buffId) => _buffs.FirstOrDefault(x => x.Buff.Id == buffId);
     }
 }

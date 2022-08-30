@@ -7,9 +7,9 @@ namespace Infrastructure.StaticData
     [CreateAssetMenu(menuName = "Buffs/TestBuff")]
     public class TestBuffStaticData : BuffStaticData
     {
-        public override IBuffAction GetBuffAction(DiContainer diContainer)
+        public override Buff GetBuff(BuffId id, int steps, DiContainer diContainer)
         {
-            return new TestBuffAction();
+            return new TestBuff(id, steps);
         }
     }
 }
