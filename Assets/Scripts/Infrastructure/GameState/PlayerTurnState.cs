@@ -1,6 +1,7 @@
 using Card;
 using Infrastructure.Factories;
 using Infrastructure.StaticData;
+using Infrastructure.StaticData.Cards;
 
 namespace Infrastructure.GameState
 {

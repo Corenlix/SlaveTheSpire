@@ -4,6 +4,7 @@ using DG.Tweening;
 using Entities;
 using Infrastructure;
 using Infrastructure.StaticData;
+using Infrastructure.StaticData.Cards;
 using UnityEngine;
 
 namespace Card

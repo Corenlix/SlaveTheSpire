@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using DG.Tweening;
 using Entities;
+using Entities.Enemies;
 using UnityEngine;
 using UnityEngine.UI;
 

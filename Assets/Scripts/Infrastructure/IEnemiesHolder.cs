@@ -1,5 +1,6 @@
 ﻿using System;
 using Entities;
+using Entities.Enemies;
 
 namespace Infrastructure
 {

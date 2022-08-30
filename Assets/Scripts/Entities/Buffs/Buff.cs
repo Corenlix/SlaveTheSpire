@@ -1,5 +1,6 @@
 ﻿using System;
 using Infrastructure.StaticData;
+using Infrastructure.StaticData.Buffs;
 using Zenject;
 
 namespace Entities.Buffs
