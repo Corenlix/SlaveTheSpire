@@ -1,4 +1,5 @@
 ﻿using System;
+using Entities.Animations;
 using Entities.Buffs;
 using Infrastructure.Factories;
 using TMPro;

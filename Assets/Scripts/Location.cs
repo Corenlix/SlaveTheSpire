@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using EnemiesSpawnPoints;
+using UnityEngine;
 
 public class Location : MonoBehaviour
 {

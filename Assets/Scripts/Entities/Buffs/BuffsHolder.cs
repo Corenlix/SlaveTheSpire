@@ -2,6 +2,7 @@
 using System.Linq;
 using Infrastructure.Factories;
 using Infrastructure.StaticData;
+using Infrastructure.StaticData.Buffs;
 using UnityEngine;
 using Zenject;
 
