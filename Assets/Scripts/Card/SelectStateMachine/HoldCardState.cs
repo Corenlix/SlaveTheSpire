@@ -10,10 +10,10 @@ namespace Card.SelectStateMachine
         private readonly CardSelectStateMachine _cardSelectStateMachine;
         private readonly FinderUnderCursor _finderUnderCursor;
         private readonly DeckView _deckView;
-        private readonly CardHolder _selectedCard;
+        private readonly CardGameObject _selectedCard;
         private readonly CardTargetSelectorsPool _cardTargetSelectorsPool;
 
-        public HoldCardState(CardSelectStateMachine cardSelectStateMachine, FinderUnderCursor finderUnderCursor, DeckView deckView, CardHolder selectedCard, CardTargetSelectorsPool cardTargetSelectorsPool)
+        public HoldCardState(CardSelectStateMachine cardSelectStateMachine, FinderUnderCursor finderUnderCursor, DeckView deckView, CardGameObject selectedCard, CardTargetSelectorsPool cardTargetSelectorsPool)
         {
             _cardSelectStateMachine = cardSelectStateMachine;
             _finderUnderCursor = finderUnderCursor;
@@ -25,8 +25,8 @@ namespace Card.SelectStateMachine
         
         public override void Update()
         {
-            CardHolder cardHolderUnderCursor = _finderUnderCursor.FindObjectUnderCursor<CardHolder>();
-            if (_selectedCard != cardHolderUnderCursor)
+            CardGameObject cardGameObjectUnderCursor = _finderUnderCursor.FindObjectUnderCursor<CardGameObject>();
+            if (_selectedCard != cardGameObjectUnderCursor)
             {
                 _deckView.DeselectCard();
                 _cardSelectStateMachine.Transit(new NoneCardState(_cardSelectStateMachine, _finderUnderCursor, _deckView, _cardTargetSelectorsPool));

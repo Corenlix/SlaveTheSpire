@@ -13,8 +13,8 @@ namespace Card.TargetSelectors
         
         protected override void OnSelectingUpdate()
         {
-            SelectedCardHolder.transform.position =
-                Vector3.Slerp(SelectedCardHolder.transform.position, Input.mousePosition, Time.deltaTime * _smoothless);
+            SelectedCardGameObject.transform.position =
+                Vector3.Slerp(SelectedCardGameObject.transform.position, Input.mousePosition, Time.deltaTime * _smoothless);
             if (Input.GetMouseButtonDown(0))
             {
                 var hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);

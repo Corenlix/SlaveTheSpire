@@ -10,25 +10,25 @@ namespace Card.TargetSelectors
         public event Action Selected;
         
         [SerializeField] private CardTargetSelectorType _selectorType;
-        protected CardHolder SelectedCardHolder { get; private set; }
+        protected CardGameObject SelectedCardGameObject { get; private set; }
         private bool _isSelecting;
 
         public CardTargetSelectorType SelectorType => _selectorType;
         
-        public void StartSelecting(CardHolder cardHolder)
+        public void StartSelecting(CardGameObject cardGameObject)
         {
             if (_isSelecting)
                 return;
             
             _isSelecting = true;
-            SelectedCardHolder = cardHolder;
+            SelectedCardGameObject = cardGameObject;
             OnStartSelecting();
         }
 
         protected void SelectTargets(List<Entity> targets)
         {
             FinishSelecting();
-            SelectedCardHolder.Use(targets);
+            SelectedCardGameObject.Use(targets);
             Selected?.Invoke();
         }
 

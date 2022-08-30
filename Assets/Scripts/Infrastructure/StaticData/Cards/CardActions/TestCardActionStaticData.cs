@@ -4,7 +4,7 @@ using Zenject;
 namespace Card.Actions.Data
 {
     [CreateAssetMenu(menuName = "Card/Card Actions/Test")]
-    public class TestActionData : ActionData
+    public class TestCardActionStaticData : CardActionStaticData
     {
         [SerializeField] private int _testNumber;
         

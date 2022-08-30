@@ -1,7 +1,4 @@
 ﻿using System;
-using Entities;
-using Infrastructure;
-using Zenject;
 
 public interface IEnemyAction
 {

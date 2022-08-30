@@ -1,4 +1,5 @@
-﻿using Card;
+﻿using System.Linq;
+using Card;
 using Card.SelectStateMachine;
 using Card.TargetSelectors;
 using Entities;
@@ -17,7 +18,6 @@ namespace Infrastructure.Factories
         private readonly IAssetProvider _assetProvider;
         private readonly IStaticDataService _staticDataService;
         private readonly ICardTargetSelectorFactory _cardTargetSelectorFactory;
-        private readonly ICardActivator _cardActivator;
         private readonly IPlayerHolder _playerHolder;
         private readonly IEnemiesHolder _enemiesHolder;
         private readonly FinderUnderCursor _finderUnderCursor;
@@ -25,14 +25,13 @@ namespace Infrastructure.Factories
         private readonly UIHolder _uiHolder;
 
         public GameFactory(DiContainer diContainer, IAssetProvider assetProvider, IStaticDataService staticDataService,
-            ICardTargetSelectorFactory cardTargetSelectorFactory, ICardActivator cardActivator, IPlayerHolder playerHolder,
+            ICardTargetSelectorFactory cardTargetSelectorFactory, IPlayerHolder playerHolder,
             IEnemiesHolder enemiesHolder, FinderUnderCursor finderUnderCursor, LocationHolder locationHolder, UIHolder uiHolder)
         {
             _diContainer = diContainer;
             _assetProvider = assetProvider;
             _staticDataService = staticDataService;
             _cardTargetSelectorFactory = cardTargetSelectorFactory;
-            _cardActivator = cardActivator;
             _playerHolder = playerHolder;
             _enemiesHolder = enemiesHolder;
             _finderUnderCursor = finderUnderCursor;
@@ -40,13 +39,16 @@ namespace Infrastructure.Factories
             _uiHolder = uiHolder;
         }
         
-        public CardHolder SpawnCard(CardId cardId)
+        public CardGameObject SpawnCard(CardId cardId)
         {
-            CardHolder cardHolder = _assetProvider.Instantiate<CardHolder>(AssetPath.CardPath);
             CardStaticData cardStaticData = _staticDataService.ForCard(cardId);
-            cardHolder.Init(cardStaticData, _cardActivator);
-            _uiHolder.UI.PlayerDeck.AddCard(cardHolder);
-            return cardHolder;
+            var cardActions = cardStaticData.CardActionsStaticData.Select(x => x.GetCardAction(_diContainer)).ToList();
+            var cardActivator = new CardActivator(cardActions, _playerHolder, cardStaticData.Cost);
+            CardGameObject cardGameObject = _assetProvider.Instantiate<CardGameObject>(AssetPath.CardPath);
+            cardGameObject.Init(cardStaticData.Cost, cardStaticData.Name, cardStaticData.Description, cardStaticData.Icon, 
+                cardStaticData.CardTargetSelectorType, cardActivator);
+            _uiHolder.UI.PlayerDeck.AddCard(cardGameObject);
+            return cardGameObject;
         }
 
         public CardTargetSelectorsPool SpawnCardTargetSelectorsPool()
@@ -102,11 +104,11 @@ namespace Infrastructure.Factories
         public BuffHolder SpawnBuffHolder(BuffId id, int steps, Transform parent)
         {
             var buffData = _staticDataService.ForBuff(id);
-            var buff = buffData.GetBuff(id, steps, _diContainer);
+            var buffAction = buffData.GetBuffAction(_diContainer);
             var buffHolder = _assetProvider.Instantiate<BuffHolder>(AssetPath.BuffHolderPath);
             buffHolder.transform.SetParent(parent);
             buffHolder.transform.localScale = Vector3.one;
-            buffHolder.Init(buff, buffData.Icon);
+            buffHolder.Init(id, buffAction, buffData.Icon, steps);
             return buffHolder;
         }
 

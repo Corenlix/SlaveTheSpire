@@ -11,7 +11,7 @@ namespace Infrastructure.StaticData
         [SerializeField] private EnemyId _id;
         [SerializeField] private int _maxHealth;
         [SerializeField] private string _name;
-        [SerializeField] private List<EnemyActionData> _enemyActionData;
+        [SerializeField] private List<EnemyActionStaticData> _enemyActionData;
         
         public List<IEnemyAction> GetEnemyActions(DiContainer diContainer, Enemy enemy) => _enemyActionData.Select(x=>x.GetEnemyAction(diContainer, enemy)).ToList();
         public EnemyId Id => _id;

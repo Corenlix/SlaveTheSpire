@@ -10,28 +10,28 @@ namespace Deck
     {
         [SerializeField] private Transform _drawPile;
         [SerializeField] private Transform _cardsContainer;
-        private readonly List<CardHolder> _cards = new();
+        private readonly List<CardGameObject> _cards = new();
         
-        public void AddCard(CardHolder cardHolder)
+        public void AddCard(CardGameObject cardGameObject)
         {
-            cardHolder.transform.SetParent(_cardsContainer);
-            cardHolder.transform.position = _drawPile.position;
-            cardHolder.transform.localScale = Vector3.one * 0.1f;
-            cardHolder.transform.rotation = Quaternion.Euler(0, 0, -90f);
-            _cards.Add(cardHolder);
-            cardHolder.Destroyed += RemoveCard;
+            cardGameObject.transform.SetParent(_cardsContainer);
+            cardGameObject.transform.position = _drawPile.position;
+            cardGameObject.transform.localScale = Vector3.one * 0.1f;
+            cardGameObject.transform.rotation = Quaternion.Euler(0, 0, -90f);
+            _cards.Add(cardGameObject);
+            cardGameObject.Destroyed += RemoveCard;
             
             MoveCards();
         }
 
-        public void SelectCard(CardHolder cardHolder)
+        public void SelectCard(CardGameObject cardGameObject)
         {
             DeselectCard();
-            cardHolder.transform.DOKill();
+            cardGameObject.transform.DOKill();
             float scale = 1.3f;
-            cardHolder.transform.localScale = scale * Vector2.one;
-            cardHolder.transform.position = new Vector2(cardHolder.transform.position.x, cardHolder.GetComponent<RectTransform>().rect.height * scale/2f);
-            cardHolder.transform.SetAsLastSibling();
+            cardGameObject.transform.localScale = scale * Vector2.one;
+            cardGameObject.transform.position = new Vector2(cardGameObject.transform.position.x, cardGameObject.GetComponent<RectTransform>().rect.height * scale/2f);
+            cardGameObject.transform.SetAsLastSibling();
         }
 
         public void DeselectCard()
@@ -54,11 +54,11 @@ namespace Deck
             }
         }
 
-        private void RemoveCard(CardHolder cardHolder)
+        private void RemoveCard(CardGameObject cardGameObject)
         {
-            _cards.Remove(cardHolder);
+            _cards.Remove(cardGameObject);
             MoveCards();
-            cardHolder.Destroyed -= RemoveCard;
+            cardGameObject.Destroyed -= RemoveCard;
         }
 
         public void DiscardCards()

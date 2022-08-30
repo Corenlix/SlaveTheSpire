@@ -25,7 +25,7 @@ namespace Infrastructure.GameState
             
             for (int i = 0; i < 3; i++)
             {
-                _gameFactory.SpawnCard(CardId.TestBuff);
+                var card = _gameFactory.SpawnCard(CardId.TestBuff);
                 _gameFactory.SpawnCard(CardId.Damage);
             }
         }

@@ -5,7 +5,7 @@ namespace Card
 {
     public interface ICardActivator
     {
-        bool IsAvailableToUse(CardHolder cardHolder);
-        void Use(CardHolder cardHolder, List<Entity> targets);
+        bool IsAvailableToUse();
+        void Use(List<Entity> targets);
     }
 }
