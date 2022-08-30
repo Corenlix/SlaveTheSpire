@@ -15,7 +15,7 @@ namespace Card
         [SerializeField] private CardView _cardView;
         private CardStaticData _cardStaticData;
         private ICardActivator _cardActivator;
-
+        
         public CardStaticData CardStaticData => _cardStaticData;
         
         public void Init(CardStaticData cardStaticData, ICardActivator cardActivator)

@@ -24,6 +24,7 @@ namespace Infrastructure
             Container.Bind<LocationInstaller>().AsSingle();
             Container.Bind<UIHolder>().AsSingle();
             Container.Bind<LocationHolder>().AsSingle();
+            Container.Bind<IDeckHolder>().To<DeckHolder>().AsSingle();
             Container.Bind<GameStateMachine>().AsSingle().NonLazy();
         }
     }
