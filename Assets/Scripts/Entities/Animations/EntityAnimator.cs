@@ -24,7 +24,7 @@ namespace Entities.Animations
             _animator.SetBool(boolHashName, value);
         }
 
-        public void PlayPhaseAnimation(PhaseAnimation phaseAnimation, Action firstPhaseAction, Action secondPhaseAction)
+        public void PlayPhaseAnimationWithActions(PhaseAnimation phaseAnimation, Action firstPhaseAction, Action secondPhaseAction)
         {
             _animator.SetTrigger(phaseAnimation.Trigger);
             _animationActions = new List<AnimationAction?>
@@ -34,7 +34,7 @@ namespace Entities.Animations
             };
         }
 
-        public void PlayAnimation(int triggerHashName, Action animationAction)
+        public void PlayAnimationWithAction(int triggerHashName, Action animationAction)
         {
             _animator.SetTrigger(triggerHashName);
             _animationActions = new List<AnimationAction?>

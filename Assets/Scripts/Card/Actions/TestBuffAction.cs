@@ -20,7 +20,7 @@ namespace Card.Actions
         
         public void Activate(List<Entity> targets)
         {
-            targets.ForEach(x=>x.BuffsHolder.Add(_buffId, _steps));
+            targets.ForEach(x=>x.AddBuff(_buffId, _steps));
         }
     }
 }

@@ -74,7 +74,7 @@ namespace Infrastructure.Factories
         {
             var ui = _assetProvider.Instantiate<UI>(AssetPath.UIContainerPath);
             _uiHolder.SetUI(ui);
-            ui.EnergyView.Init(_playerHolder.Player.Energy);
+            ui.PlayerUI.ObservePlayer(_playerHolder.Player);
             return ui;
         }
 
@@ -92,7 +92,7 @@ namespace Infrastructure.Factories
             var player = _assetProvider.Instantiate<Player>(AssetPath.PlayerPath);
             player.transform.SetParent(_locationHolder.Location.PlayerSpawnPoint);
             player.transform.position = _locationHolder.Location.PlayerSpawnPoint.position;
-            player.Init(3, 30, "Player", 10);
+            player.Init(3, 3, 30, 30, "Player", 10);
             _playerHolder.SetPlayer(player);
             return player;
         }

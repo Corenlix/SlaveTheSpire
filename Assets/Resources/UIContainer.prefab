@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3626780063574418050}
   - component: {fileID: 7735604590819337794}
   - component: {fileID: 8872386203469723562}
-  - component: {fileID: 7433802541265702312}
   m_Layer: 5
   m_Name: Energy
   m_TagString: Untagged
@@ -78,19 +77,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7433802541265702312
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 22385491002803639}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4a2b039f29b03a49804bc2daced98f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _text: {fileID: 5076640255380257419}
 --- !u!1 &743959355488999107
 GameObject:
   m_ObjectHideFlags: 0
@@ -532,6 +518,7 @@ GameObject:
   - component: {fileID: 7225636032697036106}
   - component: {fileID: 7225636032697036105}
   - component: {fileID: 7225636032697036109}
+  - component: {fileID: 8977519405838475251}
   m_Layer: 5
   m_Name: UIContainer
   m_TagString: Untagged
@@ -641,7 +628,21 @@ MonoBehaviour:
   _canvas: {fileID: 7225636032697036107}
   _playerDeck: {fileID: 8150726734228597111}
   _endTurnButton: {fileID: 4832933941388125818}
-  _energyView: {fileID: 7433802541265702312}
+  _playerUI: {fileID: 8977519405838475251}
+--- !u!114 &8977519405838475251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7225636032697036104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c54dc7cd7bb453c8cc1e3f6b2fdf1cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _observingPlayer: {fileID: 0}
+  _energyText: {fileID: 5076640255380257419}
 --- !u!1 &7243384863534251046
 GameObject:
   m_ObjectHideFlags: 0

@@ -20,7 +20,7 @@ namespace Card
 
         public bool IsAvailableToUse(CardHolder cardHolder)
         {
-            return _playerHolder.Player.Energy.CurrentValue >= cardHolder.CardStaticData.Cost;
+            return _playerHolder.Player.Energy >= cardHolder.CardStaticData.Cost;
         }
 
         public void Use(CardHolder cardHolder, List<Entity> targets)
@@ -28,7 +28,7 @@ namespace Card
             if (!IsAvailableToUse(cardHolder))
                 throw new InvalidOperationException();
             
-            _playerHolder.Player.Energy.Subtract(cardHolder.CardStaticData.Cost);
+            _playerHolder.Player.SubtractEnergy(cardHolder.CardStaticData.Cost);
             cardHolder.CardStaticData.GetCardActions(_diContainer).ForEach(x=>x.Activate(targets));
             Object.Destroy(cardHolder.gameObject);
         }

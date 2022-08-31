@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Infrastructure.Factories;
-using Infrastructure.StaticData;
 using Infrastructure.StaticData.Buffs;
 using UnityEngine;
 using Zenject;
@@ -30,7 +29,7 @@ namespace Entities.Buffs
             }
             else
             {
-                buffHolder.AddSteps(steps);
+                buffHolder.Buff.Stack(steps);
             }
         }
         

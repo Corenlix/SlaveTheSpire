@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,15 +9,31 @@ namespace Entities.Buffs
     {
         [SerializeField] private Image _icon;
         [SerializeField] private TextMeshProUGUI _stepsText;
-        public void Init(Sprite icon, int steps)
+        private Buff _buff;
+        
+        public void Init(Sprite icon, Buff buff)
         {
+            UnSubscribe();
+            
             _icon.sprite = icon;
-            UpdateSteps(steps);
+            UpdateSteps(buff);
+            buff.StepRemainChanged += UpdateSteps;
         }
 
-        public void UpdateSteps(int steps)
+        public void UpdateSteps(Buff buff)
         {
-            _stepsText.text = steps.ToString();
+            _stepsText.text = buff.StepsRemain.ToString();
+        }
+
+        private void OnDestroy()
+        {
+            UnSubscribe();
+        }
+
+        private void UnSubscribe()
+        {
+            if(_buff != null)
+                _buff.StepRemainChanged -= UpdateSteps;
         }
     }
 }

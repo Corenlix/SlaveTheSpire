@@ -1,5 +1,6 @@
 ﻿using Deck;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace UIElements
@@ -9,11 +10,11 @@ namespace UIElements
         [SerializeField] private Canvas _canvas;
         [SerializeField] private DeckView _playerDeck;
         [SerializeField] private Button _endTurnButton;
-        [SerializeField] private TextValueView _energyView;
+        [SerializeField] private PlayerUI _playerUI;
 
         public Canvas Canvas => _canvas;
         public DeckView PlayerDeck => _playerDeck;
         public Button EndTurnButton => _endTurnButton;
-        public TextValueView EnergyView => _energyView;
+        public PlayerUI PlayerUI => _playerUI;
     }
 }

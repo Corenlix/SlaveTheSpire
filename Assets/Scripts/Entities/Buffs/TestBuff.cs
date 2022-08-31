@@ -1,7 +1,5 @@
-﻿using Infrastructure.StaticData;
-using Infrastructure.StaticData.Buffs;
+﻿using Infrastructure.StaticData.Buffs;
 using UnityEngine;
-using Zenject;
 
 namespace Entities.Buffs
 {
@@ -14,6 +12,10 @@ namespace Entities.Buffs
         protected override void OnStep()
         {
             Debug.Log($"Test buff. {StepsRemain} steps remain");
+        }
+
+        public override void Stack(int steps)
+        {
         }
     }
 }

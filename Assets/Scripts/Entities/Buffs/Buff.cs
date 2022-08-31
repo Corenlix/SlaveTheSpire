@@ -1,17 +1,28 @@
 ﻿using System;
-using Infrastructure.StaticData;
 using Infrastructure.StaticData.Buffs;
-using Zenject;
 
 namespace Entities.Buffs
 {
     public abstract class Buff
     {
         public event Action<Buff> Ended;
+        public event Action<Buff> StepRemainChanged;
 
-        public int StepsRemain { get; set; }
-        public BuffId Id { get; private set; }
+        public int StepsRemain
+        {
+            get => _stepsRemain;
+            protected set
+            {
+                _stepsRemain = value;
+                StepRemainChanged?.Invoke(this);
+                if (StepsOver)
+                    Ended?.Invoke(this);
+            }
+        }
+
+        public BuffId Id { get; }
         private bool StepsOver => StepsRemain <= 0;
+        private int _stepsRemain;
 
         public Buff(BuffId buffId, int steps)
         {
@@ -26,9 +37,9 @@ namespace Entities.Buffs
 
             OnStep();
             StepsRemain -= 1;
-            if (StepsOver)
-                Ended?.Invoke(this);
         }
+
+        public abstract void Stack(int steps);
 
         protected abstract void OnStep();
     }

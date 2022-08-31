@@ -14,21 +14,14 @@ namespace Entities.Buffs
 
         public void Init(Buff buff, Sprite buffIcon)
         {
-            _buffView.Init(buffIcon, buff.StepsRemain);
+            _buffView.Init(buffIcon, buff);
             _buff = buff;
             _buff.Ended += OnBuffEnd;
-        }
-
-        public void AddSteps(int count)
-        {
-            _buff.StepsRemain += count;
-            _buffView.UpdateSteps(_buff.StepsRemain);
         }
 
         public void Step()
         {
             _buff.Step();
-            _buffView.UpdateSteps(_buff.StepsRemain);
         }
 
         private void OnBuffEnd(Buff buff)
