@@ -36,15 +36,33 @@ namespace Entities
 
         public void Deselect() =>_animator.SetBool(AnimationNames.SelectBool, false);
 
-        public void TakeDamage(int damage)
+        public void TakeDamage(int amount)
         {
-            _entityHealth.TakeDamage(damage);
+            _entityHealth.TakeDamage(amount);
             EntityUpdated?.Invoke(this);
             
             if(_entityHealth.Health == 0)
             {
                 _animator.PlayAnimationWithAction(AnimationNames.DeathAnimation, OnDie);
             }
+        }
+
+        public void TakeHeal(int amount)
+        {
+            _entityHealth.TakeHeal(amount);
+            EntityUpdated?.Invoke(this);
+        }
+
+        public void TakeShield(int amount)
+        {
+            _entityHealth.TakeShield(amount);
+            EntityUpdated?.Invoke(this);
+        }
+
+        public void TakeShieldDamage(int amount)
+        {
+            _entityHealth.TakeShieldDamage(amount);
+            EntityUpdated?.Invoke(this);
         }
 
         public void AddBuff(BuffId buffId, int steps) => _buffsHolder.Add(buffId, steps);

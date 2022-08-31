@@ -24,8 +24,19 @@ namespace Entities
                 throw new ArgumentOutOfRangeException();
         }
 
+        public void TakeHeal(int amount)
+        {
+            if (amount < 0)
+                throw new ArgumentOutOfRangeException();
+
+            Health = Math.Clamp(Health + amount, 0, MaxHealth);
+        }
+
         public void TakeDamage(int damage)
         {
+            if (damage < 0)
+                throw new ArgumentOutOfRangeException();
+            
             HealthTakeDamage(damage);
             ShieldTakeDamage(damage);
         }
@@ -34,15 +45,24 @@ namespace Entities
         {
             damage -= Shield;
             if (damage > 0)
-                Health -= damage;
-            
-            if(Health < 0)
-                Health = 0;
+                Health = Math.Clamp(Health - damage, 0, MaxHealth);
         }
 
         private void ShieldTakeDamage(int damage)
         {
             Shield -= damage;
+            if (Shield < 0)
+                Shield = 0;
+        }
+
+        public void TakeShield(int amount)
+        {
+            Shield += amount;
+        }
+
+        public void TakeShieldDamage(int amount)
+        {
+            Shield -= amount;
             if (Shield < 0)
                 Shield = 0;
         }
