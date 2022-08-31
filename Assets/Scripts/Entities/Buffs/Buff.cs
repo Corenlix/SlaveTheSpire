@@ -1,46 +1,57 @@
 ﻿using System;
 using Infrastructure.StaticData.Buffs;
+using UnityEngine;
 
 namespace Entities.Buffs
 {
-    public abstract class Buff
+    public class Buff : MonoBehaviour
     {
         public event Action<Buff> Ended;
-        public event Action<Buff> StepRemainChanged;
+        public event Action<Buff> StepsRemainChanged;
+        public event Action<Buff> Inited;
 
-        public int StepsRemain
+        public int StepsRemain { get; private set; }
+        public BuffId Id { get; private set; }
+        public Sprite Icon { get; private set; }
+        
+        private IBuffAction _buffAction;
+
+        public void Init(BuffStaticData buffStaticData, IBuffAction buffAction, int steps)
         {
-            get => _stepsRemain;
-            protected set
-            {
-                _stepsRemain = value;
-                StepRemainChanged?.Invoke(this);
-                if (StepsOver)
-                    Ended?.Invoke(this);
-            }
-        }
-
-        public BuffId Id { get; }
-        private bool StepsOver => StepsRemain <= 0;
-        private int _stepsRemain;
-
-        public Buff(BuffId buffId, int steps)
-        {
-            Id = buffId;
+            Id = buffStaticData.Id;
+            Icon = buffStaticData.Icon;
             StepsRemain = steps;
+            _buffAction = buffAction;
+            Inited?.Invoke(this);
+            StepsRemainChanged?.Invoke(this);
+
+            if (steps <= 0)
+                throw new ArgumentOutOfRangeException();
         }
 
         public void Step()
         {
-            if (StepsOver)
+            if (StepsRemain == 0)
                 throw new InvalidOperationException();
 
-            OnStep();
+            _buffAction.Step();
             StepsRemain -= 1;
+            
+            StepsRemainChanged?.Invoke(this);
+            if(StepsRemain == 0)
+                Ended?.Invoke(this);
         }
 
-        public abstract void Stack(int steps);
-
-        protected abstract void OnStep();
+        public void SetStepsRemain(int value)
+        {
+            if (StepsRemain < 0)
+                throw new ArgumentOutOfRangeException();
+            
+            StepsRemain = value;
+            
+            StepsRemainChanged?.Invoke(this);
+            if(StepsRemain == 0)
+                Ended?.Invoke(this);
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Card.SelectStateMachine
+﻿namespace Cards.SelectStateMachine
 {
     internal abstract class CardState
     {

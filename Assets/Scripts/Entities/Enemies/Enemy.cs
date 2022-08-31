@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Infrastructure;
 using Infrastructure.Factories;
+using Infrastructure.StaticData.Enemies;
 using Infrastructure.StaticData.Enemies.EnemiesActions;
 using Zenject;
 using Random = UnityEngine.Random;
@@ -25,7 +26,7 @@ namespace Entities.Enemies
 
         public void Init(EnemyStaticData staticData)
         {
-            Init(staticData.MaxHealth, staticData.MaxHealth, staticData.Name, staticData.Shield);
+            base.Init(staticData.MaxHealth, staticData.MaxHealth, staticData.Name, staticData.Shield);
             _enemyActions = _enemyActionsFactory.GetActions(staticData, this);
         }
 
@@ -36,9 +37,14 @@ namespace Entities.Enemies
 
         protected override void OnStep()
         {
-            var action = _enemyActions[Random.Range(0, _enemyActions.Count)];
+            var action = SelectAction();
             action.ActionEnded += OnActionEnd;
             action.Use();
+        }
+
+        private IEnemyAction SelectAction()
+        {
+            return _enemyActions[Random.Range(0, _enemyActions.Count)];
         }
 
         private void OnActionEnd(IEnemyAction enemyAction)

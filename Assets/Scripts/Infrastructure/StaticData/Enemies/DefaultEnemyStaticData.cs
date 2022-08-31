@@ -1,7 +1,7 @@
 ﻿using Entities.Enemies;
 using UnityEngine;
 
-namespace Infrastructure.StaticData.Enemies.EnemiesActions
+namespace Infrastructure.StaticData.Enemies
 {
     [CreateAssetMenu(menuName = "Enemy/Default Enemy")]
     public class DefaultEnemyStaticData : EnemyStaticData

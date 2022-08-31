@@ -1,11 +1,8 @@
 ﻿using System.Collections.Generic;
 using Entities;
-using Entities.Buffs;
-using Infrastructure.StaticData;
 using Infrastructure.StaticData.Buffs;
-using Zenject;
 
-namespace Card.Actions
+namespace Cards.Actions
 {
     public class TestBuffAction : ICardAction
     {

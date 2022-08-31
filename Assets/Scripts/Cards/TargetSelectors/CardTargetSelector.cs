@@ -3,32 +3,32 @@ using System.Collections.Generic;
 using Entities;
 using UnityEngine;
 
-namespace Card.TargetSelectors
+namespace Cards.TargetSelectors
 {
     public abstract class CardTargetSelector : MonoBehaviour
     {
         public event Action Selected;
         
         [SerializeField] private CardTargetSelectorType _selectorType;
-        protected CardHolder SelectedCardHolder { get; private set; }
+        protected Card SelectedCard { get; private set; }
         private bool _isSelecting;
 
         public CardTargetSelectorType SelectorType => _selectorType;
         
-        public void StartSelecting(CardHolder cardHolder)
+        public void StartSelecting(Card card)
         {
             if (_isSelecting)
                 return;
             
             _isSelecting = true;
-            SelectedCardHolder = cardHolder;
+            SelectedCard = card;
             OnStartSelecting();
         }
 
         protected void SelectTargets(List<Entity> targets)
         {
             FinishSelecting();
-            SelectedCardHolder.Use(targets);
+            SelectedCard.Use(targets);
             Selected?.Invoke();
         }
 

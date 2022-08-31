@@ -1,7 +1,5 @@
-using Card;
+using Cards;
 using Infrastructure.Factories;
-using Infrastructure.StaticData;
-using Infrastructure.StaticData.Cards;
 
 namespace Infrastructure.GameState
 {
@@ -34,10 +32,10 @@ namespace Infrastructure.GameState
             }                        
         }
 
-        private void OnCardDestroyed(CardHolder cardHolder)
+        private void OnCardDestroyed(Card card)
         {
-            _deckHolder.PushCard(cardHolder.CardStaticData.Id);
-            cardHolder.Destroyed -= OnCardDestroyed;
+            _deckHolder.PushCard(card.CardId);
+            card.Destroyed -= OnCardDestroyed;
         }
 
         private void FinishStep()

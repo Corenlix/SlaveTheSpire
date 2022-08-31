@@ -1,10 +1,9 @@
-﻿using Card.TargetSelectors;
+﻿using Cards.TargetSelectors;
 using Deck;
-using Infrastructure;
 using UnityEngine;
 using Utilities;
 
-namespace Card.SelectStateMachine
+namespace Cards.SelectStateMachine
 {
     public class CardSelectStateMachine : MonoBehaviour
     {

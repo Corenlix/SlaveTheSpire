@@ -1,4 +1,4 @@
-﻿using Card.TargetSelectors;
+﻿using Cards.TargetSelectors;
 
 namespace Infrastructure.Factories
 {

@@ -2,7 +2,6 @@
 using Entities.Animations;
 using Entities.Enemies;
 using Infrastructure.Factories;
-using UnityEngine;
 
 namespace Infrastructure.StaticData.Enemies.EnemiesActions
 {

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Entities;
-using Infrastructure.StaticData;
+﻿using Entities;
 
 namespace Infrastructure
 {

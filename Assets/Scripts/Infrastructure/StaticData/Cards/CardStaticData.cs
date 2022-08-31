@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Card.Actions;
-using Card.TargetSelectors;
+using Cards.Actions;
+using Cards.TargetSelectors;
 using Infrastructure.StaticData.Cards.CardActions;
 using UnityEngine;
 using Zenject;

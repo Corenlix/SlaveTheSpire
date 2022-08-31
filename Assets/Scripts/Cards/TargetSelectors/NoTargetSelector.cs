@@ -1,7 +1,7 @@
 ﻿using Entities;
 using UnityEngine;
 
-namespace Card.TargetSelectors
+namespace Cards.TargetSelectors
 {
     public class NoTargetSelector : CardTargetSelector
     {
@@ -13,8 +13,8 @@ namespace Card.TargetSelectors
         
         protected override void OnSelectingUpdate()
         {
-            SelectedCardHolder.transform.position =
-                Vector3.Slerp(SelectedCardHolder.transform.position, Input.mousePosition, Time.deltaTime * _smoothless);
+            SelectedCard.transform.position =
+                Vector3.Slerp(SelectedCard.transform.position, Input.mousePosition, Time.deltaTime * _smoothless);
             if (Input.GetMouseButtonDown(0))
             {
                 var hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);

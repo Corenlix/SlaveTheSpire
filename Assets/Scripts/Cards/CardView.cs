@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Card
+namespace Cards
 {
     public class CardView : MonoBehaviour
     {

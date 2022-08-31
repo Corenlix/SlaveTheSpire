@@ -1,6 +1,6 @@
-﻿using Card;
-using Card.SelectStateMachine;
-using Card.TargetSelectors;
+﻿using Cards;
+using Cards.SelectStateMachine;
+using Cards.TargetSelectors;
 using Entities;
 using Entities.Buffs;
 using Entities.Enemies;
@@ -8,7 +8,7 @@ using Infrastructure.Assets;
 using Infrastructure.StaticData;
 using Infrastructure.StaticData.Buffs;
 using Infrastructure.StaticData.Cards;
-using Infrastructure.StaticData.Enemies.EnemiesActions;
+using Infrastructure.StaticData.Enemies;
 using UIElements;
 using UnityEngine;
 using Utilities;
@@ -22,7 +22,6 @@ namespace Infrastructure.Factories
         private readonly IAssetProvider _assetProvider;
         private readonly IStaticDataService _staticDataService;
         private readonly ICardTargetSelectorFactory _cardTargetSelectorFactory;
-        private readonly ICardActivator _cardActivator;
         private readonly IPlayerHolder _playerHolder;
         private readonly IEnemiesHolder _enemiesHolder;
         private readonly FinderUnderCursor _finderUnderCursor;
@@ -30,14 +29,13 @@ namespace Infrastructure.Factories
         private readonly UIHolder _uiHolder;
 
         public GameFactory(DiContainer diContainer, IAssetProvider assetProvider, IStaticDataService staticDataService,
-            ICardTargetSelectorFactory cardTargetSelectorFactory, ICardActivator cardActivator, IPlayerHolder playerHolder,
+            ICardTargetSelectorFactory cardTargetSelectorFactory, IPlayerHolder playerHolder,
             IEnemiesHolder enemiesHolder, FinderUnderCursor finderUnderCursor, LocationHolder locationHolder, UIHolder uiHolder)
         {
             _diContainer = diContainer;
             _assetProvider = assetProvider;
             _staticDataService = staticDataService;
             _cardTargetSelectorFactory = cardTargetSelectorFactory;
-            _cardActivator = cardActivator;
             _playerHolder = playerHolder;
             _enemiesHolder = enemiesHolder;
             _finderUnderCursor = finderUnderCursor;
@@ -45,13 +43,14 @@ namespace Infrastructure.Factories
             _uiHolder = uiHolder;
         }
         
-        public CardHolder SpawnCard(CardId cardId)
+        public Card SpawnCard(CardId cardId)
         {
-            CardHolder cardHolder = _assetProvider.Instantiate<CardHolder>(AssetPath.CardPath);
+            Card card = _assetProvider.Instantiate<Card>(AssetPath.CardPath);
             CardStaticData cardStaticData = _staticDataService.ForCard(cardId);
-            cardHolder.Init(cardStaticData, _cardActivator);
-            _uiHolder.UI.PlayerDeck.AddCard(cardHolder);
-            return cardHolder;
+            ICardActivator cardActivator = new CardActivator(_diContainer, _playerHolder, cardStaticData);
+            card.Init(cardStaticData, cardActivator);
+            _uiHolder.UI.PlayerDeck.AddCard(card);
+            return card;
         }
 
         public CardTargetSelectorsPool SpawnCardTargetSelectorsPool()
@@ -104,15 +103,15 @@ namespace Infrastructure.Factories
             return location;
         }
 
-        public BuffHolder SpawnBuffHolder(BuffId id, int steps, Transform parent)
+        public Buff SpawnBuff(BuffId id, int steps, Transform parent)
         {
-            var buffData = _staticDataService.ForBuff(id);
-            var buff = buffData.GetBuff(id, steps, _diContainer);
-            var buffHolder = _assetProvider.Instantiate<BuffHolder>(AssetPath.BuffHolderPath);
-            buffHolder.transform.SetParent(parent);
-            buffHolder.transform.localScale = Vector3.one;
-            buffHolder.Init(buff, buffData.Icon);
-            return buffHolder;
+            BuffStaticData buffData = _staticDataService.ForBuff(id);
+            IBuffAction buffAction = buffData.GetBuffAction(_diContainer);
+            var buff = _assetProvider.Instantiate<Buff>(AssetPath.BuffHolderPath);
+            buff.transform.SetParent(parent);
+            buff.transform.localScale = Vector3.one;
+            buff.Init(buffData, buffAction, steps);
+            return buff;
         }
 
         public DamageEffect SpawnDamageEffect(int damage, Vector3 position)

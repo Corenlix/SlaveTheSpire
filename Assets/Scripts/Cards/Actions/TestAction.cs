@@ -2,7 +2,7 @@
 using Entities;
 using UnityEngine;
 
-namespace Card.Actions
+namespace Cards.Actions
 {
     public class TestAction : ICardAction
     {

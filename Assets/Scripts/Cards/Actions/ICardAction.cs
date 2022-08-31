@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using Entities;
-using Zenject;
 
-namespace Card.Actions
+namespace Cards.Actions
 {
     public interface ICardAction
     {

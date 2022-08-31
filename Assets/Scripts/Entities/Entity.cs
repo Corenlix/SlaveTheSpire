@@ -3,6 +3,7 @@ using Entities.Animations;
 using Entities.Buffs;
 using Infrastructure.StaticData.Buffs;
 using UnityEngine;
+
 namespace Entities
 {
     public abstract class Entity : MonoBehaviour
@@ -32,9 +33,15 @@ namespace Entities
         public void PlayPhaseAnimation(PhaseAnimation phaseAnimation, Action firstPhaseAction, Action secondPhaseAction) =>
             _animator.PlayPhaseAnimationWithActions(phaseAnimation, firstPhaseAction, secondPhaseAction);
 
-        public void Select() =>_animator.SetBool(AnimationNames.SelectBool, true);
+        public void Select()
+        {
+            _animator.SetBool(AnimationNames.SelectBool, true);
+        }
 
-        public void Deselect() =>_animator.SetBool(AnimationNames.SelectBool, false);
+        public void Deselect()
+        {
+            _animator.SetBool(AnimationNames.SelectBool, false);
+        }
 
         public void TakeDamage(int amount)
         {

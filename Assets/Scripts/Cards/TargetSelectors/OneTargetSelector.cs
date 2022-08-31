@@ -5,7 +5,7 @@ using Entities.Enemies;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Card.TargetSelectors
+namespace Cards.TargetSelectors
 {
     public class OneTargetSelector : CardTargetSelector
     {

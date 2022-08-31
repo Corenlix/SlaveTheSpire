@@ -1,4 +1,4 @@
-﻿using Card.Actions;
+﻿using Cards.Actions;
 using UnityEngine;
 using Zenject;
 

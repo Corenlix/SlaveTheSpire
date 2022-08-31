@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Entities.Enemies;
+using Infrastructure.StaticData.Enemies.EnemiesActions;
 using UnityEngine;
 using Zenject;
 
-namespace Infrastructure.StaticData.Enemies.EnemiesActions
+namespace Infrastructure.StaticData.Enemies
 {
     public abstract class EnemyStaticData : ScriptableObject
     {

@@ -1,4 +1,4 @@
-﻿namespace Card.TargetSelectors
+﻿namespace Cards.TargetSelectors
 {
     public enum CardTargetSelectorType
     {

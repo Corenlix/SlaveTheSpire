@@ -2,7 +2,7 @@
 using Entities;
 using Infrastructure.Factories;
 
-namespace Card.Actions
+namespace Cards.Actions
 {
     public class DealDamageAction : ICardAction
     {

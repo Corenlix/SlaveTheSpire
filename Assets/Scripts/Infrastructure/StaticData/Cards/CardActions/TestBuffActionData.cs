@@ -1,4 +1,4 @@
-﻿using Card.Actions;
+﻿using Cards.Actions;
 using Infrastructure.StaticData.Buffs;
 using UnityEngine;
 using Zenject;

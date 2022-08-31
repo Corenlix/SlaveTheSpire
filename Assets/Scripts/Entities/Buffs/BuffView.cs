@@ -1,5 +1,4 @@
-﻿using System;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,33 +6,30 @@ namespace Entities.Buffs
 {
     public class BuffView : MonoBehaviour
     {
+        [SerializeField] private Buff buff;
         [SerializeField] private Image _icon;
         [SerializeField] private TextMeshProUGUI _stepsText;
-        private Buff _buff;
-        
-        public void Init(Sprite icon, Buff buff)
+
+        private void OnEnable()
         {
-            UnSubscribe();
-            
-            _icon.sprite = icon;
-            UpdateSteps(buff);
-            buff.StepRemainChanged += UpdateSteps;
+            buff.Inited += OnBuffInit;
+            buff.StepsRemainChanged += UpdateSteps;
         }
 
-        public void UpdateSteps(Buff buff)
+        private void OnBuffInit(Buff buff)
+        {
+            _icon.sprite = buff.Icon;
+        }
+
+        private void UpdateSteps(Buff buff)
         {
             _stepsText.text = buff.StepsRemain.ToString();
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
-            UnSubscribe();
-        }
-
-        private void UnSubscribe()
-        {
-            if(_buff != null)
-                _buff.StepRemainChanged -= UpdateSteps;
+            buff.Inited -= OnBuffInit;
+            buff.StepsRemainChanged -= UpdateSteps;
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using UnityEngine;
 
-namespace Card.TargetSelectors
+namespace Cards.TargetSelectors
 {
     public static class CardTargetSelectorFactory
     {

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Entities.Enemies;
+using Infrastructure.StaticData.Enemies;
 using Infrastructure.StaticData.Enemies.EnemiesActions;
 
 namespace Infrastructure.Factories

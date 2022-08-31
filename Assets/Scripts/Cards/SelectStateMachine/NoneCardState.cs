@@ -1,8 +1,8 @@
-﻿using Card.TargetSelectors;
+﻿using Cards.TargetSelectors;
 using Deck;
 using Utilities;
 
-namespace Card.SelectStateMachine
+namespace Cards.SelectStateMachine
 {
     internal class NoneCardState : CardState
     {
@@ -21,7 +21,7 @@ namespace Card.SelectStateMachine
         
         public override void Update()
         {
-            CardHolder cardUnderCursor = _finderUnderCursor.FindObjectUnderCursor<CardHolder>();
+            Card cardUnderCursor = _finderUnderCursor.FindObjectUnderCursor<Card>();
             if(cardUnderCursor != null)
                 _stateMachine.Transit(new HoldCardState(_stateMachine, _finderUnderCursor, _deckView, cardUnderCursor, _cardTargetSelectorsPool));
         }

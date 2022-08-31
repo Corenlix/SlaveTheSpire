@@ -8,9 +8,18 @@ namespace Infrastructure.StaticData.Buffs
     {
         [SerializeField] private Sprite _icon;
         [SerializeField] private BuffId _id;
-        
+        [SerializeField] public BuffStackStrategy _buffStackStrategy;
+
         public Sprite Icon => _icon;
         public BuffId Id => _id;
-        public abstract Buff GetBuff(BuffId id, int steps, DiContainer diContainer);
+        public BuffStackStrategy BuffStackStrategy => _buffStackStrategy;
+        public abstract IBuffAction GetBuffAction(DiContainer diContainer);
+    }
+
+    public enum BuffStackStrategy
+    {
+        None,
+        Steps,
+        Multiple,
     }
 }
