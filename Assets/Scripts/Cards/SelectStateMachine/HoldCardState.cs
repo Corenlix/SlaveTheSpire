@@ -32,7 +32,7 @@ namespace Cards.SelectStateMachine
                 return;
             } 
             
-            if(Input.GetMouseButtonDown(0))
+            if(Input.GetMouseButtonUp(0))
             {
                 if (_selectedCard.IsAvailableToUse())
                     _cardSelectStateMachine.Transit(new SelectingCardState(_cardSelectStateMachine, _finderUnderCursor,

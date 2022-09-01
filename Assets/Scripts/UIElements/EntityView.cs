@@ -13,19 +13,51 @@ namespace UIElements
         
         private void OnEnable()
         {
-            _entity.EntityUpdated += OnEntityUpdate;
+            _entity.EntityInited += OnEntityInited;
+            _entity.EntityHealed += OnEntityHealed;
+            _entity.EntityDamaged += OnEntityDamaged;
+            _entity.EntityGotArmor += OnEntityGotArmor;
         }
 
         private void OnDisable()
         {
-            _entity.EntityUpdated -= OnEntityUpdate;
+            _entity.EntityInited -= OnEntityInited;
+            _entity.EntityHealed -= OnEntityHealed;
+            _entity.EntityDamaged -= OnEntityDamaged;
+            _entity.EntityGotArmor -= OnEntityGotArmor;
         }
 
-        private void OnEntityUpdate(Entity entity)
+        private void OnEntityInited(Entity entity)
         {
             _nameText.text = _entity.Name;
-            _healthText.text = $"{entity.Health}/{entity.MaxHealth}";
-            _shieldText.text = $"{entity.Shield}";
+            UpdateHealth();
+            UpdateArmor();
+        }
+
+        private void UpdateHealth()
+        {
+            _healthText.text = $"{_entity.Health}/{_entity.MaxHealth}";
+        }
+
+        private void UpdateArmor()
+        {
+            _shieldText.text = $"{_entity.Armor}";
+        }
+
+        private void OnEntityHealed(Entity entity, int amount)
+        {
+            UpdateHealth();
+        }
+
+        private void OnEntityDamaged(Entity arg1, int arg2)
+        {
+            UpdateArmor();
+            UpdateHealth();
+        }
+
+        private void OnEntityGotArmor(Entity obj)
+        {
+            UpdateArmor();
         }
     }
 }

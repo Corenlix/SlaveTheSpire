@@ -32,6 +32,7 @@ namespace Entities
 
         protected override void OnStep()
         {
+            RefreshEnergy();
         }
     }
 }

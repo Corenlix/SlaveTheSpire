@@ -43,11 +43,11 @@ namespace Infrastructure.Factories
             _uiHolder = uiHolder;
         }
         
-        public Card SpawnCard(CardId cardId)
+        public Card SpawnCard(CardId cardId, Player owner)
         {
             Card card = _assetProvider.Instantiate<Card>(AssetPath.CardPath);
             CardStaticData cardStaticData = _staticDataService.ForCard(cardId);
-            ICardActivator cardActivator = new CardActivator(_diContainer, _playerHolder, cardStaticData);
+            ICardActivator cardActivator = new CardActivator(_diContainer, owner, cardStaticData);
             card.Init(cardStaticData, cardActivator);
             _uiHolder.UI.PlayerDeck.AddCard(card);
             return card;
@@ -103,10 +103,10 @@ namespace Infrastructure.Factories
             return location;
         }
 
-        public Buff SpawnBuff(BuffId id, int steps, Transform parent)
+        public Buff SpawnBuff(BuffId id, int steps, Transform parent, Entity buffTarget)
         {
             BuffStaticData buffData = _staticDataService.ForBuff(id);
-            IBuffAction buffAction = buffData.GetBuffAction(_diContainer);
+            IBuffAction buffAction = buffData.GetBuffAction(_diContainer, buffTarget);
             var buff = _assetProvider.Instantiate<Buff>(AssetPath.BuffHolderPath);
             buff.transform.SetParent(parent);
             buff.transform.localScale = Vector3.one;

@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 7992479933883446425}
-  _buffsHolder: {fileID: 0}
+  _buffsHolder: {fileID: 8233695440081851845}
 --- !u!114 &6238084849958385979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -362,6 +362,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d39dfbf104e7466f9c831926bdeaf287, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _owner: {fileID: 1992023205892073275}
 --- !u!114 &5673844725675668784
 MonoBehaviour:
   m_ObjectHideFlags: 0

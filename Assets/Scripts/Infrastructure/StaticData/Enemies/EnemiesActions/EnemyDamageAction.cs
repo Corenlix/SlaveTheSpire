@@ -30,7 +30,7 @@ namespace Infrastructure.StaticData.Enemies.EnemiesActions
 
         private void OnAttack()
         {
-            _playerHolder.Player.TakeDamage(_damage);
+            _playerHolder.Player.ApplyDamage(_damage);
             _gameFactory.SpawnDamageEffect(_damage, _playerHolder.Player.transform.position);
         }
 

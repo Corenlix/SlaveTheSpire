@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Entities.Enemies;
 
 namespace Infrastructure
@@ -8,9 +9,12 @@ namespace Infrastructure
     {
         public event Action AllEnemiesStepped;
 
+        public List<Enemy> Enemies => _enemies.ToList();
+
         private readonly LocationHolder _locationHolder;
         private readonly List<Enemy> _enemies = new();
         private IEnumerator<Enemy> _enemiesStepEnumerator;
+        
         public EnemiesHolder(LocationHolder locationHolder)
         {
             _locationHolder = locationHolder;

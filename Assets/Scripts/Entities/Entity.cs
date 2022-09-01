@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Entities.Animations;
 using Entities.Buffs;
 using Infrastructure.StaticData.Buffs;
@@ -8,15 +9,32 @@ namespace Entities
 {
     public abstract class Entity : MonoBehaviour
     {
-        public event Action<Entity> EntityUpdated;
+        public event Action<Entity> EntityInited;
+        public event Action<Entity, int> EntityDamaged;
+        public event Action<Entity, int> EntityHealed;
+        public event Action<Entity> EntityGotArmor;
+        public event Action<Entity> EntityStepStarted;
         [SerializeField] private EntityAnimator _animator;
         [SerializeField] private BuffsHolder _buffsHolder;
 
         public string Name => _name;
         public int MaxHealth => _entityHealth.MaxHealth;
         public int Health => _entityHealth.Health;
-        public int Shield => _entityHealth.Shield;
+        public int Armor => _entityHealth.Armor;
+
+        public int BonusDamage
+        {
+            get => _attackProcessor.BonusDamage;
+            set => _attackProcessor.BonusDamage = value;
+        }
+
+        public float DamageMultiplier
+        {
+            get => _attackProcessor.DamageMultiplier;
+            set => _attackProcessor.DamageMultiplier = value;
+        }
         
+        private readonly AttackProcessor _attackProcessor = new AttackProcessor();
         private EntityHealth _entityHealth;
         private string _name;
 
@@ -24,7 +42,7 @@ namespace Entities
         {
             _entityHealth = new EntityHealth(health, maxHealth, shield);
             _name = name;
-            EntityUpdated?.Invoke(this);
+            EntityInited?.Invoke(this);
         }
 
         public void PlayAnimationWithAction(int triggerHashName, Action animationAction) =>
@@ -43,10 +61,15 @@ namespace Entities
             _animator.SetBool(AnimationNames.SelectBool, false);
         }
 
-        public void TakeDamage(int amount)
+        public void Attack(List<Entity> targets, int damage)
         {
-            _entityHealth.TakeDamage(amount);
-            EntityUpdated?.Invoke(this);
+            _attackProcessor.Attack(targets, damage);
+        }
+
+        public void ApplyDamage(int amount)
+        {
+            _entityHealth.ApplyDamage(amount);
+            EntityDamaged?.Invoke(this, amount);
             
             if(_entityHealth.Health == 0)
             {
@@ -54,30 +77,35 @@ namespace Entities
             }
         }
 
-        public void TakeHeal(int amount)
+        public void ApplyDamageThroughArmor(int amount)
         {
-            _entityHealth.TakeHeal(amount);
-            EntityUpdated?.Invoke(this);
+            _entityHealth.ApplyDamageThroughArmor(amount);
+            EntityDamaged?.Invoke(this, amount);
+        }
+        
+        public void AddDamageProcessor(DamageProcessor processor) => _attackProcessor.AddDamageProcessor(processor);
+        
+        public void RemoveDamageProcessor(DamageProcessor processor) => _attackProcessor.RemoveDamageProcessor(processor);
+
+        public void ApplyHeal(int amount)
+        {
+            _entityHealth.ApplyHeal(amount);
+            EntityHealed?.Invoke(this, amount);
         }
 
-        public void TakeShield(int amount)
+        public void AddArmor(int amount)
         {
-            _entityHealth.TakeShield(amount);
-            EntityUpdated?.Invoke(this);
-        }
-
-        public void TakeShieldDamage(int amount)
-        {
-            _entityHealth.TakeShieldDamage(amount);
-            EntityUpdated?.Invoke(this);
+            _entityHealth.AddArmor(amount);
+            EntityGotArmor?.Invoke(this);
         }
 
         public void AddBuff(BuffId buffId, int steps) => _buffsHolder.Add(buffId, steps);
         
         public void Step()
         {
-            OnStep();
+            EntityStepStarted?.Invoke(this);
             _buffsHolder.Step();
+            OnStep();
         }
 
         protected abstract void OnStep();

@@ -14,14 +14,14 @@ namespace Infrastructure.Factories
 {
     public interface IGameFactory
     {
-        Card SpawnCard(CardId cardStaticData);
+        Card SpawnCard(CardId cardStaticData, Player owner);
         CardTargetSelectorsPool SpawnCardTargetSelectorsPool();
         CardSelectStateMachine SpawnCardMover();
         UI SpawnUIContainer();
         Enemy SpawnEnemy(EnemyId id);
         Location SpawnLocation();
         Player SpawnPlayer();
-        Buff SpawnBuff(BuffId id, int steps, Transform parent);
+        Buff SpawnBuff(BuffId id, int steps, Transform parent, Entity buffTarget);
         DamageEffect SpawnDamageEffect(int damage, Vector3 position);
     }
 }

@@ -1,13 +1,14 @@
-﻿using Entities.Buffs;
+﻿using Entities;
+using Entities.Buffs;
 using UnityEngine;
 using Zenject;
 
 namespace Infrastructure.StaticData.Buffs
 {
-    [CreateAssetMenu(menuName = "Buffs/TestBuff")]
+    [CreateAssetMenu(menuName = MenuNames.BuffDataMenuName+"TestBuff")]
     public class TestBuffStaticData : BuffStaticData
     {
-        public override IBuffAction GetBuffAction(DiContainer diContainer)
+        public override IBuffAction GetBuffAction(DiContainer diContainer, Entity buffTarget)
         {
             return new TestBuffAction();
         }

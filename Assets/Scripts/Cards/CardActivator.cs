@@ -10,20 +10,20 @@ namespace Cards
     public class CardActivator : ICardActivator
     {
         private readonly DiContainer _diContainer;
-        private readonly IPlayerHolder _playerHolder;
+        private readonly Player _owner;
         private readonly Card _card;
         private readonly CardStaticData _cardStaticData;
 
-        public CardActivator(DiContainer diContainer, IPlayerHolder playerHolder, CardStaticData cardStaticData)
+        public CardActivator(DiContainer diContainer, Player owner, CardStaticData cardStaticData)
         {
             _diContainer = diContainer;
-            _playerHolder = playerHolder;
+            _owner = owner;
             _cardStaticData = cardStaticData;
         }
 
         public bool IsAvailableToUse()
         {
-            return _playerHolder.Player.Energy >= _cardStaticData.Cost;
+            return _owner.Energy >= _cardStaticData.Cost;
         }
 
         public void Use(List<Entity> targets)
@@ -31,8 +31,8 @@ namespace Cards
             if (!IsAvailableToUse())
                 throw new InvalidOperationException();
             
-            _playerHolder.Player.SubtractEnergy(_cardStaticData.Cost);
-            _cardStaticData.GetCardActions(_diContainer).ForEach(x=>x.Activate(targets));
+            _owner.SubtractEnergy(_cardStaticData.Cost);
+            _cardStaticData.GetCardAction(_diContainer).Use(targets, _owner);
         }
     }
 }

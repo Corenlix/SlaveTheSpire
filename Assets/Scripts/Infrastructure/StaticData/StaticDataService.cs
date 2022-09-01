@@ -16,7 +16,6 @@ namespace Infrastructure.StaticData
         private Dictionary<EnemyId, EnemyStaticData> _enemies;
         private Dictionary<BuffId, BuffStaticData> _buffs;
 
-
         public StaticDataService()
         {
             Load();

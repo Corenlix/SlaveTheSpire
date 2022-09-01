@@ -6,13 +6,13 @@ namespace Entities
     {
         public int Health { get; private set; }
         public int MaxHealth { get; }
-        public int Shield { get; private set; }
+        public int Armor { get; private set; }
 
-        public EntityHealth(int health, int maxHealth, int shield)
+        public EntityHealth(int health, int maxHealth, int armor)
         {
             MaxHealth = maxHealth;
             Health = health;
-            Shield = shield;
+            Armor = armor;
 
             if (health > maxHealth)
                 throw new ArgumentOutOfRangeException();
@@ -20,11 +20,11 @@ namespace Entities
             if (health <= 0)
                 throw new ArgumentOutOfRangeException();
             
-            if (shield < 0)
+            if (armor < 0)
                 throw new ArgumentOutOfRangeException();
         }
 
-        public void TakeHeal(int amount)
+        public void ApplyHeal(int amount)
         {
             if (amount < 0)
                 throw new ArgumentOutOfRangeException();
@@ -32,39 +32,43 @@ namespace Entities
             Health = Math.Clamp(Health + amount, 0, MaxHealth);
         }
 
-        public void TakeDamage(int damage)
+        public void ApplyDamage(int damage)
+        {
+            HealthDamage(AbsorbDamageByArmor(damage));
+        }
+
+        public void ApplyDamageThroughArmor(int damage)
+        {
+            HealthDamage(damage);
+        }
+
+        public void AddArmor(int amount)
+        {
+            Armor += amount;
+        }
+        
+        private void HealthDamage(int damage)
         {
             if (damage < 0)
                 throw new ArgumentOutOfRangeException();
             
-            HealthTakeDamage(damage);
-            ShieldTakeDamage(damage);
+            Health = Math.Clamp(Health - damage, 0, MaxHealth);
         }
 
-        private void HealthTakeDamage(int damage)
+        private int AbsorbDamageByArmor(int damage)
         {
-            damage -= Shield;
-            if (damage > 0)
-                Health = Math.Clamp(Health - damage, 0, MaxHealth);
-        }
+            if (damage < 0)
+                throw new ArgumentOutOfRangeException();
+            
+            var remainDamage = damage - Armor;
+            if (remainDamage < 0)
+                remainDamage = 0;
 
-        private void ShieldTakeDamage(int damage)
-        {
-            Shield -= damage;
-            if (Shield < 0)
-                Shield = 0;
-        }
+            Armor -= damage;
+            if (Armor < 0)
+                Armor = 0;
 
-        public void TakeShield(int amount)
-        {
-            Shield += amount;
-        }
-
-        public void TakeShieldDamage(int amount)
-        {
-            Shield -= amount;
-            if (Shield < 0)
-                Shield = 0;
+            return remainDamage;
         }
     }
 }

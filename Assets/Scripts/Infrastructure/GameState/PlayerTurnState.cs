@@ -22,12 +22,12 @@ namespace Infrastructure.GameState
         
         public void Enter()
         {
-            _playerHolder.Player.RefreshEnergy();
+            _playerHolder.Player.Step();
             _uiHolder.UI.EndTurnButton.onClick.AddListener(FinishStep);
 
             for (int i = 0; i < 5; i++)
             {
-                var card = _gameFactory.SpawnCard(_deckHolder.GetCard());
+                var card = _gameFactory.SpawnCard(_deckHolder.GetCard(), _playerHolder.Player);
                 card.Destroyed += OnCardDestroyed;
             }                        
         }

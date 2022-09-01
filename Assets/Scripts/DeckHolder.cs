@@ -11,16 +11,13 @@ public class DeckHolder : IDeckHolder
 
     public DeckHolder()
     {
-        _drawPile.Enqueue(CardId.Damage);
-        _drawPile.Enqueue(CardId.Damage);
-        _drawPile.Enqueue(CardId.Damage);
-        _drawPile.Enqueue(CardId.Damage);
-        _drawPile.Enqueue(CardId.Test);
-        _drawPile.Enqueue(CardId.TestBuff);
-        _drawPile.Enqueue(CardId.Damage);
-        _drawPile.Enqueue(CardId.Damage);
-        _drawPile.Enqueue(CardId.Damage);
-        _drawPile.Enqueue(CardId.Damage);
+        _drawPile.Enqueue(CardId.WarriorAoe);
+        _drawPile.Enqueue(CardId.WarriorEating);
+        _drawPile.Enqueue(CardId.WarriorSalo);
+        _drawPile.Enqueue(CardId.WarriorValor);
+        _drawPile.Enqueue(CardId.WarriorDrinkBeer);
+        _drawPile.Enqueue(CardId.WarriorMegaAttack);
+        _drawPile.Enqueue(CardId.WarriorDamageLikeDefense);
     }
 
     public CardId GetCard()

@@ -1,4 +1,5 @@
-﻿using Entities;
+﻿using System;
+using Entities;
 using TMPro;
 using UnityEngine;
 
@@ -21,14 +22,20 @@ namespace UIElements
             _energyText.text = $"{player.Energy}/{player.MaxEnergy}";
         }
 
-        private void OnDestroy()
+        private void OnEnable()
+        {
+            Subscribe();
+        }
+
+        private void OnDisable()
         {
             UnSubscribe();
         }
 
         private void Subscribe()
         {
-            _observingPlayer.PlayerUpdated += OnPlayerUpdate;
+            if (_observingPlayer)
+                _observingPlayer.PlayerUpdated += OnPlayerUpdate;
         }
 
         private void UnSubscribe()
