@@ -4,6 +4,8 @@ namespace Entities
 {
     public class EntityHealth
     {
+        public event Action<EntityHealth> Changed;
+        
         public int Health { get; private set; }
         public int MaxHealth { get; }
         public int Armor { get; private set; }
@@ -30,6 +32,7 @@ namespace Entities
                 throw new ArgumentOutOfRangeException();
 
             Health = Math.Clamp(Health + amount, 0, MaxHealth);
+            Changed?.Invoke(this);
         }
 
         public void ApplyDamage(int damage)
@@ -53,6 +56,7 @@ namespace Entities
                 throw new ArgumentOutOfRangeException();
             
             Health = Math.Clamp(Health - damage, 0, MaxHealth);
+            Changed?.Invoke(this);
         }
 
         private int AbsorbDamageByArmor(int damage)
@@ -67,6 +71,8 @@ namespace Entities
             Armor -= damage;
             if (Armor < 0)
                 Armor = 0;
+            
+            Changed?.Invoke(this);
 
             return remainDamage;
         }

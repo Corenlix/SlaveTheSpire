@@ -14,17 +14,19 @@ namespace UIElements
         private void OnEnable()
         {
             _entity.EntityInited += OnEntityInited;
-            _entity.EntityHealed += OnEntityHealed;
-            _entity.EntityDamaged += OnEntityDamaged;
-            _entity.EntityGotArmor += OnEntityGotArmor;
+            _entity.EntityHealth.Changed += OnHealthChanged;
         }
 
         private void OnDisable()
         {
             _entity.EntityInited -= OnEntityInited;
-            _entity.EntityHealed -= OnEntityHealed;
-            _entity.EntityDamaged -= OnEntityDamaged;
-            _entity.EntityGotArmor -= OnEntityGotArmor;
+            _entity.EntityHealth.Changed -= OnHealthChanged;
+        }
+
+        private void OnHealthChanged(EntityHealth health)
+        {
+            UpdateArmor();
+            UpdateHealth();
         }
 
         private void OnEntityInited(Entity entity)
@@ -36,28 +38,12 @@ namespace UIElements
 
         private void UpdateHealth()
         {
-            _healthText.text = $"{_entity.Health}/{_entity.MaxHealth}";
+            _healthText.text = $"{_entity.EntityHealth.Health}/{_entity.EntityHealth.MaxHealth}";
         }
 
         private void UpdateArmor()
         {
-            _shieldText.text = $"{_entity.Armor}";
-        }
-
-        private void OnEntityHealed(Entity entity, int amount)
-        {
-            UpdateHealth();
-        }
-
-        private void OnEntityDamaged(Entity arg1, int arg2)
-        {
-            UpdateArmor();
-            UpdateHealth();
-        }
-
-        private void OnEntityGotArmor(Entity obj)
-        {
-            UpdateArmor();
+            _shieldText.text = $"{_entity.EntityHealth.Armor}";
         }
     }
 }

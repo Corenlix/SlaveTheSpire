@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Entities;
-using Infrastructure.StaticData.Buffs;
 
 namespace Cards.CardActions
 {
@@ -8,6 +7,7 @@ namespace Cards.CardActions
     {
         private readonly int _damageToOwner;
         private readonly int _bonusDamage;
+        private Player _cardOwner;
 
         public DrinkBeerCardAction(int damageToOwner, int bonusDamage)
         {
@@ -17,15 +17,16 @@ namespace Cards.CardActions
 
         public void Use(List<Entity> targets, Player cardOwner)
         {
-            cardOwner.ApplyDamage(_damageToOwner);
-            cardOwner.BonusDamage += _bonusDamage;
-            var damageProcessor = new ActionAfterAttacksDamageProcessor(1);
-            damageProcessor.SetAction(() =>
-            {
-                cardOwner.RemoveDamageProcessor(damageProcessor);
-                cardOwner.BonusDamage -= _bonusDamage;
-            });
-            cardOwner.AddDamageProcessor(damageProcessor);
+            _cardOwner = cardOwner;
+            cardOwner.EntityHealth.ApplyDamage(_damageToOwner);
+            cardOwner.AttackProcessor.BonusDamage += _bonusDamage;
+            cardOwner.AttackProcessor.Attacked += OnAttack;
+        }
+
+        private void OnAttack(int obj)
+        {
+            _cardOwner.AttackProcessor.BonusDamage -= _bonusDamage;
+            _cardOwner.AttackProcessor.Attacked -= OnAttack;
         }
     }
 }

@@ -14,7 +14,7 @@
 
         private void Init()
         {
-            _buffTarget.BonusDamage += _bonusDamage;
+            _buffTarget.AttackProcessor.BonusDamage += _bonusDamage;
         }
         
         public void Step()
@@ -24,7 +24,7 @@
 
         public void End()
         {
-            _buffTarget.BonusDamage -= _bonusDamage;
+            _buffTarget.AttackProcessor.BonusDamage -= _bonusDamage;
         }
     }
 }

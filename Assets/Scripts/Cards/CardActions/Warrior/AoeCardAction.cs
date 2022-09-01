@@ -19,7 +19,7 @@ namespace Cards.CardActions
         public void Use(List<Entity> targets, Player cardOwner)
         {
             var allEnemies = _enemiesHolder.Enemies.Select(x => (Entity) x).ToList();
-            cardOwner.Attack(allEnemies, _damage);
+            cardOwner.AttackProcessor.Attack(allEnemies, _damage);
         }
     }
 }

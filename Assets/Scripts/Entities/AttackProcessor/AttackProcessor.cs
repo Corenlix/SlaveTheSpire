@@ -1,11 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Entities
 {
     public class AttackProcessor
     {
+        public event Action<int> Attacked;
+        
         private readonly List<DamageProcessor> _damageProcessors = new();
         public int BonusDamage { get; set; } = 0;
         public float DamageMultiplier { get; set; } = 1;
@@ -17,8 +19,9 @@ namespace Entities
         {
             damage = Mathf.RoundToInt((damage + BonusDamage)*DamageMultiplier);
             _damageProcessors.ForEach(x=>damage=x.DamageProcess(damage));
-            _damageProcessors.ToList().ForEach(x=>x.PostDamageProcess(damage*targets.Count));
-            targets.ForEach(x=>x.ApplyDamage(damage));
+            targets.ForEach(x=>x.EntityHealth.ApplyDamage(damage));
+            int totalDamage = damage * targets.Count;
+            Attacked?.Invoke(totalDamage);
         }
     }
 }

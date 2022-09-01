@@ -6,44 +6,42 @@ namespace Cards.CardActions
 {
     public class ValorCardAction : ICardAction
     {
-        private readonly IPlayerHolder _playerHolder;
+        private readonly IEnemiesHolder _enemiesHolder;
         private readonly int _healthForDamage;
         
         private Player _cardOwner;
         private int _bonusDamageApplied;
         
-        public ValorCardAction(IPlayerHolder playerHolder, int healthForDamage)
+        public ValorCardAction(IEnemiesHolder enemiesHolder, int healthForDamage)
         {
-            _playerHolder = playerHolder;
+            _enemiesHolder = enemiesHolder;
             _healthForDamage = healthForDamage;
         }
         
         public void Use(List<Entity> targets, Player cardOwner)
         {
             _cardOwner = cardOwner;
-            _playerHolder.Player.EntityDamaged += OnEntityTakeDamage;
-            _cardOwner.EntityStepStarted += OnOwnerStep;
+            _enemiesHolder.Enemies.ForEach(x=>x.AttackProcessor.Attacked+=OnEnemyAttacked);
+            cardOwner.EntityStepStarted += OnOwnerStep;
+            cardOwner.AttackProcessor.Attacked += OnPlayerAttacked;
+        }
 
-            var damageProcessor = new ActionAfterAttacksDamageProcessor(1);
-            _cardOwner.AddDamageProcessor(damageProcessor);
-            damageProcessor.SetAction(() =>
-            {
-                cardOwner.RemoveDamageProcessor(damageProcessor);
-                cardOwner.BonusDamage -= _bonusDamageApplied;
-            });
+        private void OnPlayerAttacked(int damage)
+        {
+            _cardOwner.AttackProcessor.BonusDamage -= _bonusDamageApplied;
+        }
+
+        private void OnEnemyAttacked(int damage)
+        {
+            int bonusDamage = _healthForDamage * damage;
+            _cardOwner.AttackProcessor.BonusDamage += bonusDamage;
+            _bonusDamageApplied += bonusDamage;
         }
 
         private void OnOwnerStep(Entity obj)
         {
             _cardOwner.EntityStepStarted -= OnOwnerStep;
-            _playerHolder.Player.EntityDamaged -= OnEntityTakeDamage;
-        }
-
-        private void OnEntityTakeDamage(Entity entity, int damage)
-        {
-            int bonusDamage = _healthForDamage * damage;
-            _cardOwner.BonusDamage += bonusDamage;
-            _bonusDamageApplied += bonusDamage;
+            _enemiesHolder.Enemies.ForEach(x=>x.AttackProcessor.Attacked-=OnEnemyAttacked);
         }
     }
 }

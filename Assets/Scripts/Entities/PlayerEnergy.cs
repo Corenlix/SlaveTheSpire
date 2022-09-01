@@ -4,6 +4,8 @@ namespace Entities
 {
     public class PlayerEnergy
     {
+        public event Action<PlayerEnergy> Changed;
+        
         public int MaxEnergy { get; }
         public int Energy { get; private set; }
 
@@ -25,11 +27,13 @@ namespace Entities
                 throw new ArgumentOutOfRangeException();
 
             Energy -= amount;
+            Changed?.Invoke(this);
         }
 
         public void Refresh()
         {
             Energy = MaxEnergy;
+            Changed?.Invoke(this);
         }
     }
 }

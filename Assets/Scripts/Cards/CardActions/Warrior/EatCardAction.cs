@@ -17,8 +17,8 @@ namespace Cards.CardActions
 
         public void Use(List<Entity> targets, Player cardOwner)
         {
-            cardOwner.ApplyHeal(_instantHeal);
-            cardOwner.AddBuff(BuffId.WarriorEat, _healBuffSteps);
+            cardOwner.EntityHealth.ApplyHeal(_instantHeal);
+            cardOwner.BuffsHolderFacade.AddBuff(BuffId.WarriorEat, _healBuffSteps);
         }
     }
 }

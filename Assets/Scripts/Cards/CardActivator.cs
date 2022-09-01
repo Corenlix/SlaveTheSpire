@@ -23,7 +23,7 @@ namespace Cards
 
         public bool IsAvailableToUse()
         {
-            return _owner.Energy >= _cardStaticData.Cost;
+            return _owner.Energy.Energy >= _cardStaticData.Cost;
         }
 
         public void Use(List<Entity> targets)
@@ -31,7 +31,7 @@ namespace Cards
             if (!IsAvailableToUse())
                 throw new InvalidOperationException();
             
-            _owner.SubtractEnergy(_cardStaticData.Cost);
+            _owner.Energy.Subtract(_cardStaticData.Cost);
             _cardStaticData.GetCardAction(_diContainer).Use(targets, _owner);
         }
     }

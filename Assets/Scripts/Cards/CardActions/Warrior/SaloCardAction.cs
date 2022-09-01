@@ -16,8 +16,8 @@ namespace Cards.CardActions
         
         public void Use(List<Entity> targets, Player cardOwner)
         {
-            cardOwner.AddArmor(_bonusShield);
-            cardOwner.ApplyDamageThroughArmor(_damageToOwner);
+            cardOwner.EntityHealth.AddArmor(_bonusShield);
+            cardOwner.EntityHealth.ApplyDamageThroughArmor(_damageToOwner);
         }
     }
 }

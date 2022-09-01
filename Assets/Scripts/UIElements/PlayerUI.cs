@@ -17,9 +17,9 @@ namespace UIElements
             Subscribe();
         }
 
-        private void OnPlayerUpdate(Player player)
+        private void OnEnergyChanged(PlayerEnergy energy)
         {
-            _energyText.text = $"{player.Energy}/{player.MaxEnergy}";
+            _energyText.text = $"{energy.Energy}/{energy.MaxEnergy}";
         }
 
         private void OnEnable()
@@ -35,13 +35,13 @@ namespace UIElements
         private void Subscribe()
         {
             if (_observingPlayer)
-                _observingPlayer.PlayerUpdated += OnPlayerUpdate;
+                _observingPlayer.Energy.Changed += OnEnergyChanged;
         }
 
         private void UnSubscribe()
         {
             if (_observingPlayer)
-                _observingPlayer.PlayerUpdated -= OnPlayerUpdate;
+                _observingPlayer.Energy.Changed -= OnEnergyChanged;
         }
     }
 }

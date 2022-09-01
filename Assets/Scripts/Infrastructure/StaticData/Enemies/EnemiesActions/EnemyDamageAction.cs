@@ -25,12 +25,12 @@ namespace Infrastructure.StaticData.Enemies.EnemiesActions
 
         public void Use()
         {
-            _enemy.PlayPhaseAnimation(AnimationNames.AttackAnimation, OnAttack, OnEndAttack);
+            _enemy.Animator.PlayAttackAnimation(OnAttack, OnEndAttack);
         }
 
         private void OnAttack()
         {
-            _playerHolder.Player.ApplyDamage(_damage);
+            _playerHolder.Player.EntityHealth.ApplyDamage(_damage);
             _gameFactory.SpawnDamageEffect(_damage, _playerHolder.Player.transform.position);
         }
 

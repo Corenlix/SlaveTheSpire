@@ -13,7 +13,7 @@
         
         public void Step()
         {
-            _buffTarget.ApplyHeal(_heal);
+            _buffTarget.EntityHealth.ApplyHeal(_heal);
         }
 
         public void End()

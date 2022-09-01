@@ -7,7 +7,7 @@ namespace Cards.CardActions
     {
         public void Use(List<Entity> targets, Player cardOwner)
         {
-            targets.ForEach(x=>x.ApplyDamage(cardOwner.Armor));
+            targets.ForEach(x=>x.EntityHealth.ApplyDamage(cardOwner.EntityHealth.Armor));
         }
     }
 }
