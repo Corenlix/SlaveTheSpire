@@ -16,7 +16,7 @@ namespace Deck
         public void AddCard(Card card)
         {
             card.transform.SetParent(_cardsContainer);
-            card.transform.position = _drawPile.position;
+            card.transform.position = Vector3.zero;
             card.transform.localScale = Vector3.one * 0.1f;
             card.transform.rotation = Quaternion.Euler(0, 0, -90f);
             _cards.Add(card);
@@ -33,7 +33,7 @@ namespace Deck
             card.transform.DOKill();
             float scale = 1.3f;
             card.transform.localScale = scale * Vector2.one;
-            card.transform.position = new Vector2(card.transform.position.x, card.GetComponent<RectTransform>().rect.height * scale/2f);
+            card.transform.position = new Vector2(card.transform.position.x, card.GetComponent<RectTransform>().rect.height / 2f * scale);
             card.transform.SetAsLastSibling();
         }
 
@@ -48,14 +48,12 @@ namespace Deck
         {
             if (_cards.Count == 0)
                 return;
-            float center = Screen.currentResolution.width / 2f;
             float cardWidth = _cards[0].GetComponent<RectTransform>().rect.width;
-            float cardHeight = _cards[0].GetComponent<RectTransform>().rect.height;
             for (int i = 0; i < _cards.Count; i++)
             {
-                _cards[i].transform.DOMove(new Vector3(center -_cards.Count / 2f * cardWidth + cardWidth * i + cardWidth/2f, cardHeight/2f), 0.5f);
+                _cards[i].transform.DOLocalMove(new Vector3(-_cards.Count / 2f * cardWidth + cardWidth * i + cardWidth/2f, 0), 0.5f);
                 _cards[i].transform.DOScale(1, 0.5f);
-                _cards[i].transform.DORotate(Vector3.zero, 0.5f);
+                _cards[i].transform.DOLocalRotate(Vector3.zero, 0.5f);
             }
         }
 
