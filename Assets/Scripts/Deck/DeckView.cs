@@ -8,7 +8,6 @@ namespace Deck
 {
     public class DeckView : MonoBehaviour
     {
-        [SerializeField] private Transform _drawPile;
         [SerializeField] private Transform _cardsContainer;
         private readonly List<Card> _cards = new();
         private Card _selectedCard;
