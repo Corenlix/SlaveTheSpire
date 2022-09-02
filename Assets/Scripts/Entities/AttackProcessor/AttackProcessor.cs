@@ -16,12 +16,13 @@ namespace Entities
         public void AddDamageProcessor(DamageProcessor damageProcessor) => _damageProcessors.Add(damageProcessor);
         public void RemoveDamageProcessor(DamageProcessor damageProcessor) => _damageProcessors.Remove(damageProcessor);
         
-        public void Attack(int damage, params Entity[] targets)
+        public int Attack(int damage, params Entity[] targets)
         {
             damage = ProcessDamage(damage);
 
             var totalDamage = targets.Sum(target => target.EntityHealth.ApplyDamage(damage));
             Attacked?.Invoke(totalDamage);
+            return totalDamage;
         }
 
         private int ProcessDamage(int damage)

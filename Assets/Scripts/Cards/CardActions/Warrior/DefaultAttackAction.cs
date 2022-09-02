@@ -6,12 +6,10 @@ namespace Cards.CardActions.Warrior
 {
     public class DefaultAttackAction : ICardAction
     {
-        private readonly IEnemiesHolder _enemiesHolder;
         private readonly int _damage;
 
-        public DefaultAttackAction(IEnemiesHolder enemiesHolder, int damage)
+        public DefaultAttackAction(int damage)
         {
-            _enemiesHolder = enemiesHolder;
             _damage = damage;
         }
     
