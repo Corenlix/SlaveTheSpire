@@ -25,5 +25,6 @@ namespace Infrastructure.Factories
         Player SpawnPlayer();
         BuffHolder SpawnBuffHolder(BuffId id, int steps, Transform parent);
         DamageEffect SpawnDamageEffect(int damage, Vector3 position);
+        PopUp SpawnPopUp(PopUpType type, Vector3 position);
     }
 }

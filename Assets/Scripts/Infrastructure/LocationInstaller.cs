@@ -16,6 +16,7 @@ namespace Infrastructure
             Container.Bind<IStaticDataService>().To<StaticDataService>().AsSingle();
             Container.Bind<ICardTargetSelectorFactory>().To<CardTargetSelectorFactory>().AsSingle();
             Container.Bind<IEnemyActionsFactory>().To<EnemyActionsFactory>().AsSingle();
+            Container.Bind<IPopUpFactory>().To<PopUpFactory>().AsSingle();
             Container.Bind<ICardActivator>().To<CardActivator>().AsSingle();
             Container.Bind<IGameFactory>().To<GameFactory>().AsSingle();
             Container.Bind<IEnemiesHolder>().To<EnemiesHolder>().AsSingle();

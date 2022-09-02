@@ -4,10 +4,10 @@ namespace Entities
     {
         public BoundedValue Energy { get; private set; }
         
-        public void Init(int energy, int health, string name, int shield)
+        public void Init(int energy, int health, string name, int shield, int initiative, int attackPower)
         {
             Energy = new BoundedValue(energy);
-            base.Init(health, health, name, shield);
+            base.Init(health, health, name, shield, initiative, attackPower);
         }
 
         protected override void OnStep()

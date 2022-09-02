@@ -8,7 +8,7 @@ namespace Entities.Buffs
     public abstract class Buff
     {
         public event Action<Buff> Ended;
-
+        
         public int StepsRemain { get; set; }
         public BuffId Id { get; private set; }
         private bool StepsOver => StepsRemain <= 0;

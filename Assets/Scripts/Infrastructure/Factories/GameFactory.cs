@@ -28,10 +28,11 @@ namespace Infrastructure.Factories
         private readonly FinderUnderCursor _finderUnderCursor;
         private readonly LocationHolder _locationHolder;
         private readonly UIHolder _uiHolder;
+        private readonly IPopUpFactory _popUpFactory;
 
         public GameFactory(DiContainer diContainer, IAssetProvider assetProvider, IStaticDataService staticDataService,
             ICardTargetSelectorFactory cardTargetSelectorFactory, ICardActivator cardActivator, IPlayerHolder playerHolder,
-            IEnemiesHolder enemiesHolder, FinderUnderCursor finderUnderCursor, LocationHolder locationHolder, UIHolder uiHolder)
+            IEnemiesHolder enemiesHolder, FinderUnderCursor finderUnderCursor, LocationHolder locationHolder, UIHolder uiHolder, IPopUpFactory popUpFactory)
         {
             _diContainer = diContainer;
             _assetProvider = assetProvider;
@@ -43,6 +44,7 @@ namespace Infrastructure.Factories
             _finderUnderCursor = finderUnderCursor;
             _locationHolder = locationHolder;
             _uiHolder = uiHolder;
+            _popUpFactory = popUpFactory;
         }
         
         public CardHolder SpawnCard(CardId cardId)
@@ -62,7 +64,7 @@ namespace Infrastructure.Factories
             pool.Init(_cardTargetSelectorFactory);
             return pool;
         }
-
+        
         public CardSelectStateMachine SpawnCardMover()
         {
             CardSelectStateMachine cardSelectStateMachine = _assetProvider.Instantiate<CardSelectStateMachine>(AssetPath.CardMoverPath);
@@ -92,7 +94,7 @@ namespace Infrastructure.Factories
             var player = _assetProvider.Instantiate<Player>(AssetPath.PlayerPath);
             player.transform.SetParent(_locationHolder.Location.PlayerSpawnPoint);
             player.transform.position = _locationHolder.Location.PlayerSpawnPoint.position;
-            player.Init(3, 30, "Player", 10);
+            player.Init(3, 30, "Player", 10, 5, 2);
             _playerHolder.SetPlayer(player);
             return player;
         }
@@ -120,6 +122,13 @@ namespace Infrastructure.Factories
             var damageEffect = _assetProvider.Instantiate<DamageEffect>(AssetPath.DamageEffectPath, position);
             damageEffect.Init(damage);
             return damageEffect;
+        }
+
+        public PopUp SpawnPopUp(PopUpType popUpType, Vector3 position)
+        {
+            var popUp = _popUpFactory.ForType(popUpType);
+            popUp.transform.SetParent(_uiHolder.UI.Canvas.transform);
+            return popUp;
         }
     }
 }

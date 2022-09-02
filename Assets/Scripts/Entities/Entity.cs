@@ -12,19 +12,24 @@ namespace Entities
         [SerializeField] private TextValueView _healthText;
         [SerializeField] private TextMeshProUGUI _nameText;
         [SerializeField] private BuffsHolder _buffsHolder;
+        
         private BoundedValue _health;
         private int _shield;
+        private int _initiative;
+        private int _attackPower;
 
         public BuffsHolder BuffsHolder => _buffsHolder;
         public EntityAnimator Animator => _animator;
         
-        protected void Init(int health, int maxHealth, string name, int shield)
+        protected void Init(int health, int maxHealth, string name, int shield, int initiative, int attackPower)
         {
             _health = new BoundedValue(health, maxHealth);
             _healthBar.Init(_health);
             _healthText.Init(_health);
             _nameText.text = name;
             _shield = shield;
+            _initiative = initiative;
+            _attackPower = attackPower;
         }
 
         public void TakeDamage(int damage)

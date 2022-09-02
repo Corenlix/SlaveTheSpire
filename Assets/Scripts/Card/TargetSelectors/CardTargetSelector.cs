@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Entities;
+using Infrastructure.Factories;
 using UnityEngine;
 
 namespace Card.TargetSelectors
@@ -10,6 +11,7 @@ namespace Card.TargetSelectors
         public event Action Selected;
         
         [SerializeField] private CardTargetSelectorType _selectorType;
+        
         protected CardHolder SelectedCardHolder { get; private set; }
         private bool _isSelecting;
 
