@@ -26,18 +26,25 @@ namespace Entities
                 throw new ArgumentOutOfRangeException();
         }
 
-        public void ApplyHeal(int amount)
+        public int ApplyHeal(int amount)
         {
             if (amount < 0)
                 throw new ArgumentOutOfRangeException();
 
-            Health = Math.Clamp(Health + amount, 0, MaxHealth);
+            int healthToMax = MaxHealth - Health;
+            int delta = healthToMax > amount ? amount : healthToMax;
+            Health += delta;
             Changed?.Invoke(this);
+            
+            return delta;
         }
 
-        public void ApplyDamage(int damage)
+        public int ApplyDamage(int damage)
         {
-            HealthDamage(AbsorbDamageByArmor(damage));
+            int damagedToArmor = ArmorDamage(damage);
+            int damagedToHealth = HealthDamage(damage - damagedToArmor);
+
+            return damagedToArmor + damagedToHealth;
         }
 
         public void ApplyDamageThroughArmor(int damage)
@@ -50,31 +57,28 @@ namespace Entities
             Armor += amount;
         }
         
-        private void HealthDamage(int damage)
+        private int HealthDamage(int damage)
         {
             if (damage < 0)
                 throw new ArgumentOutOfRangeException();
-            
-            Health = Math.Clamp(Health - damage, 0, MaxHealth);
+
+            int damageToDeal = damage < Health ? damage : Health;
+            Health -= damageToDeal;
             Changed?.Invoke(this);
+            
+            return damageToDeal;
         }
 
-        private int AbsorbDamageByArmor(int damage)
+        private int ArmorDamage(int damage)
         {
             if (damage < 0)
                 throw new ArgumentOutOfRangeException();
-            
-            var remainDamage = damage - Armor;
-            if (remainDamage < 0)
-                remainDamage = 0;
 
-            Armor -= damage;
-            if (Armor < 0)
-                Armor = 0;
-            
+            int damageToDeal = damage < Armor ? damage : Armor;
+            Armor -= damageToDeal;
             Changed?.Invoke(this);
 
-            return remainDamage;
+            return damageToDeal;
         }
     }
 }
