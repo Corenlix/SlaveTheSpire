@@ -21,7 +21,7 @@ namespace Entities.Enemies
         public override void Init(EnemyStaticData enemyStaticData)
         {
             var data = (TestEnemyStaticData) enemyStaticData;
-            base.Init(data.MaxHealth, data.MaxHealth, data.Name, data.Armor);
+            base.Init(data.MaxHealth, data.MaxHealth, data.Name, data.Armor, data.Initiative, data.AttackPower);
             _damage = data.Damage;
         }
 
