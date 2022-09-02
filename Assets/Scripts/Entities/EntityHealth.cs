@@ -47,9 +47,9 @@ namespace Entities
             return damagedToArmor + damagedToHealth;
         }
 
-        public void ApplyDamageThroughArmor(int damage)
+        public int ApplyDamageThroughArmor(int damage)
         {
-            HealthDamage(damage);
+            return HealthDamage(damage);
         }
 
         public void AddArmor(int amount)

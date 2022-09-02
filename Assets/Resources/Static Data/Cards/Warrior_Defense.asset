@@ -17,6 +17,6 @@ MonoBehaviour:
   _description: "3 \u0430\u0440\u043C\u043E\u0440\u0430"
   _cost: 1
   _icon: {fileID: 0}
-  cardTargetSelectorType: 0
+  cardTargetSelectorType: 1
   _id: 2
   _armorPoint: 3

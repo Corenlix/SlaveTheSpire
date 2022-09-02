@@ -18,5 +18,5 @@ MonoBehaviour:
   _initiative: 3
   _attackPower: 4
   _armor: 5
+  _enemyPrefab: {fileID: 3781265248498490901, guid: 6e0919fa3fbf11f40893cdd2da8e881e, type: 3}
   _damage: 5
-  _enemyPrefab: {fileID: 0}
