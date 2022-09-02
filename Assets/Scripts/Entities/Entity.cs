@@ -24,9 +24,9 @@ namespace Entities
         private EntityHealth _entityHealth;
         private string _name;
 
-        protected void Init(int health, int maxHealth, string name, int shield)
+        protected void Init(int health, int maxHealth, string name, int armor)
         {
-            _entityHealth = new EntityHealth(health, maxHealth, shield);
+            _entityHealth = new EntityHealth(health, maxHealth, armor);
             _entityAnimatorFacade = new EntityAnimatorFacade(_animator);
             _buffsHolderFacade = new BuffsHolderFacade(_buffsHolder);
             _name = name;

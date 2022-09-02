@@ -14,13 +14,13 @@ namespace UIElements
         private void OnEnable()
         {
             _entity.EntityInited += OnEntityInited;
-            _entity.EntityHealth.Changed += OnHealthChanged;
+            SubscribeHealth();
         }
 
         private void OnDisable()
         {
             _entity.EntityInited -= OnEntityInited;
-            _entity.EntityHealth.Changed -= OnHealthChanged;
+            UnSubscribeHealth();
         }
 
         private void OnHealthChanged(EntityHealth health)
@@ -29,9 +29,23 @@ namespace UIElements
             UpdateHealth();
         }
 
+        private void SubscribeHealth()
+        {
+            if(_entity.EntityHealth != null)
+                _entity.EntityHealth.Changed += OnHealthChanged;
+        }
+
+        private void UnSubscribeHealth()
+        {
+            if(_entity.EntityHealth != null)
+                _entity.EntityHealth.Changed -= OnHealthChanged;
+        }
+
         private void OnEntityInited(Entity entity)
         {
             _nameText.text = _entity.Name;
+            UnSubscribeHealth();
+            SubscribeHealth();
             UpdateHealth();
             UpdateArmor();
         }

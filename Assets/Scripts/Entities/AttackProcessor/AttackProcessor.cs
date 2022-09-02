@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Entities
@@ -15,13 +16,19 @@ namespace Entities
         public void AddDamageProcessor(DamageProcessor damageProcessor) => _damageProcessors.Add(damageProcessor);
         public void RemoveDamageProcessor(DamageProcessor damageProcessor) => _damageProcessors.Remove(damageProcessor);
         
-        public void Attack(List<Entity> targets, int damage)
+        public void Attack(int damage, params Entity[] targets)
         {
-            damage = Mathf.RoundToInt((damage + BonusDamage)*DamageMultiplier);
-            _damageProcessors.ForEach(x=>damage=x.DamageProcess(damage));
-            targets.ForEach(x=>x.EntityHealth.ApplyDamage(damage));
-            int totalDamage = damage * targets.Count;
+            damage = ProcessDamage(damage);
+
+            var totalDamage = targets.Sum(target => target.EntityHealth.ApplyDamage(damage));
             Attacked?.Invoke(totalDamage);
+        }
+
+        private int ProcessDamage(int damage)
+        {
+            damage = Mathf.RoundToInt((damage + BonusDamage) * DamageMultiplier);
+            _damageProcessors.ForEach(x => damage = x.DamageProcess(damage));
+            return damage;
         }
     }
 }

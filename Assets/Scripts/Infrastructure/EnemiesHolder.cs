@@ -35,20 +35,23 @@ namespace Infrastructure
 
         private void StepByEnemy()
         {
-            if(_enemiesStepEnumerator.Current != null)
-                _enemiesStepEnumerator.Current.EnemyStepped -= StepByEnemy;
-            
             _enemiesStepEnumerator.MoveNext();
             
             if (_enemiesStepEnumerator.Current)
             {
-                _enemiesStepEnumerator.Current.EnemyStepped += StepByEnemy;
+                _enemiesStepEnumerator.Current.EnemyStepped += OnEnemyStepped;
                 _enemiesStepEnumerator.Current.Step();
             }
             else
             {
                 AllEnemiesStepped?.Invoke();
             }
+        }
+
+        private void OnEnemyStepped(Enemy enemy)
+        {
+            enemy.EnemyStepped -= OnEnemyStepped;
+            StepByEnemy();
         }
 
         public void Remove(Enemy enemy)
