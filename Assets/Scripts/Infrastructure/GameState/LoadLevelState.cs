@@ -23,7 +23,7 @@ namespace Infrastructure.GameState
             _gameFactory.SpawnCardMover();
 
             _gameFactory.SpawnEnemy(EnemyId.Test);
-            _gameFactory.SpawnEnemy(EnemyId.Test);
+            _gameFactory.SpawnEnemy(EnemyId.HomelessBandit);
 
             _gameStateMachine.Enter<PlayerTurnState>();
         }

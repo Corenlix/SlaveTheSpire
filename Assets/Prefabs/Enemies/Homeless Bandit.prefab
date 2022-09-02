@@ -160,8 +160,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 546374624716566592}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.1012, y: 1.7826, z: 0}
-  m_LocalScale: {x: 0.5729071, y: 0.5729071, z: 0.5729071}
+  m_LocalPosition: {x: -0.08, y: 1.4989, z: 0}
+  m_LocalScale: {x: 1.4040798, y: 1.4040798, z: 1.4040798}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2703313329600679790}
@@ -208,9 +208,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: d89f3c9f49c116e418d3a4ec5161ee0e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1a5d5ae33af2fe94c844e5de029ad48d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 0.16, y: 0.16}
@@ -406,7 +406,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d39dfbf104e7466f9c831926bdeaf287, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _owner: {fileID: 0}
+  _owner: {fileID: 3781265248498490901}
 --- !u!114 &1768724107614761183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -537,9 +537,9 @@ GameObject:
   - component: {fileID: 1170311447988008439}
   - component: {fileID: 6996966385938895321}
   - component: {fileID: 1543090914804433070}
-  - component: {fileID: 438681458939902695}
+  - component: {fileID: 3781265248498490901}
   m_Layer: 0
-  m_Name: TestEnemy
+  m_Name: Homeless Bandit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -631,11 +631,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 689df0904bcd43b79fb419585c4e840b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _entity: {fileID: 438681458939902695}
+  _entity: {fileID: 3781265248498490901}
   _nameText: {fileID: 5217973350282110155}
   _healthText: {fileID: 8310421327708538683}
   _shieldText: {fileID: 3278038488010459991}
---- !u!114 &438681458939902695
+--- !u!114 &3781265248498490901
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -644,7 +644,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6697906018166460756}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbdcd4a8fb344095aaac10ba71e2716d, type: 3}
+  m_Script: {fileID: 11500000, guid: c56534060a018cf46919df21d55a8557, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 6996966385938895321}

@@ -3,5 +3,6 @@
     public enum EnemyId
     {
         Test,
+        HomelessBandit,
     }
 }

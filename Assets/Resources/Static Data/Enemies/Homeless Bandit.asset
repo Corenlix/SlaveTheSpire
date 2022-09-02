@@ -9,13 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bc16e5047594446850c88385b6314fb, type: 3}
-  m_Name: Warrior_Defense
+  m_Script: {fileID: 11500000, guid: efe89c8a02df52d4ab7f50669b30fa7d, type: 3}
+  m_Name: Homeless Bandit
   m_EditorClassIdentifier: 
-  _name: Defense
-  _description: "+3 \u0437\u0430\u0449\u0438\u0442\u044B"
-  _cost: 1
-  _icon: {fileID: 0}
-  cardTargetSelectorType: 1
-  _id: 2
-  _armorPoint: 3
+  _id: 1
+  _maxHealth: 10
+  _name: Homeless Bandit
+  _initiative: 3
+  _attackPower: 4
+  _armor: 5
+  _damage: 5
+  _enemyPrefab: {fileID: 0}

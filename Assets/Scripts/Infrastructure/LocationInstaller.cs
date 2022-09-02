@@ -14,6 +14,7 @@ namespace Infrastructure
             Container.Bind<IAssetProvider>().To<AssetProvider>().AsSingle();
             Container.Bind<IStaticDataService>().To<StaticDataService>().AsSingle();
             Container.Bind<IPrefabFactory>().To<PrefabFactory>().AsSingle();
+            Container.Bind<IVisualEffectFactory>().To<VisualEffectFactory>().AsSingle();
             Container.Bind<IGameFactory>().To<GameFactory>().AsSingle();
             Container.Bind<IEnemiesHolder>().To<EnemiesHolder>().AsSingle();
             Container.Bind<IPlayerHolder>().To<PlayerHolder>().AsSingle();
