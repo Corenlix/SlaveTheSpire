@@ -55,6 +55,7 @@ namespace Entities
         public void AddArmor(int amount)
         {
             Armor += amount;
+            Changed?.Invoke(this);
         }
         
         private int HealthDamage(int damage)

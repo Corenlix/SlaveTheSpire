@@ -11,6 +11,12 @@ public class DeckHolder : IDeckHolder
 
     public DeckHolder()
     {
+        _drawPile.Enqueue(CardId.WarriorAttack);
+        _drawPile.Enqueue(CardId.WarriorAttack);
+        _drawPile.Enqueue(CardId.WarriorAttack);
+        _drawPile.Enqueue(CardId.WarriorDefense);
+        _drawPile.Enqueue(CardId.WarriorDefense);
+        _drawPile.Enqueue(CardId.WarriorDefense);
         _drawPile.Enqueue(CardId.WarriorAoe);
         _drawPile.Enqueue(CardId.WarriorEating);
         _drawPile.Enqueue(CardId.WarriorSalo);
@@ -18,6 +24,9 @@ public class DeckHolder : IDeckHolder
         _drawPile.Enqueue(CardId.WarriorDrinkBeer);
         _drawPile.Enqueue(CardId.WarriorMegaAttack);
         _drawPile.Enqueue(CardId.WarriorDamageLikeDefense);
+        var drawPileShuffled = _drawPile.ToList();
+        drawPileShuffled.Shuffle();
+        _drawPile = new Queue<CardId>(drawPileShuffled);
     }
 
     public CardId GetCard()
