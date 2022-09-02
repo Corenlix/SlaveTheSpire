@@ -1,14 +1,12 @@
-﻿using Card;
-using Card.SelectStateMachine;
-using Card.TargetSelectors;
-using Deck;
+﻿using Cards;
+using Cards.SelectStateMachine;
+using Cards.TargetSelectors;
 using Entities;
 using Entities.Buffs;
 using Entities.Enemies;
-using Infrastructure.StaticData;
 using Infrastructure.StaticData.Buffs;
 using Infrastructure.StaticData.Cards;
-using Infrastructure.StaticData.Enemies.EnemiesActions;
+using Infrastructure.StaticData.Enemies;
 using UIElements;
 using UnityEngine;
 
@@ -16,14 +14,14 @@ namespace Infrastructure.Factories
 {
     public interface IGameFactory
     {
-        CardHolder SpawnCard(CardId cardStaticData);
+        Card SpawnCard(CardId cardStaticData, Player owner);
         CardTargetSelectorsPool SpawnCardTargetSelectorsPool();
         CardSelectStateMachine SpawnCardMover();
         UI SpawnUIContainer();
         Enemy SpawnEnemy(EnemyId id);
         Location SpawnLocation();
         Player SpawnPlayer();
-        BuffHolder SpawnBuffHolder(BuffId id, int steps, Transform parent);
+        Buff SpawnBuff(BuffId id, int steps, Transform parent, Entity buffTarget);
         DamageEffect SpawnDamageEffect(int damage, Vector3 position);
         PopUp SpawnPopUp(PopUpType type, Vector3 position);
     }

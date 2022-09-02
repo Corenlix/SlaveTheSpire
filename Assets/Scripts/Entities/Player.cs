@@ -1,18 +1,24 @@
+using System;
+
 namespace Entities
 {
     public class Player : Entity
     {
-        public BoundedValue Energy { get; private set; }
+        public event Action<Player> PlayerInited;
         
-        public void Init(int energy, int health, string name, int shield, int initiative, int attackPower)
-        {
-            Energy = new BoundedValue(energy);
-            base.Init(health, health, name, shield, initiative, attackPower);
-        }
+        public PlayerEnergy Energy => _energy;
 
+        private PlayerEnergy _energy;
+        
+        public void Init(int energy, int maxEnergy, int health, int maxHealth, string name, int shield,  int initiative, int attackPower)
+        {
+            _energy = new PlayerEnergy(energy, maxEnergy);
+            base.Init(health, maxHealth, name, shield, initiative, attackPower);
+        }
+        
         protected override void OnStep()
         {
-            
+            _energy.Refresh();
         }
     }
 }

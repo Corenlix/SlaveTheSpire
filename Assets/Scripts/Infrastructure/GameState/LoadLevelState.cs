@@ -1,6 +1,5 @@
 ﻿using Infrastructure.Factories;
-using Infrastructure.StaticData;
-using Infrastructure.StaticData.Enemies.EnemiesActions;
+using Infrastructure.StaticData.Enemies;
 
 namespace Infrastructure.GameState
 {

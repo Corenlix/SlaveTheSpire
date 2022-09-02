@@ -228,7 +228,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e70c5600128c407c80e6f5360f3d6032, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _buffView: {fileID: 8469050653966002244}
 --- !u!114 &8469050653966002244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,5 +240,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 257162d04f4846adb470414f6287eeb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buff: {fileID: 6268477510239245162}
   _icon: {fileID: 7803759458980965986}
   _stepsText: {fileID: 7131546118683363779}

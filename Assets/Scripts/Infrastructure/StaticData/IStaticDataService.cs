@@ -1,7 +1,6 @@
-﻿using Entities.Buffs;
-using Infrastructure.StaticData.Buffs;
+﻿using Infrastructure.StaticData.Buffs;
 using Infrastructure.StaticData.Cards;
-using Infrastructure.StaticData.Enemies.EnemiesActions;
+using Infrastructure.StaticData.Enemies;
 
 namespace Infrastructure.StaticData
 {

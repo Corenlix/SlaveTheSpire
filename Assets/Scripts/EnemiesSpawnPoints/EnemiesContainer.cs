@@ -18,11 +18,12 @@ namespace EnemiesSpawnPoints
 
         public void Add(Enemy enemy)
         {
+            enemy.transform.SetParent(transform);
+            
             _enemyPoints.Shuffle();
-            var freePoint = GetFreePoint();
-            if (freePoint == null)
-                throw new ArgumentOutOfRangeException();
+            EnemyPoint freePoint = GetFreePoint();
             freePoint.Hold(enemy);
+            
             enemy.Destroyed += Remove;
         }
     

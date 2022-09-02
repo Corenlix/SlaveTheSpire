@@ -2,7 +2,6 @@
 using Entities.Animations;
 using Entities.Enemies;
 using Infrastructure.Factories;
-using UnityEngine;
 
 namespace Infrastructure.StaticData.Enemies.EnemiesActions
 {
@@ -26,12 +25,12 @@ namespace Infrastructure.StaticData.Enemies.EnemiesActions
 
         public void Use()
         {
-            _enemy.Animator.PlayPhaseAnimation(AnimationNames.AttackAnimation, OnAttack, OnEndAttack);
+            _enemy.Animator.PlayAttackAnimation(OnAttack, OnEndAttack);
         }
 
         private void OnAttack()
         {
-            _playerHolder.Player.TakeDamage(_damage);
+            _playerHolder.Player.EntityHealth.ApplyDamage(_damage);
             _gameFactory.SpawnDamageEffect(_damage, _playerHolder.Player.transform.position);
         }
 

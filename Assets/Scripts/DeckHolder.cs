@@ -1,8 +1,8 @@
 ﻿
 using System.Collections.Generic;
-using Infrastructure.StaticData;
+using System.Linq;
 using Infrastructure.StaticData.Cards;
-using UnityEngine;
+using Utilities;
 
 public class DeckHolder : IDeckHolder
 {
@@ -11,17 +11,13 @@ public class DeckHolder : IDeckHolder
 
     public DeckHolder()
     {
-        _drawPile.Enqueue(CardId.Damage);
-        _drawPile.Enqueue(CardId.Damage);
-        _drawPile.Enqueue(CardId.Damage);
-        _drawPile.Enqueue(CardId.Damage);
-        _drawPile.Enqueue(CardId.Test);
-        _drawPile.Enqueue(CardId.TestBuff);
-        _drawPile.Enqueue(CardId.Damage);
-        _drawPile.Enqueue(CardId.Damage);
-        _drawPile.Enqueue(CardId.Damage);
-        _drawPile.Enqueue(CardId.Damage);
-
+        _drawPile.Enqueue(CardId.WarriorAoe);
+        _drawPile.Enqueue(CardId.WarriorEating);
+        _drawPile.Enqueue(CardId.WarriorSalo);
+        _drawPile.Enqueue(CardId.WarriorValor);
+        _drawPile.Enqueue(CardId.WarriorDrinkBeer);
+        _drawPile.Enqueue(CardId.WarriorMegaAttack);
+        _drawPile.Enqueue(CardId.WarriorDamageLikeDefense);
     }
 
     public CardId GetCard()
@@ -29,21 +25,31 @@ public class DeckHolder : IDeckHolder
         if(IsDrawPileEmpty())
             Refresh();
         
-        var card = _drawPile.Dequeue();
+        CardId card = _drawPile.Dequeue();
         return card;
     }
 
     public void PushCard(CardId cardId)
     {
         _discardPile.Enqueue(cardId);
-        Debug.Log($"{cardId} push to discardPile, discardPile.Count = {_discardPile.Count}");
     }
 
     private void Refresh()
     {
-        _drawPile = _discardPile;
+        var allCards = GetAllCards();
+        allCards.Shuffle();
+        
+        _drawPile = new Queue<CardId>(allCards);
         _discardPile = new Queue<CardId>();
-        Debug.Log($"drawPile.Count = {_drawPile.Count}, discardPile.Count = {_discardPile.Count}");
+    }
+
+    private List<CardId> GetAllCards()
+    {
+        var allCards = new List<CardId>();
+        allCards.AddRange(_drawPile.ToList());
+        allCards.AddRange(_discardPile.ToList());
+
+        return allCards;
     }
 
     private bool IsDrawPileEmpty() => _drawPile.Count == 0;

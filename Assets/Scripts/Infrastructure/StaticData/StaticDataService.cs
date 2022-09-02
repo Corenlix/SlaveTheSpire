@@ -2,7 +2,7 @@
 using System.Linq;
 using Infrastructure.StaticData.Buffs;
 using Infrastructure.StaticData.Cards;
-using Infrastructure.StaticData.Enemies.EnemiesActions;
+using Infrastructure.StaticData.Enemies;
 using UnityEngine;
 
 namespace Infrastructure.StaticData
@@ -15,7 +15,6 @@ namespace Infrastructure.StaticData
         private Dictionary<CardId, CardStaticData> _cards;
         private Dictionary<EnemyId, EnemyStaticData> _enemies;
         private Dictionary<BuffId, BuffStaticData> _buffs;
-
 
         public StaticDataService()
         {

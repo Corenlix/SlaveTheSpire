@@ -1,7 +1,5 @@
-using Card;
+using Cards;
 using Infrastructure.Factories;
-using Infrastructure.StaticData;
-using Infrastructure.StaticData.Cards;
 
 namespace Infrastructure.GameState
 {
@@ -24,20 +22,20 @@ namespace Infrastructure.GameState
         
         public void Enter()
         {
-            _playerHolder.Player.Energy.Refresh();
+            _playerHolder.Player.Step();
             _uiHolder.UI.EndTurnButton.onClick.AddListener(FinishStep);
 
             for (int i = 0; i < 5; i++)
             {
-                var card = _gameFactory.SpawnCard(_deckHolder.GetCard());
+                var card = _gameFactory.SpawnCard(_deckHolder.GetCard(), _playerHolder.Player);
                 card.Destroyed += OnCardDestroyed;
             }                        
         }
 
-        private void OnCardDestroyed(CardHolder cardHolder)
+        private void OnCardDestroyed(Card card)
         {
-            _deckHolder.PushCard(cardHolder.CardStaticData.Id);
-            cardHolder.Destroyed -= OnCardDestroyed;
+            _deckHolder.PushCard(card.CardId);
+            card.Destroyed -= OnCardDestroyed;
         }
 
         private void FinishStep()

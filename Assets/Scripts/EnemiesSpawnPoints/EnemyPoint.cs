@@ -13,7 +13,6 @@ namespace EnemiesSpawnPoints
         public void Hold(Enemy byEnemy)
         {
             _holdEnemy = byEnemy;
-            byEnemy.transform.SetParent(transform);
             byEnemy.transform.position = transform.position;
         }
 
