@@ -6,10 +6,10 @@ namespace Cards.TargetSelectors
 {
     public class CardTargetSelectorsPool : MonoBehaviour
     {
-        private ICardTargetSelectorFactory _targetSelectorFactory;
+        private IPrefabFactory _targetSelectorFactory;
         private readonly Dictionary<CardTargetSelectorType, CardTargetSelector> _selectors = new ();
         
-        public void Init(ICardTargetSelectorFactory targetSelectorFactory)
+        public void Init(IPrefabFactory targetSelectorFactory)
         {
             _targetSelectorFactory = targetSelectorFactory;
         }

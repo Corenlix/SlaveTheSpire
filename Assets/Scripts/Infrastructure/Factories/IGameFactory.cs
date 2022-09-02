@@ -22,7 +22,5 @@ namespace Infrastructure.Factories
         Location SpawnLocation();
         Player SpawnPlayer();
         Buff SpawnBuff(BuffId id, int steps, Transform parent, Entity buffTarget);
-        DamageEffect SpawnDamageEffect(int damage, Vector3 position);
-        PopUp SpawnPopUp(PopUpType type, Vector3 position);
     }
 }
