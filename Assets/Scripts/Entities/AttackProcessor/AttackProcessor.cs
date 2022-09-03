@@ -16,17 +16,25 @@ namespace Entities
         public void AddDamageProcessor(DamageProcessor damageProcessor) => _damageProcessors.Add(damageProcessor);
         public void RemoveDamageProcessor(DamageProcessor damageProcessor) => _damageProcessors.Remove(damageProcessor);
         
-        public void Attack(int damage, params Entity[] targets)
+        public int Attack(int damage, params Entity[] targets)
         {
-            damage = ProcessDamage(damage);
+            damage = ProcessDamage(damage, targets.Length);
 
             var totalDamage = targets.Sum(target => target.EntityHealth.ApplyDamage(damage));
             Attacked?.Invoke(totalDamage);
+            return totalDamage;
         }
 
-        private int ProcessDamage(int damage)
+        public int AttackWithoutBuffs(int damage, params Entity[] targets)
         {
-            damage = Mathf.RoundToInt((damage + BonusDamage) * DamageMultiplier);
+            var totalDamage = targets.Sum(target => target.EntityHealth.ApplyDamage(damage));
+            Attacked?.Invoke(damage);
+            return totalDamage;
+        }
+
+        private int ProcessDamage(int damage, int targetsCount)
+        {
+            damage = Mathf.RoundToInt((damage + (float) BonusDamage / targetsCount) * DamageMultiplier);
             _damageProcessors.ForEach(x => damage = x.DamageProcess(damage));
             return damage;
         }

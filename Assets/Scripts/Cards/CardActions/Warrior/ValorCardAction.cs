@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Entities;
 using Infrastructure;
+using UnityEngine;
 
 namespace Cards.CardActions
 {
@@ -33,7 +34,7 @@ namespace Cards.CardActions
 
         private void OnEnemyAttacked(int damage)
         {
-            int bonusDamage = _healthForDamage * damage;
+            int bonusDamage = Mathf.RoundToInt((float) damage / _healthForDamage);
             _cardOwner.AttackProcessor.BonusDamage += bonusDamage;
             _bonusDamageApplied += bonusDamage;
         }

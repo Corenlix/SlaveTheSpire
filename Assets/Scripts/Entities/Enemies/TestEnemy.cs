@@ -27,6 +27,11 @@ namespace Entities.Enemies
             _damage = data.Damage;
         }
 
+        public void Init(int health, string name, int armor, int initiative, int attackPower)
+        {
+            base.Init(health, health, name, armor, initiative, attackPower);
+        }
+
         protected override void OnStep()
         {
             Animator.PlayAttackAnimation(OnAttack, OnEndAttack);

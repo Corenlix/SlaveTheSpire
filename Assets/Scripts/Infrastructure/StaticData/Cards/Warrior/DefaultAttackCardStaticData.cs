@@ -12,7 +12,7 @@ namespace Infrastructure.StaticData.Cards.Warrior
         
         public override ICardAction GetCardAction(DiContainer diContainer)
         {
-            return new DefaultAttackAction(diContainer.Resolve<IEnemiesHolder>(), _damage);
+            return new DefaultAttackAction(_damage);
         }
     }
 }
