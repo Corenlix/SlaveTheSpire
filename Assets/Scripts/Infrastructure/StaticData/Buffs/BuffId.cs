@@ -5,5 +5,6 @@
         None = 0,
         Test = 1,
         WarriorEat = 3,
+        Fear = 4,
     }
 }

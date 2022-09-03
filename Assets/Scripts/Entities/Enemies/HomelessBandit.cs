@@ -1,5 +1,6 @@
 using System;
 using Infrastructure;
+using Infrastructure.StaticData.Buffs;
 using Infrastructure.StaticData.Enemies;
 using Zenject;
 
@@ -21,6 +22,44 @@ namespace Entities.Enemies
         }
 
         protected override void OnStep()
+        {
+            ApplyFear();
+        }
+
+        private void ApplyFear()
+        {
+            Animator.PlayAttackAnimation(OnApplyFearEnter, OnApplyFearEnd);
+           
+        }
+
+        private void OnApplyFearEnter()
+        {
+            _playerHolder.Player.BuffsHolderFacade.AddBuff(BuffId.Fear,2);
+        }
+
+        private void OnApplyFearEnd()
+        {
+            EnemyStepped?.Invoke(this);
+        }
+        
+        private void VampireBite()
+        {
+            Animator.PlayAttackAnimation(OnVampireEnter, OnVampireBiteEnd);
+        }
+
+        private void OnVampireEnter()
+        {
+             AttackProcessor.Attack(1, _playerHolder.Player);
+             EntityHealth.ApplyHeal(1);
+             _visualEffectFactory.SpawnPopUp(PopUpType.Sword, transform.position);
+        }
+
+        private void OnVampireBiteEnd()
+        {   
+            EnemyStepped?.Invoke(this);
+        }
+        
+        private void Attack()
         {
             Animator.PlayAttackAnimation(OnAttack, OnEndAttack);
         }
