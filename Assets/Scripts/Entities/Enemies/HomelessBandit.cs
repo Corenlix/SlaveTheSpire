@@ -1,7 +1,9 @@
 using System;
 using Infrastructure;
+using Infrastructure.StaticData.Buffs;
 using Infrastructure.StaticData.Enemies;
 using Zenject;
+using Random = UnityEngine.Random;
 
 namespace Entities.Enemies
 {
@@ -13,6 +15,8 @@ namespace Entities.Enemies
         private IVisualEffectFactory _visualEffectFactory;
         private int _damage;
 
+        private int _counterFear;
+
         [Inject]
         private void Inject(IPlayerHolder playerHolder, IVisualEffectFactory visualEffectFactory)
         {
@@ -21,6 +25,60 @@ namespace Entities.Enemies
         }
 
         protected override void OnStep()
+        {
+            var random = Random.Range(0, 100f);
+            switch (random)
+            {
+                case > 50 when _counterFear == 0:
+                    ApplyFear();
+                    _counterFear = 3;
+                    break;
+                case > 50 when EntityHealth.Health < 8 && _counterFear != 0:
+                case < 25 when EntityHealth.Health < 8:
+                    VampireBite();
+                    break;
+                default:
+                    Attack();
+                    break;
+            }
+            
+            if (_counterFear > 0)
+                _counterFear -= 1;
+        }
+
+        private void ApplyFear()
+        {
+            Animator.PlayAttackAnimation(OnApplyFearEnter, OnApplyFearEnd);
+        }
+
+        private void OnApplyFearEnter()
+        {
+            _playerHolder.Player.BuffsHolderFacade.AddBuff(BuffId.Fear,2);
+        }
+
+        private void OnApplyFearEnd()
+        {
+            EnemyStepped?.Invoke(this);
+        }
+        
+        private void VampireBite()
+        {
+            Animator.PlayAttackAnimation(OnVampireEnter, OnVampireBiteEnd);
+        }
+
+        private void OnVampireEnter()
+        {
+             AttackProcessor.Attack(1, _playerHolder.Player);
+             EntityHealth.ApplyHeal(1);
+             _visualEffectFactory.SpawnPopUp(PopUpType.Sword, transform.position);
+        }
+
+        private void OnVampireBiteEnd()
+        {   
+            EnemyStepped?.Invoke(this);
+        }
+        
+        private void Attack()
         {
             Animator.PlayAttackAnimation(OnAttack, OnEndAttack);
         }
