@@ -16,7 +16,7 @@ MonoBehaviour:
     \u0441\u0435\u0431\u044F \u0430\u0440\u043C\u043E\u0440"
   _description: "3 \u0430\u0440\u043C\u043E\u0440\u0430"
   _cost: 1
-  _icon: {fileID: 0}
+  _icon: {fileID: -1295124934, guid: 2ee45c53181cf2d42a04460e44eaa30b, type: 3}
   cardTargetSelectorType: 1
   _id: 2
   _armorPoint: 3
