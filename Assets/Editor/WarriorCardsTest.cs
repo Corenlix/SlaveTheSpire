@@ -69,8 +69,8 @@ namespace Editor
             damageCardAction.Use(new List<Entity>{target1}, player);
             
             //Assert
-            target1.EntityHealth.Health.Should().Be(85);
-            target2.EntityHealth.Health.Should().Be(90);
+            target1.EntityHealth.Health.Should().Be(89);
+            target2.EntityHealth.Health.Should().Be(94);
             player.EntityHealth.Health.Should().Be(6);
         }
 

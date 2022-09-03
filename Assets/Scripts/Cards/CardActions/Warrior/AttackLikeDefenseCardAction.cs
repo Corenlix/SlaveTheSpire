@@ -7,7 +7,7 @@ namespace Cards.CardActions
     {
         public void Use(List<Entity> targets, Player cardOwner)
         {
-            targets.ForEach(x=>x.EntityHealth.ApplyDamage(cardOwner.EntityHealth.Armor));
+            cardOwner.AttackProcessor.AttackWithoutBuffs(cardOwner.EntityHealth.Armor, targets.ToArray());
         }
     }
 }
