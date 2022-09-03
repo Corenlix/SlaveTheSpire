@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: FearBuff
   m_EditorClassIdentifier: 
   _icon: {fileID: 0}
-  _id: 0
-  _buffStackStrategy: 0
+  _id: 4
+  _buffStackStrategy: 2
+  _reduceDamageFactor: 0.2

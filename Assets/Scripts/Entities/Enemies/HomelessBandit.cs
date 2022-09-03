@@ -3,6 +3,7 @@ using Infrastructure;
 using Infrastructure.StaticData.Buffs;
 using Infrastructure.StaticData.Enemies;
 using Zenject;
+using Random = UnityEngine.Random;
 
 namespace Entities.Enemies
 {
@@ -14,6 +15,8 @@ namespace Entities.Enemies
         private IVisualEffectFactory _visualEffectFactory;
         private int _damage;
 
+        private int _counterFear;
+
         [Inject]
         private void Inject(IPlayerHolder playerHolder, IVisualEffectFactory visualEffectFactory)
         {
@@ -23,13 +26,29 @@ namespace Entities.Enemies
 
         protected override void OnStep()
         {
-            ApplyFear();
+            var random = Random.Range(0, 100f);
+            switch (random)
+            {
+                case > 50 when _counterFear == 0:
+                    ApplyFear();
+                    _counterFear = 3;
+                    break;
+                case > 50 when EntityHealth.Health < 8 && _counterFear != 0:
+                case < 25 when EntityHealth.Health < 8:
+                    VampireBite();
+                    break;
+                default:
+                    Attack();
+                    break;
+            }
+            
+            if (_counterFear > 0)
+                _counterFear -= 1;
         }
 
         private void ApplyFear()
         {
             Animator.PlayAttackAnimation(OnApplyFearEnter, OnApplyFearEnd);
-           
         }
 
         private void OnApplyFearEnter()
