@@ -1,4 +1,5 @@
-﻿using Deck;
+﻿using System;
+using Deck;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,5 +16,10 @@ namespace UIElements
         public DeckView PlayerDeck => _playerDeck;
         public Button EndTurnButton => _endTurnButton;
         public PlayerUI PlayerUI => _playerUI;
+
+        private void OnEnable()
+        {
+            _canvas.worldCamera = Camera.main;
+        }
     }
 }

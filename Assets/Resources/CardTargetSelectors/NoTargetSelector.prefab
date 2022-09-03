@@ -59,4 +59,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _selectorType: 1
-  _smoothless: 60
+  _smoothless: 20

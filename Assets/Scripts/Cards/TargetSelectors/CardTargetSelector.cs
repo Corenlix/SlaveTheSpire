@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Cards.TargetSelectors
 {
-    public abstract class CardTargetSelector : MonoBehaviour
+    public abstract class  CardTargetSelector : MonoBehaviour
     {
         public event Action Selected;
         
@@ -22,10 +22,10 @@ namespace Cards.TargetSelectors
         {
             if (_isSelecting)
                 return;
-            
-            _isSelecting = true;
+
             SelectedCard = card;
             OnStartSelecting();
+            _isSelecting = true;
         }
 
         protected void SelectTargets(List<Entity> targets)

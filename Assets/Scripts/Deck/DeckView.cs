@@ -26,13 +26,13 @@ namespace Deck
 
         public void SelectCard(Card card)
         {
-            DeselectCard();
             _selectedCard = card;
-
+            DeselectCard();
+            
             card.transform.DOKill();
             var scale = 1.3f;
             card.transform.localScale = scale * Vector2.one;
-            card.transform.position = new Vector2(card.transform.position.x, card.GetComponent<RectTransform>().sizeDelta.y*card.transform.lossyScale.y/2f);
+            card.GetComponent<RectTransform>().anchoredPosition = new Vector2(card.GetComponent<RectTransform>().anchoredPosition.x, 249.6f);
             card.transform.SetAsLastSibling();
         }
 
