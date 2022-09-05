@@ -15,6 +15,7 @@ namespace UIElements
             UnSubscribe();
             _observingPlayer = player;
             Subscribe();
+            Refresh();
         }
 
         private void OnEnergyChanged(PlayerEnergy energy)
@@ -42,6 +43,11 @@ namespace UIElements
         {
             if (_observingPlayer)
                 _observingPlayer.Energy.Changed -= OnEnergyChanged;
+        }
+
+        private void Refresh()
+        {
+            OnEnergyChanged(_observingPlayer.Energy);
         }
     }
 }

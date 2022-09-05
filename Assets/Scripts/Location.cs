@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class Location : MonoBehaviour
 {
-    [SerializeField] private EnemiesContainer _enemiesContainer;
-    [SerializeField] private Transform _playerSpawnPoint;
+    [SerializeField] private EntitiesContainer _enemiesContainer;
+    [SerializeField] private EntitiesContainer _playersContainer;
 
-    public EnemiesContainer EnemiesContainer => _enemiesContainer;
-    public Transform PlayerSpawnPoint => _playerSpawnPoint;
+    public EntitiesContainer EnemiesContainer => _enemiesContainer;
+    public EntitiesContainer PlayersContainer => _playersContainer;
 }

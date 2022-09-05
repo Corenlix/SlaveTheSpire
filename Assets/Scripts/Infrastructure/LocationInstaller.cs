@@ -17,14 +17,14 @@ namespace Infrastructure
             Container.Bind<IStaticDataService>().To<StaticDataService>().AsSingle();
             Container.Bind<IPrefabFactory>().To<PrefabFactory>().AsSingle();
             Container.Bind<IVisualEffectFactory>().To<VisualEffectFactory>().AsSingle();
-            Container.Bind<IGameFactory>().To<GameFactory>().AsSingle();
             Container.Bind<IEnemiesHolder>().To<EnemiesHolder>().AsSingle();
-            Container.Bind<IPlayerHolder>().To<PlayerHolder>().AsSingle();
+            Container.Bind<IPlayersHolder>().To<PlayersHolder>().AsSingle();
+            Container.Bind<ITurnResolver>().To<TurnResolver>().AsSingle();
+            Container.Bind<IGameFactory>().To<GameFactory>().AsSingle();
             Container.Bind<FinderUnderCursor>().AsSingle();
             Container.Bind<LocationInstaller>().AsSingle();
             Container.Bind<UIHolder>().AsSingle();
             Container.Bind<LocationHolder>().AsSingle();
-            Container.Bind<IDeckHolder>().To<DeckHolder>().AsSingle();
             Container.Bind<GameStateMachine>().AsSingle().NonLazy();
         }
     }

@@ -2,6 +2,7 @@ using System;
 using Infrastructure;
 using Infrastructure.StaticData.Buffs;
 using Infrastructure.StaticData.Enemies;
+using Utilities;
 using Zenject;
 using Random = UnityEngine.Random;
 
@@ -11,16 +12,16 @@ namespace Entities.Enemies
     {
         public override event Action<Enemy> EnemyStepped;
         
-        private IPlayerHolder _playerHolder;
+        private IPlayersHolder _playersHolder;
         private IVisualEffectFactory _visualEffectFactory;
         private int _damage;
         private int _stealHealthDamage = 1;
         private int _counterFear;
 
         [Inject]
-        private void Inject(IPlayerHolder playerHolder, IVisualEffectFactory visualEffectFactory)
+        private void Inject(IPlayersHolder playersHolder, IVisualEffectFactory visualEffectFactory)
         {
-            _playerHolder = playerHolder;
+            _playersHolder = playersHolder;
             _visualEffectFactory = visualEffectFactory;
         }
 
@@ -60,7 +61,7 @@ namespace Entities.Enemies
 
         private void OnApplyFearEnter()
         {
-            _playerHolder.Player.BuffsHolderFacade.AddBuff(BuffId.Fear,2);
+            _playersHolder.Players.Random().BuffsHolderFacade.AddBuff(BuffId.Fear,2);
         }
 
         private void OnApplyFearEnd()
@@ -75,7 +76,7 @@ namespace Entities.Enemies
 
         private void OnVampireEnter()
         {
-            AttackProcessor.Attack(_stealHealthDamage, _playerHolder.Player);
+            AttackProcessor.Attack(_stealHealthDamage, _playersHolder.Players.Random());
              EntityHealth.ApplyHeal(_stealHealthDamage);
              _visualEffectFactory.SpawnPopUp(PopUpType.Sword, transform.position);
         }
@@ -92,8 +93,9 @@ namespace Entities.Enemies
 
         private void  OnAttack()
         {
-            AttackProcessor.Attack(_damage, _playerHolder.Player );
-            _visualEffectFactory.SpawnDamageEffect(_damage, _playerHolder.Player.transform.position);
+            Player target = _playersHolder.Players.Random();
+            AttackProcessor.Attack(_damage, target);
+            _visualEffectFactory.SpawnDamageEffect(_damage, target.transform.position);
         }
 
         private void OnEndAttack()

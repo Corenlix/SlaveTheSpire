@@ -7,14 +7,17 @@ namespace Entities
 {
     public abstract class Entity : MonoBehaviour
     {
+        public event Action<Entity> Destroyed;
         public event Action<Entity> EntityInited;
         public event Action<Entity> EntityStepStarted;
+        public event Action<Entity> Died;
 
         public BuffsHolderFacade BuffsHolderFacade => _buffsHolderFacade;
         public EntityAnimatorFacade Animator => _entityAnimatorFacade;
         public AttackProcessor AttackProcessor => _attackProcessor;
         public EntityHealth EntityHealth => _entityHealth;
         public string Name => _name;
+        public int Initiative => _initiative;
 
         [SerializeField] private EntityAnimator _animator;
         [SerializeField] private BuffsHolder _buffsHolder;
@@ -55,7 +58,13 @@ namespace Entities
         
         private void OnDie()
         {
+            Died?.Invoke(this);
             Destroy(gameObject);
+        }
+        
+        private void OnDestroy()
+        {
+            Destroyed?.Invoke(this);
         }
     }
 }

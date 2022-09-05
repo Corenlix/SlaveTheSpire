@@ -1,6 +1,7 @@
 ﻿using System;
 using Infrastructure;
 using Infrastructure.StaticData.Enemies;
+using Utilities;
 using Zenject;
 
 namespace Entities.Enemies
@@ -9,14 +10,14 @@ namespace Entities.Enemies
     {
         public override event Action<Enemy> EnemyStepped;
 
-        private IPlayerHolder _playerHolder;
+        private IPlayersHolder _playersHolder;
         private IVisualEffectFactory _visualEffectFactory;
         private int _damage;
 
         [Inject]
-        private void Inject(IPlayerHolder playerHolder, IVisualEffectFactory visualEffectFactory)
+        private void Inject(IPlayersHolder playersHolder, IVisualEffectFactory visualEffectFactory)
         {
-            _playerHolder = playerHolder;
+            _playersHolder = playersHolder;
             _visualEffectFactory = visualEffectFactory;
         }
 
@@ -39,8 +40,9 @@ namespace Entities.Enemies
 
         private void OnAttack()
         {
-            AttackProcessor.Attack(_damage, _playerHolder.Player);
-            _visualEffectFactory.SpawnDamageEffect(_damage, _playerHolder.Player.transform.position);
+            Player target = _playersHolder.Players.Random();
+            AttackProcessor.Attack(_damage, target);
+            _visualEffectFactory.SpawnDamageEffect(_damage, target.transform.position);
         }
 
         private void OnEndAttack()

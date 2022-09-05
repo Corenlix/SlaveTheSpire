@@ -22,21 +22,21 @@ namespace Infrastructure.Factories
         private readonly IAssetProvider _assetProvider;
         private readonly IStaticDataService _staticDataService;
         private readonly IPrefabFactory _prefabFactory;
-        private readonly IPlayerHolder _playerHolder;
+        private readonly IPlayersHolder _playersHolder;
         private readonly IEnemiesHolder _enemiesHolder;
         private readonly FinderUnderCursor _finderUnderCursor;
         private readonly LocationHolder _locationHolder;
         private readonly UIHolder _uiHolder;
 
         public GameFactory(DiContainer diContainer, IAssetProvider assetProvider, IStaticDataService staticDataService,
-                IPrefabFactory prefabFactory, IPlayerHolder playerHolder,
+                IPrefabFactory prefabFactory, IPlayersHolder playersHolder,
             IEnemiesHolder enemiesHolder, FinderUnderCursor finderUnderCursor, LocationHolder locationHolder, UIHolder uiHolder)
         {
             _diContainer = diContainer;
             _assetProvider = assetProvider;
             _staticDataService = staticDataService;
             _prefabFactory = prefabFactory;
-            _playerHolder = playerHolder;
+            _playersHolder = playersHolder;
             _enemiesHolder = enemiesHolder;
             _finderUnderCursor = finderUnderCursor;
             _locationHolder = locationHolder;
@@ -73,7 +73,6 @@ namespace Infrastructure.Factories
         {
             var ui = _assetProvider.Instantiate<UI>(AssetPath.UIContainerPath);
             _uiHolder.SetUI(ui);
-            ui.PlayerUI.ObservePlayer(_playerHolder.Player);
             return ui;
         }
 
@@ -89,10 +88,8 @@ namespace Infrastructure.Factories
         public Player SpawnPlayer()
         {
             var player = _assetProvider.Instantiate<Player>(AssetPath.PlayerPath);
-            player.transform.SetParent(_locationHolder.Location.PlayerSpawnPoint);
-            player.transform.position = _locationHolder.Location.PlayerSpawnPoint.position;
+            _playersHolder.Add(player);
             player.Init(3, 3, 40, 40, "Player", 0, 5, 5);
-            _playerHolder.SetPlayer(player);
             return player;
         }
 

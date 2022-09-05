@@ -82,7 +82,7 @@ namespace Editor
             container.Bind<IStaticDataService>().To<StaticDataService>().AsSingle();
             container.Bind<IAssetProvider>().To<AssetProvider>().AsSingle();
             container.Bind<IGameFactory>().FromInstance(new GameFactory(container, new AssetProvider(container), new StaticDataService(),
-                Substitute.For<IPrefabFactory>(), Substitute.For<IPlayerHolder>(), Substitute.For<IEnemiesHolder>(),
+                Substitute.For<IPrefabFactory>(), Substitute.For<IPlayersHolder>(), Substitute.For<IEnemiesHolder>(),
                 Substitute.For<FinderUnderCursor>(), Substitute.For<LocationHolder>(), Substitute.For<UIHolder>())).AsSingle();
 
             var player = container.InstantiatePrefabForComponent<Player>(Resources.Load<Player>(AssetPath.PlayerPath));

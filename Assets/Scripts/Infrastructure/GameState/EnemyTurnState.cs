@@ -1,30 +1,38 @@
-﻿namespace Infrastructure.GameState
+﻿using Entities.Enemies;
+
+namespace Infrastructure.GameState
 {
     internal class EnemyTurnState : IState
     {
         private readonly GameStateMachine _gameStateMachine;
-        private readonly IEnemiesHolder _enemiesHolder;
+        private readonly ITurnResolver _turnResolver;
 
-        public EnemyTurnState(GameStateMachine gameStateMachine, IEnemiesHolder enemiesHolder)
+        public EnemyTurnState(GameStateMachine gameStateMachine, ITurnResolver turnResolver)
         {
             _gameStateMachine = gameStateMachine;
-            _enemiesHolder = enemiesHolder;
+            _turnResolver = turnResolver;
         }
         
         public void Enter()
         {
-            _enemiesHolder.AllEnemiesStepped += EndStep; 
-            _enemiesHolder.Step();
+            var enemy = (Enemy) _turnResolver.Current;
+            enemy.EnemyStepped += OnEnemyStepped;
+            enemy.Step();
+        }
+
+        private void OnEnemyStepped(Enemy enemy)
+        {
+            enemy.EnemyStepped -= OnEnemyStepped;
+            EndStep();
         }
 
         private void EndStep()
         {
-            _gameStateMachine.Enter<PlayerTurnState>();
+            _gameStateMachine.Enter<StartTurnState>();
         }
 
         public void Exit()
         {
-            _enemiesHolder.AllEnemiesStepped -= EndStep;
         }
     }
 }

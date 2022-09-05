@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Entities;
 using Entities.Enemies;
 
 namespace Infrastructure
@@ -22,9 +23,18 @@ namespace Infrastructure
 
         public void Add(Enemy enemy)
         {
+            if (_enemies.Contains(enemy))
+                return;
+            
             _enemies.Add(enemy);
             _locationHolder.Location.EnemiesContainer.Add(enemy);
-            enemy.Destroyed += Remove;
+            enemy.Destroyed += OnEnemyDestroyed;
+        }
+
+        private void OnEnemyDestroyed(Entity enemy)
+        {
+            enemy.Destroyed -= OnEnemyDestroyed;
+            Remove((Enemy) enemy);
         }
 
         public void Step()
@@ -58,7 +68,6 @@ namespace Infrastructure
         {
             _locationHolder.Location.EnemiesContainer.Remove(enemy);
             _enemies.Remove(enemy);
-            enemy.Destroyed -= Remove;
         }
     }
 }

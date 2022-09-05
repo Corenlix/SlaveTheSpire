@@ -18,6 +18,7 @@ namespace Infrastructure.GameState
         {
             _gameFactory.SpawnLocation();
             _gameFactory.SpawnPlayer();
+            _gameFactory.SpawnPlayer();
             
             _gameFactory.SpawnUIContainer();
             _gameFactory.SpawnCardMover();
@@ -25,7 +26,7 @@ namespace Infrastructure.GameState
             _gameFactory.SpawnEnemy(EnemyId.HomelessBandit);
             _gameFactory.SpawnEnemy(EnemyId.HomelessBandit);
 
-            _gameStateMachine.Enter<PlayerTurnState>();
+            _gameStateMachine.Enter<StartTurnState>();
         }
 
         public void Exit()
