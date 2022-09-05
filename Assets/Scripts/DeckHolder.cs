@@ -31,11 +31,11 @@ public class DeckHolder : IDeckHolder
 
     public CardId GetCard()
     {
-        if(IsDrawPileEmpty())
-            Refresh();
-        
-        CardId card = _drawPile.Dequeue();
-        return card;
+        if (_drawPile.TryDequeue(out CardId card))
+            return card;
+
+        Refresh();
+        return _drawPile.Dequeue();
     }
 
     public void PushCard(CardId cardId)
@@ -60,6 +60,4 @@ public class DeckHolder : IDeckHolder
 
         return allCards;
     }
-
-    private bool IsDrawPileEmpty() => _drawPile.Count == 0;
 }
