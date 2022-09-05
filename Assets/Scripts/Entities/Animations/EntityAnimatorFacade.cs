@@ -25,5 +25,10 @@ namespace Entities.Animations
         {
             _entityAnimator.PlayPhaseAnimationWithActions(AnimationNames.AttackAnimation, onAttack, onEndAttack);
         }
+        
+        public void PlayDeathAnimation(Action onDie)
+        {
+            _entityAnimator.PlayAnimationWithAction(AnimationNames.DeathAnimation, onDie);
+        }
     }
 }

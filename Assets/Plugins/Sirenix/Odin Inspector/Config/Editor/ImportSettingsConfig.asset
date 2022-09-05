@@ -9,10 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 816a4db67942458d83377a8c576e8e23, type: 3}
-  m_Name: Warrior_Eat
+  m_Script: {fileID: 188390376, guid: a4865f1ab4504ed8a368670db22f409c, type: 3}
+  m_Name: ImportSettingsConfig
   m_EditorClassIdentifier: 
-  _icon: {fileID: -1164387514, guid: 9b5803c22de54f040b2974e82eb4c5f5, type: 3}
-  _id: 3
-  _buffStackStrategy: 2
-  _heal: 1
+  automateBeforeBuild: 1

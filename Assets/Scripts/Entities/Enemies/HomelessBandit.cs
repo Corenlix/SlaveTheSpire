@@ -14,7 +14,7 @@ namespace Entities.Enemies
         private IPlayerHolder _playerHolder;
         private IVisualEffectFactory _visualEffectFactory;
         private int _damage;
-
+        private int _stealHealthDamage = 1;
         private int _counterFear;
 
         [Inject]
@@ -24,16 +24,23 @@ namespace Entities.Enemies
             _visualEffectFactory = visualEffectFactory;
         }
 
+        public override void Init(EnemyStaticData enemyStaticData)
+        {
+            var data = (HomelessBanditStaticData) enemyStaticData;
+            base.Init(data.MaxHealth, data.MaxHealth, data.Name, data.Armor, data.Initiative, data.AttackPower);
+            _damage = data.Damage;
+        }
+
         protected override void OnStep()
         {
             var random = Random.Range(0, 100f);
             switch (random)
             {
-                case > 50 when _counterFear == 0:
+                case < 50 when _counterFear == 0:
                     ApplyFear();
                     _counterFear = 3;
                     break;
-                case > 50 when EntityHealth.Health < 8 && _counterFear != 0:
+                case < 50 when EntityHealth.Health < 8 && _counterFear != 0:
                 case < 25 when EntityHealth.Health < 8:
                     VampireBite();
                     break;
@@ -60,7 +67,7 @@ namespace Entities.Enemies
         {
             EnemyStepped?.Invoke(this);
         }
-        
+
         private void VampireBite()
         {
             Animator.PlayAttackAnimation(OnVampireEnter, OnVampireBiteEnd);
@@ -68,8 +75,8 @@ namespace Entities.Enemies
 
         private void OnVampireEnter()
         {
-             AttackProcessor.Attack(1, _playerHolder.Player);
-             EntityHealth.ApplyHeal(1);
+            AttackProcessor.Attack(_stealHealthDamage, _playerHolder.Player);
+             EntityHealth.ApplyHeal(_stealHealthDamage);
              _visualEffectFactory.SpawnPopUp(PopUpType.Sword, transform.position);
         }
 
@@ -77,17 +84,10 @@ namespace Entities.Enemies
         {   
             EnemyStepped?.Invoke(this);
         }
-        
+
         private void Attack()
         {
             Animator.PlayAttackAnimation(OnAttack, OnEndAttack);
-        }
-
-        public override void Init(EnemyStaticData enemyStaticData)
-        {
-            var data = (HomelessBanditStaticData) enemyStaticData;
-            base.Init(data.MaxHealth, data.MaxHealth, data.Name, data.Armor, data.Initiative, data.AttackPower);
-            _damage = data.Damage;
         }
 
         private void  OnAttack()

@@ -35,8 +35,15 @@ namespace Entities
 			_initiative = initiative;
             _attackPower = attackPower;
             EntityInited?.Invoke(this);
+            EntityHealth.Died += Die;
         }
-        
+
+        private void Die(EntityHealth obj)
+        {
+            EntityHealth.Died -= Die;
+            Animator.PlayDeathAnimation(OnDie);
+        }
+
         public void Step()
         {
             EntityStepStarted?.Invoke(this);

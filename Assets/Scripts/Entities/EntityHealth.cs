@@ -5,6 +5,7 @@ namespace Entities
     public class EntityHealth
     {
         public event Action<EntityHealth> Changed;
+        public event Action<EntityHealth> Died;
         
         public int Health { get; private set; }
         public int MaxHealth { get; }
@@ -66,6 +67,8 @@ namespace Entities
             int damageToDeal = damage < Health ? damage : Health;
             Health -= damageToDeal;
             Changed?.Invoke(this);
+            if(Health == 0)
+                Died?.Invoke(this);
             
             return damageToDeal;
         }

@@ -112,7 +112,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -133,7 +133,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -154,7 +154,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -175,7 +175,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -196,7 +196,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -204,6 +204,90 @@ TextureImporter:
       bones: []
       spriteID: 75ef37154b965414497c97774d70d452
       internalID: 1393241167
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ikonki_5
+      rect:
+        serializedVersion: 2
+        x: 2560
+        y: 4608
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d488f97725e1dc840a1dc5037ffa7393
+      internalID: -811806428
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ikonki_6
+      rect:
+        serializedVersion: 2
+        x: 3072
+        y: 4608
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 509eaa859ec6aa44bb85e2118a052c3e
+      internalID: -1564359873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ikonki_7
+      rect:
+        serializedVersion: 2
+        x: 3584
+        y: 4608
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9cec65eeafb4de04faa449c0a1238ada
+      internalID: -670561242
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ikonki_8
+      rect:
+        serializedVersion: 2
+        x: 4096
+        y: 4608
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4a9af14af19243f4980084282e70a29a
+      internalID: 958228204
       vertices: []
       indices: 
       edges: []
@@ -219,11 +303,37 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      ikonki_24: -73242570
       ikonki_1: -2036473904
+      ikonki_10: -1720819933
+      ikonki_5: -811806428
+      ikonki_19: -1732888622
+      ikonki_29: -223928276
+      ikonki_22: 693174048
+      ikonki_15: 1739198498
+      ikonki_8: 958228204
+      ikonki_11: -970516511
+      ikonki_13: 939532053
+      ikonki_28: -396773016
+      ikonki_26: -1298314868
       ikonki_0: -1295124934
       ikonki_2: -392758913
+      ikonki_27: 1628701166
+      ikonki_30: -798944040
+      ikonki_17: -19101998
+      ikonki_14: 1869059771
       ikonki_4: 1393241167
+      ikonki_9: -495887008
+      ikonki_7: -670561242
+      ikonki_25: 729849945
+      ikonki_20: -1766968955
+      ikonki_21: 1357874919
       ikonki_3: -1623368262
+      ikonki_6: -1564359873
+      ikonki_12: 939717212
+      ikonki_18: -1790013573
+      ikonki_16: 301541095
+      ikonki_23: 361994070
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

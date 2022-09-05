@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f89661b7b1109d43980161bc797742a, type: 3}
   m_Name: FearBuff
   m_EditorClassIdentifier: 
-  _icon: {fileID: 0}
+  _icon: {fileID: 273863049, guid: 9b5803c22de54f040b2974e82eb4c5f5, type: 3}
   _id: 4
   _buffStackStrategy: 2
   _reduceDamageFactor: 0.2

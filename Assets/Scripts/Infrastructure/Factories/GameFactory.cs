@@ -91,7 +91,7 @@ namespace Infrastructure.Factories
             var player = _assetProvider.Instantiate<Player>(AssetPath.PlayerPath);
             player.transform.SetParent(_locationHolder.Location.PlayerSpawnPoint);
             player.transform.position = _locationHolder.Location.PlayerSpawnPoint.position;
-            player.Init(3, 3, 30, 30, "Player", 10, 5, 5);
+            player.Init(3, 3, 40, 40, "Player", 0, 5, 5);
             _playerHolder.SetPlayer(player);
             return player;
         }

@@ -16,7 +16,7 @@ MonoBehaviour:
   _description: "+8 \u043A \u0431\u0440\u043E\u043D\u0435 -4 \u043A \u0445\u043F
     \u0430 \u0448\u043E \u0432\u044B \u0445\u043E\u0442\u0435\u043B\u0438, \u0436\u0438\u0440\u043D\u043E\u0435"
   _cost: 2
-  _icon: {fileID: 0}
+  _icon: {fileID: -811806428, guid: 2ee45c53181cf2d42a04460e44eaa30b, type: 3}
   cardTargetSelectorType: 1
   _id: 7
   _bonusShield: 8
