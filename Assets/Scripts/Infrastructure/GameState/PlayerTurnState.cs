@@ -10,7 +10,6 @@ namespace Infrastructure.GameState
         private readonly IGameFactory _gameFactory;
         private readonly ITurnResolver _turnResolver;
         private readonly UIHolder _uiHolder;
-        private Player _player;
 
         public PlayerTurnState(GameStateMachine gameStateMachine, IGameFactory gameFactory, ITurnResolver turnResolver, UIHolder uiHolder)
         {
@@ -22,24 +21,17 @@ namespace Infrastructure.GameState
         
         public void Enter()
         {
-            _player = (Player) _turnResolver.Current;
-            _player.Step();
+            var player = (Player) _turnResolver.Current;
+            player.Step();
             _uiHolder.UI.EndTurnButton.onClick.AddListener(FinishStep);
-            _uiHolder.UI.PlayerUI.ObservePlayer(_player);
+            _uiHolder.UI.PlayerUI.ObservePlayer(player);
 
             for (int i = 0; i < 5; i++)
             {
-                var card = _gameFactory.SpawnCard(_player.DeckHolder.GetCard(), _player);
-                card.Destroyed += OnCardDestroyed;
-            }                        
+                _gameFactory.SpawnCard(player);
+            }
         }
-
-        private void OnCardDestroyed(Card card)
-        {
-            _player.DeckHolder.PushCard(card.CardId);
-            card.Destroyed -= OnCardDestroyed;
-        }
-
+        
         private void FinishStep()
         {
             _gameStateMachine.Enter<StartTurnState>();

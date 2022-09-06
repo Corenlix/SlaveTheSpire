@@ -7,6 +7,7 @@ namespace Entities
 {
     public abstract class Entity : MonoBehaviour
     {
+        public event Action<Entity> PreDestroyed; 
         public event Action<Entity> Destroyed;
         public event Action<Entity> EntityInited;
         public event Action<Entity> EntityStepStarted;
@@ -44,6 +45,7 @@ namespace Entities
         private void Die(EntityHealth obj)
         {
             EntityHealth.Died -= Die;
+            PreDestroyed?.Invoke(this);
             Animator.PlayDeathAnimation(OnDie);
         }
 

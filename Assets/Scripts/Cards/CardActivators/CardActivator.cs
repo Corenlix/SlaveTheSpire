@@ -11,7 +11,6 @@ namespace Cards
     {
         private readonly DiContainer _diContainer;
         private readonly Player _owner;
-        private readonly Card _card;
         private readonly CardStaticData _cardStaticData;
 
         public CardActivator(DiContainer diContainer, Player owner, CardStaticData cardStaticData)

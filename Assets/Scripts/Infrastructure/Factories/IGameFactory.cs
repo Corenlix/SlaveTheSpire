@@ -14,7 +14,7 @@ namespace Infrastructure.Factories
 {
     public interface IGameFactory
     {
-        Card SpawnCard(CardId cardStaticData, Player owner);
+        Card SpawnCard(Player owner);
         CardTargetSelectorsPool SpawnCardTargetSelectorsPool();
         CardSelectStateMachine SpawnCardMover();
         UI SpawnUIContainer();

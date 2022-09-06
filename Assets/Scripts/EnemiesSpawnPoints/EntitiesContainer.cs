@@ -27,11 +27,13 @@ namespace EnemiesSpawnPoints
             freePoint.Hold(entity);
             
             entity.Destroyed += Remove;
+            entity.PreDestroyed += Remove;
         }
     
         public void Remove(Entity entity) {
             GetPointForEnemy(entity)?.UnHold();
             entity.Destroyed -= Remove;
+            entity.PreDestroyed -= Remove;
         }
 
         private EntityPoint GetFreePoint()

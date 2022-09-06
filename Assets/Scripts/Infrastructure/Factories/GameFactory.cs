@@ -43,14 +43,22 @@ namespace Infrastructure.Factories
             _uiHolder = uiHolder;
         }
         
-        public Card SpawnCard(CardId cardId, Player owner)
+        public Card SpawnCard(Player owner)
         {
-            Card card = _assetProvider.Instantiate<Card>(AssetPath.CardPath);
+            CardId cardId = owner.DeckHolder.GetCard();
+            var card = _assetProvider.Instantiate<Card>(AssetPath.CardPath);
             CardStaticData cardStaticData = _staticDataService.ForCard(cardId);
             ICardActivator cardActivator = new CardActivator(_diContainer, owner, cardStaticData);
+            card.Destroyed += OnCardDestroyed;
             card.Init(cardStaticData, cardActivator);
             _uiHolder.UI.PlayerDeck.AddCard(card);
             return card;
+
+            void OnCardDestroyed(Card destroyedCard)
+            {
+                card.Destroyed -= OnCardDestroyed;
+                owner.DeckHolder.PushCard(destroyedCard.CardId);
+            }
         }
 
         public CardTargetSelectorsPool SpawnCardTargetSelectorsPool()
@@ -64,7 +72,7 @@ namespace Infrastructure.Factories
         
         public CardSelectStateMachine SpawnCardMover()
         {
-            CardSelectStateMachine cardSelectStateMachine = _assetProvider.Instantiate<CardSelectStateMachine>(AssetPath.CardMoverPath);
+            var cardSelectStateMachine = _assetProvider.Instantiate<CardSelectStateMachine>(AssetPath.CardMoverPath);
             cardSelectStateMachine.Init(SpawnCardTargetSelectorsPool(), _uiHolder.UI.PlayerDeck, _finderUnderCursor);
             return cardSelectStateMachine;
         }

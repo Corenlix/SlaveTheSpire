@@ -45,7 +45,7 @@ namespace Infrastructure
         private List<Entity> AllEntities()
         {
             var entities = _enemiesHolder.Enemies.Select(x => (Entity) x).ToList();
-            entities.AddRange(_playersHolder.Players.Select(x => (Entity) x));
+            entities.AddRange(_playersHolder.Players);
             entities.RemoveAll(x => _steppedEntities.Contains(x));
             return entities;
         }
