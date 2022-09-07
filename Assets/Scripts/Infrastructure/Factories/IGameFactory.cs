@@ -20,7 +20,7 @@ namespace Infrastructure.Factories
         UI SpawnUIContainer();
         Enemy SpawnEnemy(EnemyId id);
         Location SpawnLocation();
-        Player SpawnPlayer();
+        Player SpawnPlayer(PlayerData playerData);
         Buff SpawnBuff(BuffId id, int steps, Transform parent, Entity buffTarget);
     }
 }

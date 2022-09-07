@@ -22,21 +22,19 @@ namespace Infrastructure.Factories
         private readonly IAssetProvider _assetProvider;
         private readonly IStaticDataService _staticDataService;
         private readonly IPrefabFactory _prefabFactory;
-        private readonly IPlayersHolder _playersHolder;
         private readonly IEnemiesHolder _enemiesHolder;
         private readonly FinderUnderCursor _finderUnderCursor;
         private readonly LocationHolder _locationHolder;
         private readonly UIHolder _uiHolder;
 
         public GameFactory(DiContainer diContainer, IAssetProvider assetProvider, IStaticDataService staticDataService,
-                IPrefabFactory prefabFactory, IPlayersHolder playersHolder,
+                IPrefabFactory prefabFactory,
             IEnemiesHolder enemiesHolder, FinderUnderCursor finderUnderCursor, LocationHolder locationHolder, UIHolder uiHolder)
         {
             _diContainer = diContainer;
             _assetProvider = assetProvider;
             _staticDataService = staticDataService;
             _prefabFactory = prefabFactory;
-            _playersHolder = playersHolder;
             _enemiesHolder = enemiesHolder;
             _finderUnderCursor = finderUnderCursor;
             _locationHolder = locationHolder;
@@ -93,11 +91,10 @@ namespace Infrastructure.Factories
             return enemy;
         }
         
-        public Player SpawnPlayer()
+        public Player SpawnPlayer(PlayerData playerData)
         {
             var player = _assetProvider.Instantiate<Player>(AssetPath.PlayerPath);
-            _playersHolder.Add(player);
-            player.Init(3, 3, 40, 40, "Player", 0, 5, 5);
+            player.Init(playerData);
             return player;
         }
 

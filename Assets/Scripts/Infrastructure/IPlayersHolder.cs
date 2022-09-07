@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using Entities;
+using Infrastructure.Progress;
 
 namespace Infrastructure
 {
-    public interface IPlayersHolder
+    public interface IPlayersHolder : IProgressClient
     {
         List<Player> Players { get; }
         

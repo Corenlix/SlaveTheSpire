@@ -1,4 +1,6 @@
+
 using System;
+using Infrastructure;
 
 namespace Entities
 {
@@ -11,16 +13,29 @@ namespace Entities
 
         private PlayerEnergy _energy;
 
-        public void Init(int energy, int maxEnergy, int health, int maxHealth, string name, int shield,  int initiative, int attackPower)
+        public void Init(PlayerData playerData)
         {
-            DeckHolder = new DeckHolder();
-            _energy = new PlayerEnergy(energy, maxEnergy);
-            base.Init(health, maxHealth, name, shield, initiative, attackPower);
+            DeckHolder = new DeckHolder(playerData.Cards);
+            _energy = new PlayerEnergy(playerData.MaxEnergy, playerData.MaxEnergy);
+            base.Init(playerData.Health, playerData.MaxHealth, playerData.Name, 0, playerData.Initiative, 0);
         }
         
         protected override void OnStep()
         {
             _energy.Refresh();
+        }
+
+        public PlayerData GetData()
+        {
+            return new PlayerData()
+            {
+                Name = Name,
+                Cards = DeckHolder.GetAllCards(),
+                MaxEnergy = _energy.MaxEnergy,
+                MaxHealth = EntityHealth.MaxHealth,
+                Health = EntityHealth.Health,
+                Initiative = Initiative,
+            };
         }
     }
 }

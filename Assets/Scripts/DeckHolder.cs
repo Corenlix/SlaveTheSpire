@@ -9,24 +9,10 @@ public class DeckHolder : IDeckHolder
     Queue<CardId> _drawPile = new();
     Queue<CardId> _discardPile = new();
 
-    public DeckHolder()
+    public DeckHolder(List<CardId> cards)
     {
-        _drawPile.Enqueue(CardId.WarriorAttack);
-        _drawPile.Enqueue(CardId.WarriorAttack);
-        _drawPile.Enqueue(CardId.WarriorAttack);
-        _drawPile.Enqueue(CardId.WarriorDefense);
-        _drawPile.Enqueue(CardId.WarriorDefense);
-        _drawPile.Enqueue(CardId.WarriorDefense);
-        _drawPile.Enqueue(CardId.WarriorAoe);
-        _drawPile.Enqueue(CardId.WarriorEating);
-        _drawPile.Enqueue(CardId.WarriorSalo);
-        _drawPile.Enqueue(CardId.WarriorValor);
-        _drawPile.Enqueue(CardId.WarriorDrinkBeer);
-        _drawPile.Enqueue(CardId.WarriorMegaAttack);
-        _drawPile.Enqueue(CardId.WarriorDamageLikeDefense);
-        var drawPileShuffled = _drawPile.ToList();
-        drawPileShuffled.Shuffle();
-        _drawPile = new Queue<CardId>(drawPileShuffled);
+        cards.Shuffle();
+        _drawPile = new Queue<CardId>(cards);
     }
 
     public CardId GetCard()
@@ -52,7 +38,7 @@ public class DeckHolder : IDeckHolder
         _discardPile = new Queue<CardId>();
     }
 
-    private List<CardId> GetAllCards()
+    public List<CardId> GetAllCards()
     {
         var allCards = new List<CardId>();
         allCards.AddRange(_drawPile.ToList());
