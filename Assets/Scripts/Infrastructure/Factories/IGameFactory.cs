@@ -7,6 +7,7 @@ using Entities.Enemies;
 using Infrastructure.StaticData.Buffs;
 using Infrastructure.StaticData.Cards;
 using Infrastructure.StaticData.Enemies;
+using Map;
 using UIElements;
 using UnityEngine;
 
@@ -22,5 +23,6 @@ namespace Infrastructure.Factories
         Location SpawnLocation();
         Player SpawnPlayer(PlayerData playerData);
         Buff SpawnBuff(BuffId id, int steps, Transform parent, Entity buffTarget);
+        MapManager SpawnMap();
     }
 }

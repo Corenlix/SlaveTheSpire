@@ -4,14 +4,14 @@ using Infrastructure.StaticData.Enemies;
 
 namespace Infrastructure.GameState
 {
-    internal class LoadLevelState : IState
+    internal class EnterBattleState : IState
     {
         private readonly GameStateMachine _gameStateMachine;
         private readonly IGameFactory _gameFactory;
         private readonly IProgressService _progressService;
         private readonly IPlayersHolder _playersHolder;
 
-        public LoadLevelState(GameStateMachine gameStateMachine, IGameFactory gameFactory, IProgressService progressService, IPlayersHolder playersHolder)
+        public EnterBattleState(GameStateMachine gameStateMachine, IGameFactory gameFactory, IProgressService progressService, IPlayersHolder playersHolder)
         {
             _gameStateMachine = gameStateMachine;
             _gameFactory = gameFactory;

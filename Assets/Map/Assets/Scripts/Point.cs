@@ -4,13 +4,13 @@ namespace Map
 {
     public class Point : IEquatable<Point>
     {
-        public int x;
-        public int y;
+        public readonly int X;
+        public readonly int Y;
 
         public Point(int x, int y)
         {
-            this.x = x;
-            this.y = y;
+            X = x;
+            Y = y;
         }
 
         // * Auto generated:
@@ -18,7 +18,7 @@ namespace Map
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return x == other.x && y == other.y;
+            return X == other.X && Y == other.Y;
         }
 
         public override bool Equals(object obj)
@@ -33,14 +33,14 @@ namespace Map
         {
             unchecked
             {
-                return (x * 397) ^ y;
+                return (X * 397) ^ Y;
             }
         }
         // * End of Auto generated
 
         public override string ToString()
         {
-            return $"({x}, {y})";
+            return $"({X}, {Y})";
         }
     }
 }

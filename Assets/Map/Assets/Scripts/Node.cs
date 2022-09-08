@@ -3,6 +3,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using UnityEngine;
+using Vector2 = System.Numerics.Vector2;
 
 namespace Map
 {

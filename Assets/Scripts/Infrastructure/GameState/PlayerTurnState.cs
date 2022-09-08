@@ -10,13 +10,15 @@ namespace Infrastructure.GameState
         private readonly IGameFactory _gameFactory;
         private readonly ITurnResolver _turnResolver;
         private readonly UIHolder _uiHolder;
+        private readonly IEnemiesHolder _enemiesHolder;
 
-        public PlayerTurnState(GameStateMachine gameStateMachine, IGameFactory gameFactory, ITurnResolver turnResolver, UIHolder uiHolder)
+        public PlayerTurnState(GameStateMachine gameStateMachine, IGameFactory gameFactory, ITurnResolver turnResolver, UIHolder uiHolder, IEnemiesHolder enemiesHolder)
         {
             _gameStateMachine = gameStateMachine;
             _gameFactory = gameFactory;
             _turnResolver = turnResolver;
             _uiHolder = uiHolder;
+            _enemiesHolder = enemiesHolder;
         }
         
         public void Enter()
@@ -34,7 +36,9 @@ namespace Infrastructure.GameState
         
         private void FinishStep()
         {
-            _gameStateMachine.Enter<StartTurnState>();
+            if(_enemiesHolder.Enemies.Count == 0)
+                _gameStateMachine.Enter<SelectLevelState>();
+            else _gameStateMachine.Enter<StartTurnState>();
         }
 
         public void Exit()

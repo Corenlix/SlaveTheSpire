@@ -85,7 +85,7 @@ namespace Map
 
             CreateMapParent();
 
-            CreateNodes(m.nodes);
+            CreateNodes(m.Nodes);
 
             DrawLines();
 
@@ -144,7 +144,7 @@ namespace Map
             var mapNode = mapNodeObject.GetComponent<MapNode>();
             var blueprint = GetBlueprint(node.blueprintName);
             mapNode.SetUp(node, blueprint);
-            mapNode.transform.localPosition = node.position;
+            mapNode.transform.localPosition = new Vector3(node.position.X, node.position.Y);
             return mapNode;
         }
 
@@ -154,23 +154,23 @@ namespace Map
             foreach (var node in MapNodes)
                 node.SetState(NodeStates.Locked);
 
-            if (mapManager.CurrentMap.path.Count == 0)
+            if (mapManager.CurrentMap.Path.Count == 0)
             {
                 // we have not started traveling on this map yet, set entire first layer as attainable:
-                foreach (var node in MapNodes.Where(n => n.Node.point.y == 0))
+                foreach (var node in MapNodes.Where(n => n.Node.point.Y == 0))
                     node.SetState(NodeStates.Attainable);
             }
             else
             {
                 // we have already started moving on this map, first highlight the path as visited:
-                foreach (var point in mapManager.CurrentMap.path)
+                foreach (var point in mapManager.CurrentMap.Path)
                 {
                     var mapNode = GetNode(point);
                     if (mapNode != null)
                         mapNode.SetState(NodeStates.Visited);
                 }
 
-                var currentPoint = mapManager.CurrentMap.path[mapManager.CurrentMap.path.Count - 1];
+                var currentPoint = mapManager.CurrentMap.Path[^1];
                 var currentNode = mapManager.CurrentMap.GetNode(currentPoint);
 
                 // set all the nodes that we can travel to as attainable:
@@ -191,11 +191,11 @@ namespace Map
 
             // set all lines that are a part of the path to visited color:
             // if we have not started moving on the map yet, leave everything as is:
-            if (mapManager.CurrentMap.path.Count == 0)
+            if (mapManager.CurrentMap.Path.Count == 0)
                 return;
 
             // in any case, we mark outgoing connections from the final node with visible/attainable color:
-            var currentPoint = mapManager.CurrentMap.path[mapManager.CurrentMap.path.Count - 1];
+            var currentPoint = mapManager.CurrentMap.Path[^1];
             var currentNode = mapManager.CurrentMap.GetNode(currentPoint);
 
             foreach (var point in currentNode.outgoing)
@@ -205,12 +205,12 @@ namespace Map
                 lineConnection?.SetColor(lineVisitedColor);
             }
 
-            if (mapManager.CurrentMap.path.Count <= 1) return;
+            if (mapManager.CurrentMap.Path.Count <= 1) return;
 
-            for (var i = 0; i < mapManager.CurrentMap.path.Count - 1; i++)
+            for (var i = 0; i < mapManager.CurrentMap.Path.Count - 1; i++)
             {
-                var current = mapManager.CurrentMap.path[i];
-                var next = mapManager.CurrentMap.path[i + 1];
+                var current = mapManager.CurrentMap.Path[i];
+                var next = mapManager.CurrentMap.Path[i + 1];
                 var lineConnection = lineConnections.FirstOrDefault(conn => conn.@from.Node.point.Equals(current) &&
                                                                             conn.to.Node.point.Equals(next));
                 lineConnection?.SetColor(lineVisitedColor);
@@ -288,7 +288,7 @@ namespace Map
                 node.transform.rotation = Quaternion.identity;
         }
 
-        public void AddLineConnection(MapNode from, MapNode to)
+        private void AddLineConnection(MapNode from, MapNode to)
         {
             var lineObject = Instantiate(linePrefab, mapParent.transform);
             var lineRenderer = lineObject.GetComponent<LineRenderer>();
@@ -326,15 +326,15 @@ namespace Map
             return allMapConfigs.FirstOrDefault(c => c.name == configName);
         }
 
-        public NodeBlueprint GetBlueprint(NodeType type)
+        private NodeBlueprint GetBlueprint(NodeType type)
         {
-            var config = GetConfig(mapManager.CurrentMap.configName);
+            var config = GetConfig(mapManager.CurrentMap.ConfigName);
             return config.nodeBlueprints.FirstOrDefault(n => n.nodeType == type);
         }
 
-        public NodeBlueprint GetBlueprint(string blueprintName)
+        private NodeBlueprint GetBlueprint(string blueprintName)
         {
-            var config = GetConfig(mapManager.CurrentMap.configName);
+            var config = GetConfig(mapManager.CurrentMap.ConfigName);
             return config.nodeBlueprints.FirstOrDefault(n => n.name == blueprintName);
         }
     }

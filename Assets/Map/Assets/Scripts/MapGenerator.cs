@@ -1,35 +1,35 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using UnityEngine;
+using Utilities;
 
 namespace Map
 {
-    public static class MapGenerator
+    public class MapGenerator
     {
-        private static MapConfig config;
+        private readonly MapConfig _config;
 
-        private static readonly List<NodeType> RandomNodes = new List<NodeType>
-        {NodeType.Mystery, NodeType.Store, NodeType.Treasure, NodeType.MinorEnemy, NodeType.RestSite};
+        private readonly List<NodeType> _randomNodes = new() 
+            {NodeType.Mystery, NodeType.Store, NodeType.Treasure, NodeType.MinorEnemy, NodeType.RestSite};
 
-        private static List<float> layerDistances;
-        private static List<List<Point>> paths;
+        private static List<float> _layerDistances;
+        private static List<List<Point>> _paths;
         // ALL nodes by layer:
-        private static readonly List<List<Node>> nodes = new List<List<Node>>();
+        private readonly List<List<Node>> _nodes = new();
 
-        public static Map GetMap(MapConfig conf)
+        public MapGenerator(MapConfig config)
         {
-            if (conf == null)
-            {
-                Debug.LogWarning("Config was null in MapGenerator.Generate()");
-                return null;
-            }
-
-            config = conf;
-            nodes.Clear();
+            _config = config;
+        }
+        
+        public Map GetMap()
+        {
+            _nodes.Clear();
 
             GenerateLayerDistances();
 
-            for (var i = 0; i < conf.layers.Count; i++)
+            for (var i = 0; i < _config.layers.Count; i++)
                 PlaceLayer(i);
 
             GeneratePaths();
@@ -41,59 +41,59 @@ namespace Map
             RemoveCrossConnections();
 
             // select all the nodes with connections:
-            var nodesList = nodes.SelectMany(n => n).Where(n => n.incoming.Count > 0 || n.outgoing.Count > 0).ToList();
+            var nodesList = _nodes.SelectMany(n => n).Where(n => n.incoming.Count > 0 || n.outgoing.Count > 0).ToList();
 
             // pick a random name of the boss level for this map:
-            var bossNodeName = config.nodeBlueprints.Where(b => b.nodeType == NodeType.Boss).ToList().Random().name;
-            return new Map(conf.name, bossNodeName, nodesList, new List<Point>());
+            var bossNodeName = _config.nodeBlueprints.Where(b => b.nodeType == NodeType.Boss).ToList().Random().name;
+            return new Map(_config.name, bossNodeName, nodesList, new List<Point>());
         }
 
-        private static void GenerateLayerDistances()
+        private void GenerateLayerDistances()
         {
-            layerDistances = new List<float>();
-            foreach (var layer in config.layers)
-                layerDistances.Add(layer.distanceFromPreviousLayer.GetValue());
+            _layerDistances = new List<float>();
+            foreach (var layer in _config.layers)
+                _layerDistances.Add(layer.distanceFromPreviousLayer.GetValue());
         }
 
         private static float GetDistanceToLayer(int layerIndex)
         {
-            if (layerIndex < 0 || layerIndex > layerDistances.Count) return 0f;
+            if (layerIndex < 0 || layerIndex > _layerDistances.Count) return 0f;
 
-            return layerDistances.Take(layerIndex + 1).Sum();
+            return _layerDistances.Take(layerIndex + 1).Sum();
         }
 
-        private static void PlaceLayer(int layerIndex)
+        private void PlaceLayer(int layerIndex)
         {
-            var layer = config.layers[layerIndex];
+            var layer = _config.layers[layerIndex];
             var nodesOnThisLayer = new List<Node>();
 
             // offset of this layer to make all the nodes centered:
-            var offset = layer.nodesApartDistance * config.GridWidth / 2f;
+            var offset = layer.nodesApartDistance * _config.GridWidth / 2f;
 
-            for (var i = 0; i < config.GridWidth; i++)
+            for (var i = 0; i < _config.GridWidth; i++)
             {
                 var nodeType = Random.Range(0f, 1f) < layer.randomizeNodes ? GetRandomNode() : layer.nodeType;
-                var blueprintName = config.nodeBlueprints.Where(b => b.nodeType == nodeType).ToList().Random().name;
+                var blueprintName = _config.nodeBlueprints.Where(b => b.nodeType == nodeType).ToList().Random().name;
                 var node = new Node(nodeType, blueprintName, new Point(i, layerIndex))
                 {
-                    position = new Vector2(-offset + i * layer.nodesApartDistance, GetDistanceToLayer(layerIndex))
+                    position = new System.Numerics.Vector2(-offset + i * layer.nodesApartDistance, GetDistanceToLayer(layerIndex))
                 };
                 nodesOnThisLayer.Add(node);
             }
 
-            nodes.Add(nodesOnThisLayer);
+            _nodes.Add(nodesOnThisLayer);
         }
 
-        private static void RandomizeNodePositions()
+        private void RandomizeNodePositions()
         {
-            for (var index = 0; index < nodes.Count; index++)
+            for (var index = 0; index < _nodes.Count; index++)
             {
-                var list = nodes[index];
-                var layer = config.layers[index];
-                var distToNextLayer = index + 1 >= layerDistances.Count
+                var list = _nodes[index];
+                var layer = _config.layers[index];
+                var distToNextLayer = index + 1 >= _layerDistances.Count
                     ? 0f
-                    : layerDistances[index + 1];
-                var distToPreviousLayer = layerDistances[index];
+                    : _layerDistances[index + 1];
+                var distToPreviousLayer = _layerDistances[index];
 
                 foreach (var node in list)
                 {
@@ -103,14 +103,14 @@ namespace Map
                     var x = xRnd * layer.nodesApartDistance / 2f;
                     var y = yRnd < 0 ? distToPreviousLayer * yRnd / 2f : distToNextLayer * yRnd / 2f;
 
-                    node.position += new Vector2(x, y) * layer.randomizePosition;
+                    node.position += new System.Numerics.Vector2(x, y) * layer.randomizePosition;
                 }
             }
         }
 
-        private static void SetUpConnections()
+        private void SetUpConnections()
         {
-            foreach (var path in paths)
+            foreach (var path in _paths)
             {
                 for (var i = 0; i < path.Count; i++)
                 {
@@ -134,10 +134,10 @@ namespace Map
             }
         }
 
-        private static void RemoveCrossConnections()
+        private void RemoveCrossConnections()
         {
-            for (var i = 0; i < config.GridWidth - 1; i++)
-                for (var j = 0; j < config.layers.Count - 1; j++)
+            for (var i = 0; i < _config.GridWidth - 1; i++)
+                for (var j = 0; j < _config.layers.Count - 1; j++)
                 {
                     var node = GetNode(new Point(i, j));
                     if (node == null || node.HasNoConnections()) continue;
@@ -188,56 +188,56 @@ namespace Map
                 }
         }
 
-        private static Node GetNode(Point p)
+        private Node GetNode(Point p)
         {
-            if (p.y >= nodes.Count) return null;
-            if (p.x >= nodes[p.y].Count) return null;
+            if (p.Y >= _nodes.Count) return null;
+            if (p.X >= _nodes[p.Y].Count) return null;
 
-            return nodes[p.y][p.x];
+            return _nodes[p.Y][p.X];
         }
 
-        private static Point GetFinalNode()
+        private Point GetFinalNode()
         {
-            var y = config.layers.Count - 1;
-            if (config.GridWidth % 2 == 1)
-                return new Point(config.GridWidth / 2, y);
+            var y = _config.layers.Count - 1;
+            if (_config.GridWidth % 2 == 1)
+                return new Point(_config.GridWidth / 2, y);
 
             return Random.Range(0, 2) == 0
-                ? new Point(config.GridWidth / 2, y)
-                : new Point(config.GridWidth / 2 - 1, y);
+                ? new Point(_config.GridWidth / 2, y)
+                : new Point(_config.GridWidth / 2 - 1, y);
         }
 
-        private static void GeneratePaths()
+        private void GeneratePaths()
         {
             var finalNode = GetFinalNode();
-            paths = new List<List<Point>>();
-            var numOfStartingNodes = config.numOfStartingNodes.GetValue();
-            var numOfPreBossNodes = config.numOfPreBossNodes.GetValue();
+            _paths = new List<List<Point>>();
+            var numOfStartingNodes = _config.numOfStartingNodes.GetValue();
+            var numOfPreBossNodes = _config.numOfPreBossNodes.GetValue();
 
             var candidateXs = new List<int>();
-            for (var i = 0; i < config.GridWidth; i++)
+            for (var i = 0; i < _config.GridWidth; i++)
                 candidateXs.Add(i);
 
             candidateXs.Shuffle();
             var preBossXs = candidateXs.Take(numOfPreBossNodes);
-            var preBossPoints = (from x in preBossXs select new Point(x, finalNode.y - 1)).ToList();
+            var preBossPoints = (from x in preBossXs select new Point(x, finalNode.Y - 1)).ToList();
             var attempts = 0;
 
             // start by generating paths from each of the preBossPoints to the 1st layer:
             foreach (var point in preBossPoints)
             {
-                var path = Path(point, 0, config.GridWidth);
+                var path = Path(point, 0, _config.GridWidth);
                 path.Insert(0, finalNode);
-                paths.Add(path);
+                _paths.Add(path);
                 attempts++;
             }
 
-            while (!PathsLeadToAtLeastNDifferentPoints(paths, numOfStartingNodes) && attempts < 100)
+            while (!PathsLeadToAtLeastNDifferentPoints(_paths, numOfStartingNodes) && attempts < 100)
             {
                 var randomPreBossPoint = preBossPoints[UnityEngine.Random.Range(0, preBossPoints.Count)];
-                var path = Path(randomPreBossPoint, 0, config.GridWidth);
+                var path = Path(randomPreBossPoint, 0, _config.GridWidth);
                 path.Insert(0, finalNode);
-                paths.Add(path);
+                _paths.Add(path);
                 attempts++;
             }
 
@@ -246,24 +246,24 @@ namespace Map
 
         private static bool PathsLeadToAtLeastNDifferentPoints(IEnumerable<List<Point>> paths, int n)
         {
-            return (from path in paths select path[path.Count - 1].x).Distinct().Count() >= n;
+            return (from path in paths select path[path.Count - 1].X).Distinct().Count() >= n;
         }
 
         private static List<Point> Path(Point from, int toY, int width, bool firstStepUnconstrained = false)
         {
-            if (from.y == toY)
+            if (from.Y == toY)
             {
                 Debug.LogError("Points are on same layers, return");
                 return null;
             }
 
             // making one y step in this direction with each move
-            var direction = from.y > toY ? -1 : 1;
+            var direction = from.Y > toY ? -1 : 1;
 
             var path = new List<Point> { from };
-            while (path[path.Count - 1].y != toY)
+            while (path[^1].Y != toY)
             {
-                var lastPoint = path[path.Count - 1];
+                var lastPoint = path[^1];
                 var candidateXs = new List<int>();
                 if (firstStepUnconstrained && lastPoint.Equals(from))
                 {
@@ -273,23 +273,23 @@ namespace Map
                 else
                 {
                     // forward
-                    candidateXs.Add(lastPoint.x);
+                    candidateXs.Add(lastPoint.X);
                     // left
-                    if (lastPoint.x - 1 >= 0) candidateXs.Add(lastPoint.x - 1);
+                    if (lastPoint.X - 1 >= 0) candidateXs.Add(lastPoint.X - 1);
                     // right
-                    if (lastPoint.x + 1 < width) candidateXs.Add(lastPoint.x + 1);
+                    if (lastPoint.X + 1 < width) candidateXs.Add(lastPoint.X + 1);
                 }
 
-                var nextPoint = new Point(candidateXs[Random.Range(0, candidateXs.Count)], lastPoint.y + direction);
+                var nextPoint = new Point(candidateXs[Random.Range(0, candidateXs.Count)], lastPoint.Y + direction);
                 path.Add(nextPoint);
             }
 
             return path;
         }
 
-        private static NodeType GetRandomNode()
+        private NodeType GetRandomNode()
         {
-            return RandomNodes[Random.Range(0, RandomNodes.Count)];
+            return _randomNodes[Random.Range(0, _randomNodes.Count)];
         }
     }
 }

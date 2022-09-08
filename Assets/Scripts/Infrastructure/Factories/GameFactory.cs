@@ -9,6 +9,7 @@ using Infrastructure.StaticData;
 using Infrastructure.StaticData.Buffs;
 using Infrastructure.StaticData.Cards;
 using Infrastructure.StaticData.Enemies;
+using Map;
 using UIElements;
 using UnityEngine;
 using Utilities;
@@ -114,6 +115,12 @@ namespace Infrastructure.Factories
             buff.transform.localScale = Vector3.one;
             buff.Init(buffData, buffAction, steps);
             return buff;
+        }
+
+        public MapManager SpawnMap()
+        {
+            var map = _assetProvider.Instantiate<MapManager>(AssetPath.MapPath);
+            return map;
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Infrastructure.SaveLoad
         {
         
         }
-
+        
         public void Clear()
         {
             PlayerPrefs.DeleteAll();

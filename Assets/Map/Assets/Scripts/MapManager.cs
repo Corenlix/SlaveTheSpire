@@ -1,62 +1,54 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using Infrastructure.Progress;
+using Infrastructure.SaveLoad;
 using UnityEngine;
 using Newtonsoft.Json;
 
 namespace Map
 {
-    public class MapManager : MonoBehaviour
+    public class MapManager : MonoBehaviour, IProgressClient
     {
+        public event Action<NodeType> EnteredNode;
+        
         public MapConfig config;
         public MapView view;
+        [SerializeField] private MapPlayerTracker _mapPlayerTracker;
 
         public Map CurrentMap { get; private set; }
 
-        private void Start()
+        private void OnEnable()
         {
-            if (PlayerPrefs.HasKey("Map"))
-            {
-                var mapJson = PlayerPrefs.GetString("Map");
-                var map = JsonConvert.DeserializeObject<Map>(mapJson);
-                // using this instead of .Contains()
-                if (map.path.Any(p => p.Equals(map.GetBossNode().point)))
-                {
-                    // payer has already reached the boss, generate a new map
-                    GenerateNewMap();
-                }
-                else
-                {
-                    CurrentMap = map;
-                    // player has not reached the boss yet, load the current map
-                    view.ShowMap(map);
-                }
-            }
-            else
-            {
-                GenerateNewMap();
-            }
+            _mapPlayerTracker.EnteredNode += OnEnteredNode;
         }
 
-        public void GenerateNewMap()
+        private void OnEnteredNode(NodeType obj)
         {
-            var map = MapGenerator.GetMap(config);
+           EnteredNode?.Invoke(obj);
+        }
+        
+        private void GenerateNewMap()
+        {
+            var mapGenerator = new MapGenerator(config);
+            Map map = mapGenerator.GetMap();
             CurrentMap = map;
-            //Debug.Log(map.ToJson());
             view.ShowMap(map);
         }
 
-        public void SaveMap()
+        private void OnDisable()
         {
-            return;
-            if (CurrentMap == null) return;
-
-            var json = JsonConvert.SerializeObject(CurrentMap);
-            PlayerPrefs.SetString("Map", json);
-            PlayerPrefs.Save();
+            _mapPlayerTracker.EnteredNode -= OnEnteredNode;
         }
 
-        private void OnApplicationQuit()
+        public void Save(ISaveLoadService saveLoadService)
         {
-            SaveMap();
+            saveLoadService.SetValue(CurrentMap, SaveLoadKey.Map);
+        }
+
+        public void Load(ISaveLoadService saveLoadService)
+        {
+            CurrentMap = saveLoadService.GetValue(SaveLoadKey.Map, new MapGenerator(config).GetMap());
+            view.ShowMap(CurrentMap);
         }
     }
 }
